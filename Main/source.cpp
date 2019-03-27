@@ -39,9 +39,7 @@ void MotorController(int left, int right, BrickPi3 & BP) {
 
 void drive(float value, float power, BrickPi3 & BP){
     //Value is een waarde tussen 0 en 2 waarbij 1 recht vooruit is. Power is van 1 tot 100
-    cout << "De gegeven value is: " << value << endl;
     int motor_power = 3*360*(power/100);
-    cout << "motorpower max = " << motor_power << endl;
     int motor_L;
     int motor_R;
     if (value == 1){
@@ -57,7 +55,6 @@ void drive(float value, float power, BrickPi3 & BP){
         motor_L = -1 * motor_power;
         motor_R = -1 * motor_power;
     }
-    cout << "Links = " << motor_L << " rechts = " << motor_R << endl;
     MotorController(motor_L, motor_R, BP);
 }
 
