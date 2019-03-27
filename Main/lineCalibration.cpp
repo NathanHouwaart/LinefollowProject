@@ -1,12 +1,17 @@
-//
-// Created by Nathan Houwaart on 2019-03-27.
-//
+/*
+---------------------------------------------------------------------------------------------
+-----Created by TICT-1C groep 1                                                         -----
+-----Lego mindstorms linefollower robot project                                         -----
+-----Contributors:                                                                      -----
+-----Jochem van Weelde, Stijn van Wijk, Wietse ten Dam, Kevin Patist & Nathan Houwaart  -----
+ ---------------------------------------------------------------------------------------------
+*/
 
 #include "linefollower.h"
 
 using namespace std;
 
-vector<int> calibration(BrickPi3 & BP, sensor_color_t & Color1) {
+vector<int> calibration(sensor_color_t & Color1, BrickPi3 & BP) {
     /*This function looks for the highest and the lowest light value. The vector contains vector<int> anwser = {low, high};*/
 
     uint8_t motor_right = PORT_D;               // Here are the motor ports defined so we can talk to them

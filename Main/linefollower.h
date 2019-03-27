@@ -1,9 +1,14 @@
-//
-// Created by joche on 25-3-2019.
-//
+/*
+---------------------------------------------------------------------------------------------
+-----Created by TICT-1C groep 1                                                         -----
+-----Lego mindstorms linefollower robot project                                         -----
+-----Contributors:                                                                      -----
+-----Jochem van Weelde, Stijn van Wijk, Wietse ten Dam, Kevin Patist & Nathan Houwaart  -----
+ ---------------------------------------------------------------------------------------------
+*/
 
-#ifndef HERSENSTORM_C1_LINEFOLLOWER_H
-#define HERSENSTORM_C1_LINEFOLLOWER_H
+#ifndef LinefollowProject_LINEFOLLOWER_H
+#define LinefollowProject_LINEFOLLOWER_H
 
 #include "BrickPi3.h" // for BrickPi3
 #include <iostream>      // for cout
@@ -15,34 +20,32 @@
 
 using namespace std;
 
-#define LEFT 0
-#define FORWARD 1
-#define RIGHT 2
-#define STOP -1
+
+#define DIRECTION_STOP -1
+#define DIRECTION_LEFT 0
+#define DIRECTION_FORWARD 1
+#define DIRECTION_RIGHT 2
+#define MAX_MOTOR_SPEED 400
+
 
 
 // Initialise functions
 int getUltraSValue(uint8_t port, sensor_ultrasonic_t &data_struct, BrickPi3 & BP);
-
 void objectDetect(sensor_ultrasonic_t &data_struct, BrickPi3 & BP, int threshold);
-
 bool lightsensorBlackLineDetect(sensor_light_t  & Light1, BrickPi3 & BP);
-
 bool colorsensorBlackLineDetect(sensor_color_t & Color1, BrickPi3 & BP);
-
-void limiter(int & right, int & left, const int & maximum_speed);
-
+void speedLimiter(int & right, int & left, const int & maximum_speed);
 void MotorController(int left, int right, BrickPi3 & BP);
 void drive(float direction_control, unsigned int speed_calculator, unsigned int base_speed, BrickPi3 & BP);
 void stuur(int lijn_waarde, BrickPi3 & BP);
-
 bool checkVoltage(BrickPi3 & BP);
-vector<int> defineDifference(const int & hoogste, const int & laagste);
+
+vector<int> defineDifferenceToAverage(const int & min_reflection_value , const int & max_reflection_value);
 int defineDirection(const int & gemiddelde, const int & laagste_verschil, const int & hoogste_verschil, const int & actuele_licht_meting);
 void crossroad(BrickPi3 & BP);
 void driveForward(BrickPi3 & BP);
 void driveRight(BrickPi3 & BP);
 void driveLeft(BrickPi3 & BP);
-vector<int> calibration(BrickPi3 & BP, sensor_color_t & Color1);
+vector<int> calibration(sensor_color_t & Color1, BrickPi3 & BP);
 
-#endif //HERSENSTORM_C1_LINEFOLLOWER_H
+#endif //LinefollowProject_LINEFOLLOWER_H

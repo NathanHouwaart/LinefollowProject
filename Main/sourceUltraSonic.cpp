@@ -1,16 +1,22 @@
-//
-// Created by Kevin Patist on 2019-27-03.
-//
+/*
+---------------------------------------------------------------------------------------------
+-----Created by TICT-1C groep 1                                                         -----
+-----Lego mindstorms linefollower robot project                                         -----
+-----Contributors:                                                                      -----
+-----Jochem van Weelde, Stijn van Wijk, Wietse ten Dam, Kevin Patist & Nathan Houwaart  -----
+ ---------------------------------------------------------------------------------------------
+*/
+
 #include "linefollower.h"
 
 using namespace std;
 
-// getting sensordata and printing the appropriate values in one function
 int getUltraSValue(uint8_t port, sensor_ultrasonic_t & data_struct, BrickPi3 & BP) {
-    BP.get_sensor(port, data_struct); //Getting sensordata and storing it in a given struct
-    cout << "Afstand:   " << (data_struct.cm - 1) << " cm."
-         << endl;  //Printing the current centimeter value in the struct.
-    return data_struct.cm - 1;
+    /*-----Function reads Ultrasonic Sensor (US) and returns measured distance in cm.
+     * Since the US sensor is not completely accurate, there will be a correction of -1 cm-----*/
+    BP.get_sensor(port, data_struct);                           //Getting sensordata and storing it in a given struct
+    //    cout << "Afstand:   " << (data_struct.cm - 1) << " cm." << endl;  //Printing the current centimeter value in the struct.
+    return static_cast<int>(data_struct.cm) - 1;
 }
 
 void objectDetect(sensor_ultrasonic_t & data_struct, BrickPi3 & BP, int threshold) {
