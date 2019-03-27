@@ -149,7 +149,7 @@ void stuur(int lijn_waarde, BrickPi3 & BP) {
     drive(direction,power,360,BP); // We give the direction and the speed to the function drive
 }
 
-vector<int> bepaalAfwijking(const int & hoogste, const int & laagste) {
+vector<int> defineDifference(const int & hoogste, const int & laagste) {
     vector<int> returnvector;
     int gemiddelde = (hoogste + laagste) / 2;
     int laagste_verschil = gemiddelde - laagste;
@@ -162,7 +162,7 @@ vector<int> bepaalAfwijking(const int & hoogste, const int & laagste) {
     return returnvector;
 }
 
-int bepaalStuurwaarde(const int & gemiddelde, const int & laagste_verschil, const int & hoogste_verschil, const int & actuele_licht_meting) {
+int defineDirection(const int & gemiddelde, const int & laagste_verschil, const int & hoogste_verschil, const int & actuele_licht_meting) {
     float stuurwaarde, actueel_verschil;
     // optioneel --> tussentijdse  hoogste & laagste waardes veranderen. Dit met bepaalAfwijking
 
@@ -186,33 +186,30 @@ vector<int> calibartion(BrickPi3 & BP, sensor_color_t & Color1) {
     vector<int> measurments = {};       // An vector for the measurments
     int high = 0;                       // Varialbe for the highest and lowest function
     int low = 1024;
-    uint16_t speed = 180;
+    uint16_t speed = 90;               // Om de snelheid van het draaien aan te geven. LET OP niet hoger dan 180!
     BP.get_sensor(PORT_1, Color1);		// Get an value
     measurments.push_back(Color1.reflected_red);      // Put the value in the vector
     BP.set_motor_dps(motor_left, speed);             //the robot turns right
     BP.set_motor_dps(motor_right, (-1 * speed));
-    clock_t t_start = clock();
-    for (unsigned int number_of_measuments=0; number_of_measuments<10000;number_of_measuments++) {
+    for (unsigned int number_of_measuments=0; number_of_measuments<5000;number_of_measuments++) {
         BP.get_sensor(PORT_1, Color1);
         measurments.push_back(Color1.reflected_red);           // While the robots turns right the sensor picks up as many measurments as possible. That is why we push it in a vector instead of doing the calculaton immidelay
     }
-    double t_time = (clock()- t_start)/CLOCKS_PER_SEC;
-    BP.set_motor_dps(motor_left, (-1 * speed));            // The robot turns motor_left
-    BP.set_motor_dps(motor_right, speed);
-    for (unsigned int number_of_measuments=0; number_of_measuments<10000;number_of_measuments++) {
+    BP.set_motor_dps(motor_left, (-1 * speed)*2);            // The robot turns motor_left
+    BP.set_motor_dps(motor_right, speed*2);
+    for (unsigned int number_of_measuments=0; number_of_measuments<5000;number_of_measuments++) {
         BP.get_sensor(PORT_1, Color1);
         measurments.push_back(Color1.reflected_red);           // Again while ht robot turns the sensor picks up as many measurments as possible.
     }
     BP.set_motor_dps(motor_left, speed);             //the robot turns right backt to its original position
     BP.set_motor_dps(motor_right, (-1 * speed));
-    sleep(t_time);
-    drive(-1, 100, BP);
-    int counter = 0;
+    for (unsigned int number_of_measuments=0; number_of_measuments<5000;number_of_measuments++) {
+        BP.get_sensor(PORT_1, Color1);
+        measurments.push_back(Color1.reflected_red);           // Again while ht robot turns the sensor picks up as many measurments as possible.
+    }
+    BP.set_motor_dps(motor_left, 0);
+    BP.set_motor_dps(motor_right, 0);
     for (unsigned int number_of_measuments : measurments) {    // In this for loop he calcualtes the higest value and the lowest value
-	if (counter <= 20) {
-	cout << number_of_measuments << endl;
-	counter++;
-	}
         if(number_of_measuments == 0){
             low = number_of_measuments;
             high = number_of_measuments;

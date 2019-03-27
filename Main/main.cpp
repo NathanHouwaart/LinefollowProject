@@ -20,15 +20,15 @@ int main() {
     // if(!checkVoltage(BP)) return 0; // Checks whether battery has enough power
 
     int gemiddelde, laagste_verschil, hoogste_verschil;
-    vector<int> standaardwaardes = bepaalAfwijking(680, 200);
-
+        vector<int> cali = calibartion(BP, Color1);                                     // For the calibration values
+        vector<int> standaardwaardes = defineDifference(cali[1], cali[0]);               // To define the difference, cali[1] is high and cali[0] is the low value
+    
     while (true) {
-        BP.get_sensor(PORT_1, Color1);
-        int stuurwaarde = bepaalStuurwaarde(standaardwaardes[0], standaardwaardes[1], standaardwaardes[2],
+        int stuurwaarde = defineDirection(standaardwaardes[0], standaardwaardes[1], standaardwaardes[2],
                                             Color1.reflected_red);
         stuur(stuurwaarde, BP);
-//        return 0;
     }
+    return 0;
 }
 
 void exit_signal_handler(int signo) {
