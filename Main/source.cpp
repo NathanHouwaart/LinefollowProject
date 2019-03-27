@@ -167,3 +167,4 @@ int bepaalStuurwaarde(const int & gemiddelde, const int & laagste_verschil, cons
     }
     return stuurwaarde;
 }
+

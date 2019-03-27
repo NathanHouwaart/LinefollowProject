@@ -15,7 +15,9 @@ int main() {
     signal(SIGINT, exit_signal_handler); // register the exit function for Ctrl+C
     BP.detect(); // Make sure that the BrickPi3 is communicating and that the firmware is compatible with the drivers.
     BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_RED); // set port 1 to be read as a color sensor
-    sensor_color_t Color1;                             // Initialise struct for data storage
+    BP.set_sensor_type(PORT_3, SENSOR_TYPE_NXT_COLOR_RED); // set port 3 to be read as a color sensor
+    sensor_color_t Color1;                             // Initialise struct for data storage color sensor 1
+    sensor_color_t Color2;                             // initialise struct for data storage color sensor 2
 
     // if(!checkVoltage(BP)) return 0; // Checks whether battery has enough power
 
@@ -24,6 +26,10 @@ int main() {
 
     while (true) {
         BP.get_sensor(PORT_1, Color1);
+        BP.get_sensor(PORT_3, Color2);
+        if(Color2.reflected_red < 300){
+            cout << "Kruispunt detected" << endl;
+        }
         int stuurwaarde = bepaalStuurwaarde(standaardwaardes[0], standaardwaardes[1], standaardwaardes[2],
                                             Color1.reflected_red);
         stuur(stuurwaarde, BP);
