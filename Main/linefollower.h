@@ -29,5 +29,6 @@ void crossroad(BrickPi3 & BP);
 void driveForward(BrickPi3 & BP);
 void driveRight(BrickPi3 & BP);
 void driveLeft(BrickPi3 & BP);
+vector<int> calibartion(BrickPi3 & BP, sensor_color_t & Color1);
 
 #endif //HERSENSTORM_C1_LINEFOLLOWER_H

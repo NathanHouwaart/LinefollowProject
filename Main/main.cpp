@@ -23,12 +23,14 @@ int main() {
     // if(!checkVoltage(BP)) return 0; // Checks whether battery has enough power
 
     int gemiddelde, laagste_verschil, hoogste_verschil;
-    vector<int> standaardwaardes = bepaalAfwijking(680, 200);
+    vector<int> calibrationvalues = calibartion(BP, Color1);
+    vector<int> standaardwaardes = bepaalAfwijking(calibrationvalues[1], calibrationvalues[0]);
     sleep(2);
+
     while (true) {
         BP.get_sensor(PORT_1, Color1);
         BP.get_sensor(PORT_3, Color2);
-        if(Color2.reflected_red < 300){
+        if(Color2.reflected_red < 300 && Color1.reflected_red < standaardwaardes[0] ){
             cout << "Kruispunt detected" << endl;
 	        crossroad(BP);
 	        sleep(0.5);
