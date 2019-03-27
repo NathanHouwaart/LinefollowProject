@@ -10,7 +10,7 @@ void driveLeft(BrickPi3 & BP) {
 
 void driveRight(BrickPi3 & BP) {
     drive(RIGHT, 99, 360, BP); //2 = right
-    usleep(1200 * 1000);
+    usleep(1500 * 1000);
     driveForward(BP);
 }
 
