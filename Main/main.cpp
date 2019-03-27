@@ -21,12 +21,12 @@ int main() {
 
     int gemiddelde, laagste_verschil, hoogste_verschil;
         vector<int> cali = calibartion(BP, Color1);                                     // For the calibration values
-        vector<int> standaardwaardes = defineDifference(cali[1], cali[0]);               // To define the difference, cali[1] is high and cali[0] is the low value
+        vector<int> Defalut_value = defineDifference(cali[1], cali[0]);               // To define the difference, cali[1] is high and cali[0] is the low value
     
     while (true) {
-        int stuurwaarde = defineDirection(standaardwaardes[0], standaardwaardes[1], standaardwaardes[2],
+        int Direction_value = defineDirection(Defalut_value[0], Defalut_value[1], Defalut_value[2],
                                             Color1.reflected_red);
-        stuur(stuurwaarde, BP);
+        direction(Direction_value, BP);
     }
     return 0;
 }
