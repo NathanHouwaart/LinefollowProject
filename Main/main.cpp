@@ -22,8 +22,7 @@ int main() {
 
     // if(!checkVoltage(BP)) return 0; // Checks whether battery has enough power
 
-    int gemiddelde, laagste_verschil, hoogste_verschil;
-    vector<int> calibrationvalues = calibartion(BP, Color1);
+    vector<int> calibrationvalues = calibration(BP, Color1);
     vector<int> standaardwaardes = bepaalAfwijking(calibrationvalues[1], calibrationvalues[0]);
     sleep(2);
 

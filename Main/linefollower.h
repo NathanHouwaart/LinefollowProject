@@ -14,6 +14,12 @@
 
 using namespace std;
 
+#define LEFT 0
+#define FORWARD 1
+#define RIGHT 2
+#define STOP -1
+
+
 // Initialise functions
 
 bool lightsensorBlackLineDetect(sensor_light_t  & Light1, BrickPi3 & BP);
@@ -29,6 +35,6 @@ void crossroad(BrickPi3 & BP);
 void driveForward(BrickPi3 & BP);
 void driveRight(BrickPi3 & BP);
 void driveLeft(BrickPi3 & BP);
-vector<int> calibartion(BrickPi3 & BP, sensor_color_t & Color1);
+vector<int> calibration(BrickPi3 & BP, sensor_color_t & Color1);
 
 #endif //HERSENSTORM_C1_LINEFOLLOWER_H
