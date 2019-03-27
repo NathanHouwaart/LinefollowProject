@@ -17,7 +17,7 @@ int main() {
     BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_RED); // set port 1 to be read as a color sensor
     sensor_color_t Color1;                             // Initialise struct for data storage
 
-    // if(!checkVoltage(BP)) return 0; // Checks whether battery has enough power
+    if(!checkVoltage(BP)) return 0; // Checks whether battery has enough power
 
     int gemiddelde, laagste_verschil, hoogste_verschil;
         vector<int> cali = calibartion(BP, Color1);                                     // For the calibration values
