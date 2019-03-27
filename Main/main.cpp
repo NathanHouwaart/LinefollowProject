@@ -23,7 +23,7 @@ int main() {
     // if(!checkVoltage(BP)) return 0; // Checks whether battery has enough power
 
     vector<int> calibrationvalues = calibration(BP, Color1);
-    vector<int> standaardwaardes = bepaalAfwijking(calibrationvalues[1], calibrationvalues[0]);
+    vector<int> standaardwaardes = defineDifference(calibrationvalues[1], calibrationvalues[0]);
     sleep(2);
 
     while (true) {
@@ -34,7 +34,7 @@ int main() {
 	        crossroad(BP);
 	        sleep(0.5);
         }else{
-            int stuurwaarde = bepaalStuurwaarde(standaardwaardes[0], standaardwaardes[1], standaardwaardes[2],
+            int stuurwaarde = defineDirection(standaardwaardes[0], standaardwaardes[1], standaardwaardes[2],
                                             Color1.reflected_red);
             stuur(stuurwaarde, BP);
 	}
