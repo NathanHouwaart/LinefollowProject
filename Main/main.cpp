@@ -24,13 +24,13 @@ int main() {
 
     int gemiddelde, laagste_verschil, hoogste_verschil;
     vector<int> standaardwaardes = bepaalAfwijking(680, 200);
-
+    sleep(2);
     while (true) {
         BP.get_sensor(PORT_1, Color1);
         BP.get_sensor(PORT_3, Color2);
         if(Color2.reflected_red < 300){
             cout << "Kruispunt detected" << endl;
-	        drive(1, 100, BP);
+	        crossroad(BP);
 	        sleep(0.5);
         }else{
             int stuurwaarde = bepaalStuurwaarde(standaardwaardes[0], standaardwaardes[1], standaardwaardes[2],
