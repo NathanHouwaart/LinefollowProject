@@ -72,7 +72,7 @@ void drive(float direction_control, unsigned int speed_calculator, unsigned int 
         } else{
             cout << "The given value doesn't correspondend to the given parameters of x=-2,-1 or 0=<x<=2." << endl;
         }
-        cout << "speed_calculator: " << speed_calculator << " motor_speed: " << motor_speed << " motor L:" << motor_speed_L << " motor R: " << motor_speed_R << endl;
+        //cout << "speed_calculator: " << speed_calculator << " motor_speed: " << motor_speed << " motor L:" << motor_speed_L << " motor R: " << motor_speed_R << endl;
         MotorController(motor_speed_L, motor_speed_R, BP);
     }
 }
