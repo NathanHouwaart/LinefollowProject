@@ -20,6 +20,9 @@ int main() {
     sensor_color_t Color1;                             // Initialise struct for data storage color sensor 1
     sensor_color_t Color2;                             // initialise struct for data storage color sensor 2
 
+    BP.set_sensor_type(PORT_4, SENSOR_TYPE_NXT_ULTRASONIC); // set port 4 to be read as a ultrasonic sensor
+    sensor_ultrasonic_t UltraSonic1;
+
     // if(!checkVoltage(BP)) return 0; // Checks whether battery has enough power
 
     vector<int> calibrationvalues = calibration(BP, Color1);
@@ -36,6 +39,7 @@ int main() {
         }else{
             int stuurwaarde = defineDirection(standaardwaardes[0], standaardwaardes[1], standaardwaardes[2],
                                             Color1.reflected_red);
+
             stuur(stuurwaarde, BP);
 	}
 //        return 0;
