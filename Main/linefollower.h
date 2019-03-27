@@ -27,7 +27,7 @@ bool lightsensorBlackLineDetect(sensor_light_t  & Light1, BrickPi3 & BP);
 bool colorsensorBlackLineDetect(sensor_color_t & Color1, BrickPi3 & BP);
 void limiter(int & right, int & left, const int & maximum_speed);
 void MotorController(int left, int right, BrickPi3 & BP);
-void drive(float direction_control, unsigned int speed_calculator, unsigned int base_speed , BrickPi3 & BP);
+void drive(float direction_control, unsigned int speed_calculator, unsigned int base_speed, BrickPi3 & BP);
 void stuur(int lijn_waarde, BrickPi3 & BP);
 bool checkVoltage(BrickPi3 & BP);
 vector<int> defineDifference(const int & hoogste, const int & laagste);
