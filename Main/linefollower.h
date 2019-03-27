@@ -15,7 +15,9 @@
 using namespace std;
 
 // Initialise functions
-void printUltraSValue(uint8_t port, sensor_ultrasonic_t &data_struct, BrickPi3 & BP);
+int getUltraSValue(uint8_t port, sensor_ultrasonic_t &data_struct, BrickPi3 & BP);
+
+void objectDetect(sensor_ultrasonic_t &data_struct, BrickPi3 & BP, int threshold);
 
 bool lightsensorBlackLineDetect(sensor_light_t  & Light1, BrickPi3 & BP);
 

@@ -25,14 +25,14 @@ int main() {
     /*int gemiddelde, laagste_verschil, hoogste_verschil;
     vector<int> standaardwaardes = bepaalAfwijking(680, 200);*/
 
-    while (true) {
-        /*BP.get_sensor(PORT_1, Color1);
+    /*while (true) {
+        BP.get_sensor(PORT_1, Color1);
         int stuurwaarde = bepaalStuurwaarde(standaardwaardes[0], standaardwaardes[1], standaardwaardes[2],
                                             Color1.reflected_red);
-        stuur(stuurwaarde, BP);*/
-        printUltraSValue(PORT_4, UltraSonic1, BP);
-//        return 0;
-    }
+        stuur(stuurwaarde, BP);
+        //        return 0;
+    }*/
+    objectDetect(UltraSonic1, BP, 10);
 
 }
 
