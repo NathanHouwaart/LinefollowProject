@@ -32,17 +32,18 @@ int main() {
     while (true) {
         BP.get_sensor(PORT_1, Color1);
         BP.get_sensor(PORT_3, Color2);
-        if(Color2.reflected_red < 300 && Color1.reflected_red < standaardwaardes[0] ){
-            cout << "Kruispunt detected" << endl;
-	        crossroad(BP);
-	        sleep(0.5);
-        }else{
-            int stuurwaarde = defineDirection(standaardwaardes[0], standaardwaardes[1], standaardwaardes[2],
-                                            Color1.reflected_red);
+        while(getUltraSValue(PORT_4, UltraSonic1, BP) > 10){
+            if(Color2.reflected_red < 300 && Color1.reflected_red < standaardwaardes[0] ){
+                cout << "Kruispunt detected" << endl;
+                crossroad(BP);
+                sleep(0.5);
+            }else{
+                int stuurwaarde = defineDirection(standaardwaardes[0], standaardwaardes[1], standaardwaardes[2],
+                                                  Color1.reflected_red);
 
-            stuur(stuurwaarde, BP);
-	}
-//        return 0;
+                stuur(stuurwaarde, BP);
+            }
+        }
     }
     return 0;
 }
