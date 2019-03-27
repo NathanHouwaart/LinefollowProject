@@ -40,6 +40,7 @@ int main() {
 	}
 //        return 0;
     }
+    return 0;
 }
 
 void exit_signal_handler(int signo) {

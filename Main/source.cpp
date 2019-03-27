@@ -150,7 +150,7 @@ void stuur(int lijn_waarde, BrickPi3 & BP) {
     drive(direction,power,360,BP); // We give the direction and the speed to the function drive
 }
 
-vector<int> bepaalAfwijking(const int & hoogste, const int & laagste) {
+vector<int> defineDifference(const int & hoogste, const int & laagste) {
     vector<int> returnvector;
     int gemiddelde = (hoogste + laagste) / 2;
     int laagste_verschil = gemiddelde - laagste;
@@ -163,7 +163,7 @@ vector<int> bepaalAfwijking(const int & hoogste, const int & laagste) {
     return returnvector;
 }
 
-int bepaalStuurwaarde(const int & gemiddelde, const int & laagste_verschil, const int & hoogste_verschil, const int & actuele_licht_meting) {
+int defineDirection(const int & gemiddelde, const int & laagste_verschil, const int & hoogste_verschil, const int & actuele_licht_meting) {
     float stuurwaarde, actueel_verschil;
     // optioneel --> tussentijdse  hoogste & laagste waardes veranderen. Dit met bepaalAfwijking
 

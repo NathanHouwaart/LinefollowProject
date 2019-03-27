@@ -11,6 +11,7 @@
 #include <signal.h>     // for catching exit signals
 #include <iomanip>		// for setw and setprecision>
 #include <vector>
+#include <time.h>
 
 using namespace std;
 
