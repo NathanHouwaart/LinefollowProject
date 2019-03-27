@@ -14,12 +14,12 @@ int getUltraSValue(uint8_t port, sensor_ultrasonic_t &data_struct, BrickPi3 & BP
 
 void objectDetect(sensor_ultrasonic_t &data_struct, BrickPi3 & BP, int threshold) {
     while (true) {
-        int distance = getUltraSValue(PORT_4, UltraSonic1, BP);
+        int distance = getUltraSValue(PORT_4, data_struct, BP);
         MotorController(180, 180, BP);
 
         while (distance < threshold) {
             MotorController(0, 0, BP);
-            distance = getUltraSValue(PORT_4, UltraSonic1, BP);
+            distance = getUltraSValue(PORT_4, data_struct, BP);
             usleep(500 * 1000);
         }
     }
