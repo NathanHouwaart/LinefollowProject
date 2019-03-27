@@ -25,6 +25,9 @@ void stuur(int lijn_waarde, BrickPi3 & BP);
 bool checkVoltage(BrickPi3 & BP);
 vector<int> bepaalAfwijking(const int & hoogste, const int & laagste);
 int bepaalStuurwaarde(const int & gemiddelde, const int & laagste_verschil, const int & hoogste_verschil, const int & actuele_licht_meting);
-
+void crossroad(BrickPi3 & BP);
+void driveForward(BrickPi3 & BP);
+void driveRight(BrickPi3 & BP);
+void driveLeft(BrickPi3 & BP);
 
 #endif //HERSENSTORM_C1_LINEFOLLOWER_H

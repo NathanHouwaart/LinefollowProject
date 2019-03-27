@@ -30,12 +30,12 @@ int main() {
         BP.get_sensor(PORT_3, Color2);
         if(Color2.reflected_red < 300){
             cout << "Kruispunt detected" << endl;
-	    drive(1, 100, BP);
-	    sleep(0.5);
+	        drive(1, 100, BP);
+	        sleep(0.5);
         }else{
-        int stuurwaarde = bepaalStuurwaarde(standaardwaardes[0], standaardwaardes[1], standaardwaardes[2],
+            int stuurwaarde = bepaalStuurwaarde(standaardwaardes[0], standaardwaardes[1], standaardwaardes[2],
                                             Color1.reflected_red);
-        stuur(stuurwaarde, BP);
+            stuur(stuurwaarde, BP);
 	}
 //        return 0;
     }
