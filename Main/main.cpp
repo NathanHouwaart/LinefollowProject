@@ -19,10 +19,9 @@ int main() {
 
     // if(!checkVoltage(BP)) return 0; // Checks whether battery has enough power
 
-    sensor_ultrasonic_t UltraS1;    //Creating a struct for the sensordata
     //looping to print the sensordata until someone uses ctrl+c
     while(true) {
-        printUltraSValue();
+        printUltraSValue(PORT_4, UltraSonic1, BP);
     }
 
 }

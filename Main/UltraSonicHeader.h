@@ -15,6 +15,6 @@
 using namespace std;
 
 // Initialise functions
-void printUltraSValue(uint8_t port, sensor_val_struct_t &data_struct, BrickPi3 % BP);
+void printUltraSValue(uint8_t port, sensor_ultrasonic_t &data_struct, BrickPi3 & BP);
 
-#endif US_SENSOR_H
+#endif //US_SENSOR_H
