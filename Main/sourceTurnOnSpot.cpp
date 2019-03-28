@@ -3,6 +3,9 @@
 using namespace std;
 
 void readMotorEncoders(BrickPi3 & BP){
+	/*This function can be used to read the encoders of the motors
+	 * Add this time the function is not being used, so I decided not to comment it, because is obselete.
+	*/
 	string user_input_start;
 	string user_input_stop;
 	uint8_t motor_right = PORT_D;
@@ -27,17 +30,23 @@ void readMotorEncoders(BrickPi3 & BP){
 	}
 }
 
-void driveOnSpot(char direction, BrickPi3 & BP){
+void driveOnSpot(char turn_direction, BrickPi3 & BP){
+	/* This function is used to turn 90 degrees on the spot.
+	 * The function expects you give the turn side.
+	*/
 	uint8_t motor_right = PORT_D;
 	uint8_t motor_left = PORT_A;
-	uint32_t turn_90_degrees = 235;
-	if(direction != 'L' && direction != 'R'){
+	int32_t turn_90_degrees = 240;
+	if(turn_direction != 'L' && turn_direction != 'R'){
 		cout << "Nee ik wil een L of een R!" << endl;
-	} else if(direction == 'L'){
+	} else if(turn_direction == 'L'){
+		cout << "Ben bij links." << endl;
 		BP.set_motor_position_relative(motor_left,(-1*turn_90_degrees));
 		BP.set_motor_position_relative(motor_right,turn_90_degrees);
-	} else if(direction == 'R'){
+	} else if(turn_direction == 'R'){
+		cout << "Ben bij rechts." << endl;
 		BP.set_motor_position_relative(motor_left,turn_90_degrees);
 		BP.set_motor_position_relative(motor_right,(-1*turn_90_degrees));
 	}
+	//BP.reset_all();
 }
