@@ -21,19 +21,16 @@ void crossLine(BrickPi3 & BP, int32_t forward_degrees){
 }
 
 void driveLeft(BrickPi3 & BP) {
-	cout << "Ben ik links?" << endl;
 	crossLine(BP,160);
 	driveOnSpot('L',BP);
 }
 
 void driveRight(BrickPi3 & BP) {
-	cout << "Ben ik rechts?" << endl;
 	crossLine(BP,90);
 	driveOnSpot('R',BP);
 }
 
 void driveForward(BrickPi3 & BP) {
-	cout << "Ik ben rechtdoor?" << endl;
 	crossLine(BP,90);
 }
 

@@ -40,28 +40,19 @@ int main() {
     /*-----Follow the line untill the ultrasonic sensor measures something withing X cm-----*/
     while (true) {
         BP.get_sensor(PORT_1, Color1);                          // Read colorsensor1 and put data in struct Color1
-	BP.get_sensor(PORT_3, Color2);
+	    BP.get_sensor(PORT_3, Color2);
         if(getUltraSValue(PORT_4, UltraSonic1, BP) > 10){       // If the measured US distance is bigger than 10:
-            if(Color2.reflected_red < (default_values[0]-100) && Color1.reflected_red < default_values[0]){
+            if(Color2.reflected_red < (default_values[0]) && Color1.reflected_red < default_values[0]){
                 // Uncomment for debug
-                // cout << "Kruispunt detected" << endl;
-		cout << "Color 1: " << Color1.reflected_red << " color2: " << Color2.reflected_red << endl;
                 crossroad(BP);
-                // sleep(0.5); <<-- Doesnt work --> float 0,5 to int = 0.
             }else {                                             // If no intersection was detected, follow the line
-                int stuurwaarde = defineDirection(
-                        default_values[0],
-                        default_values[1],
-                        default_values[2],
-                        Color1.reflected_red);
-
+                int stuurwaarde = defineDirection(default_values[0], default_values[1], default_values[2], Color1.reflected_red);
                 stuur(stuurwaarde, BP);
             }
         }else{                                                  // If an object was detected within X cm, execute this code
             drive(DIRECTION_STOP, 0, 360, BP);                  // Stop the car
         }
     }
-    return 0;
 }
 
 void exit_signal_handler(int signo) {
