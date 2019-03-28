@@ -34,17 +34,18 @@ int main() {
 
     /*-----Calibrate min and max reflection values and determine lightvalue the robot wants to follow-----*/
     vector<int> min_max_reflection_value = calibration(Color1, BP);
-    vector<int> default_values = defineDifferenceToAverage(min_max_reflection_value[0], min_max_reflection_value[1]);
+    vector<int> default_values = defineDifferenceToAverage((min_max_reflection_value[0]), (min_max_reflection_value[1]+100));
     sleep(1);
 
     /*-----Follow the line untill the ultrasonic sensor measures something withing X cm-----*/
     while (true) {
         BP.get_sensor(PORT_1, Color1);                          // Read colorsensor1 and put data in struct Color1
+	BP.get_sensor(PORT_3, Color2);
         if(getUltraSValue(PORT_4, UltraSonic1, BP) > 10){       // If the measured US distance is bigger than 10:
-            if(colorsensorBlackLineDetect(Color2, BP) &&                    // Checks if both color sensors detect black, which would suggest an intersection
-               Color1.reflected_red < default_values[0] ){
+            if(Color2.reflected_red < (default_values[0]-100) && Color1.reflected_red < default_values[0]){
                 // Uncomment for debug
                 // cout << "Kruispunt detected" << endl;
+		cout << "Color 1: " << Color1.reflected_red << " color2: " << Color2.reflected_red << endl;
                 crossroad(BP);
                 // sleep(0.5); <<-- Doesnt work --> float 0,5 to int = 0.
             }else {                                             // If no intersection was detected, follow the line

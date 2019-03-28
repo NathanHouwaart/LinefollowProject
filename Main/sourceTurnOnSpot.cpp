@@ -34,6 +34,7 @@ void driveOnSpot(char turn_direction, BrickPi3 & BP){
 	/* This function is used to turn 90 degrees on the spot.
 	 * The function expects you give the turn side.
 	*/
+	cout << "Ik ben driveOnSpot?" << endl;
 	uint8_t motor_right = PORT_D;
 	uint8_t motor_left = PORT_A;
 	int32_t turn_90_degrees = 240;
@@ -48,5 +49,5 @@ void driveOnSpot(char turn_direction, BrickPi3 & BP){
 		BP.set_motor_position_relative(motor_left,turn_90_degrees);
 		BP.set_motor_position_relative(motor_right,(-1*turn_90_degrees));
 	}
-	//BP.reset_all();
+	usleep(1000*800);
 }

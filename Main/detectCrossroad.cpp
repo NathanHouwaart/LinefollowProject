@@ -11,21 +11,30 @@
 
 using namespace std;
 
+void crossLine(BrickPi3 & BP, int32_t forward_degrees){
+	cout << "Ik ben crossline" << endl;
+	uint8_t motor_right = PORT_D;
+	uint8_t motor_left = PORT_A;
+	BP.set_motor_position_relative(motor_left, forward_degrees);
+	BP.set_motor_position_relative(motor_right, forward_degrees);
+	usleep(1000*400);
+}
+
 void driveLeft(BrickPi3 & BP) {
-    drive(DIRECTION_LEFT, 99, 360, BP); //0 = left
-    usleep(1200 * 1000);
-    driveForward(BP);
+	cout << "Ben ik links?" << endl;
+	crossLine(BP,160);
+	driveOnSpot('L',BP);
 }
 
 void driveRight(BrickPi3 & BP) {
-    drive(DIRECTION_RIGHT, 99, 360, BP); //2 = right
-    usleep(1500 * 1000);
-    driveForward(BP);
+	cout << "Ben ik rechts?" << endl;
+	crossLine(BP,90);
+	driveOnSpot('R',BP);
 }
 
 void driveForward(BrickPi3 & BP) {
-    drive(DIRECTION_FORWARD, 99, 360, BP); //drive forward
-    usleep(500 * 1000); // Waiting for half a second, the car can cross the crossroad without seeing the line again
+	cout << "Ik ben rechtdoor?" << endl;
+	crossLine(BP,90);
 }
 
 void crossroad(BrickPi3 & BP) {
