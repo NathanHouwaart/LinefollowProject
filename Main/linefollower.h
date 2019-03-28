@@ -27,6 +27,7 @@ bool checkVoltage(BrickPi3 & BP);
 vector<int> defineDifference(const int & hoogste, const int & laagste);
 int defineDirection(const int & gemiddelde, const int & laagste_verschil, const int & hoogste_verschil, const int & actuele_licht_meting);
 vector<int> calibartion(BrickPi3 & BP, sensor_color_t & Color1);
-
+void driveOnSpot(char direction, BrickPi3 & BP);
+void readMotorEncoders(BrickPi3 & BP);
 
 #endif //HERSENSTORM_C1_LINEFOLLOWER_H
