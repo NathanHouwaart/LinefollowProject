@@ -48,6 +48,9 @@ void crossroad(BrickPi3 & BP);
 void driveForward(BrickPi3 & BP);
 void driveRight(BrickPi3 & BP);
 void driveLeft(BrickPi3 & BP);
+void crossLine(BrickPi3 & BP, int32_t forward_degrees); 
 vector<int> calibration(sensor_color_t & Color1, BrickPi3 & BP);
+
+
 
 #endif //LinefollowProject_LINEFOLLOWER_H
