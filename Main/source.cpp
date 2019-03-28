@@ -39,9 +39,9 @@ void speedLimiter(int & right, int & left, const int & maximum_speed = 360) {
 void MotorController(int left, int right, BrickPi3 & BP) {
     /* This function controls the motors.
      * First it sends the given motor speed setting through the limiter
-     * After that is sets the motor on the given speed.
+     * After that it sets the motor to the given speed.
      */
-    uint8_t motor_right = PORT_D;                       // Here are the motor ports defined so we can talk to them
+    uint8_t motor_right = PORT_D;                       // Here we define the motor ports so we can talk to them
     uint8_t motor_left = PORT_A;
     speedLimiter(right, left, MAX_MOTOR_SPEED);         // The values of the right and left motor are send to the limiter
     BP.set_motor_dps(motor_right, right);               // This starts the motors
@@ -50,8 +50,8 @@ void MotorController(int left, int right, BrickPi3 & BP) {
 
 void drive(float direction_control, unsigned int speed_multiplier_percentage, unsigned int rotation_speed, BrickPi3 & BP){
     /*
-     * Direction control is either a value between 0 and 2 or -1 or -2.
-     * If the direction control is 1 than the robot will go straight.
+     * Direction control is either -2, -1 or a value between 0 and 2.
+     * If the direction control is 1 the robot will go straight.
      * If direction control = -1, the robot stops, if direction control = -2, the robot reverses.
      * If direction < 1 and > 0 steer left. > 1 < 2 steer right.
      * speed_calculator is a value between 0 and 100 that is used to set the motor_speed
@@ -76,7 +76,7 @@ void drive(float direction_control, unsigned int speed_multiplier_percentage, un
             motor_speed_L = -1 * motor_speed;
             motor_speed_R = -1 * motor_speed;
         } else{
-            cout << "The given value doesn't correspondend to the given parameters of x=-2,-1 or 0=<x<=2." << endl;
+            cout << "The given value doesn't correspond to the given parameters of x=-2,-1 or 0=<x<=2." << endl;
         }
         //cout << "speed_calculator: " << speed_calculator << " motor_speed: " << motor_speed << " motor L:" << motor_speed_L << " motor R: " << motor_speed_R << endl;
         MotorController(motor_speed_L, motor_speed_R, BP);
