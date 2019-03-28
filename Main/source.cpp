@@ -123,11 +123,11 @@ bool colorsensorBlackLineDetect(sensor_color_t & Color1, BrickPi3 & BP) {
     return false;
 }
 
-void stuur(int lijn_waarde, BrickPi3 & BP) {
+void direction(int line_value, BrickPi3 & BP) {
     /*In this function we calculate the speed and the direction for the light sensor*/
     int fine_tune_value = 0;
     unsigned int power = 100;                   // The default value of the variable power is 100
-    float direction = 0.01 * lijn_waarde + 1;   // Here we calcualte the direction between 0 and 2 for the function drive with the value you of the light sensor. With a P controller form the PID controller
+    float direction = 0.01 * line_value + 1;   // Here we calcualte the direction between 0 and 2 for the function drive with the value you of the light sensor. With a P controller form the PID controller
     if (direction > 1) {                        // If the direction is higher than 1 and the robot is going right we calcualte the speed, how shaper he turns how slower it goes
         power = (1 - (direction - 1)) * 100;
         if (power > 100) power = 100;
@@ -149,33 +149,33 @@ void stuur(int lijn_waarde, BrickPi3 & BP) {
     drive(direction,power,360,BP); // We give the direction and the speed to the function drive
 }
 
-vector<int> defineDifference(const int & hoogste, const int & laagste) {
+vector<int> defineDifference(const int & high, const int & low) {
     vector<int> returnvector;
-    int gemiddelde = (hoogste + laagste) / 2;
-    int laagste_verschil = gemiddelde - laagste;
-    int hoogste_verschil = hoogste - gemiddelde;
+    int averge = (high + low) / 2;
+    int lowest_difference = averge - low;
+    int highest_difference = high - averge;
 
-    returnvector.push_back(gemiddelde);
-    returnvector.push_back(laagste_verschil);
-    returnvector.push_back(hoogste_verschil);
+    returnvector.push_back(averge);
+    returnvector.push_back(lowest_difference);
+    returnvector.push_back(highest_difference);
 
     return returnvector;
 }
 
-int defineDirection(const int & gemiddelde, const int & laagste_verschil, const int & hoogste_verschil, const int & actuele_licht_meting) {
-    float stuurwaarde, actueel_verschil;
+int defineDirection(const int & averge, const int & lowest_difference, const int & highest_difference, const int & current_light) {
+    float Direction_value, Current_diffent;
     // optioneel --> tussentijdse  hoogste & laagste waardes veranderen. Dit met bepaalAfwijking
 
-    if (actuele_licht_meting > gemiddelde) {
-        actueel_verschil = actuele_licht_meting - gemiddelde;
-        stuurwaarde = (actueel_verschil / hoogste_verschil) * 100;
-    } else if (actuele_licht_meting < gemiddelde) {
-        actueel_verschil = gemiddelde - actuele_licht_meting;
-        stuurwaarde = (actueel_verschil / laagste_verschil) * -100;
+    if (current_light > averge) {
+        Current_diffent = current_light - averge;
+        Direction_value = (Current_diffent / highest_difference) * 100;
+    } else if (current_light < averge) {
+        Current_diffent = averge - current_light;
+        Direction_value = (Current_diffent / lowest_difference) * -100;
     } else {
-        stuurwaarde = 0;
+        Direction_value = 0;
     }
-    return stuurwaarde;
+    return Direction_value;
 }
 
 vector<int> calibartion(BrickPi3 & BP, sensor_color_t & Color1) {

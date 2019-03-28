@@ -17,16 +17,16 @@ int main() {
     BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_RED); // set port 1 to be read as a color sensor
     sensor_color_t Color1;                             // Initialise struct for data storage
 
-    // if(!checkVoltage(BP)) return 0; // Checks whether battery has enough power
+    if(!checkVoltage(BP)) return 0; // Checks whether battery has enough power
 
     int gemiddelde, laagste_verschil, hoogste_verschil;
         vector<int> cali = calibartion(BP, Color1);                                     // For the calibration values
-        vector<int> standaardwaardes = defineDifference(cali[1], cali[0]);               // To define the difference, cali[1] is high and cali[0] is the low value
+        vector<int> Defalut_value = defineDifference(cali[1], cali[0]);               // To define the difference, cali[1] is high and cali[0] is the low value
     
     while (true) {
-        int stuurwaarde = defineDirection(standaardwaardes[0], standaardwaardes[1], standaardwaardes[2],
+        int Direction_value = defineDirection(Defalut_value[0], Defalut_value[1], Defalut_value[2],
                                             Color1.reflected_red);
-        stuur(stuurwaarde, BP);
+        direction(Direction_value, BP);
     }
     return 0;
 }

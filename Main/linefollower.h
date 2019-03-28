@@ -21,11 +21,11 @@ bool lightsensorBlackLineDetect(sensor_light_t  & Light1, BrickPi3 & BP);
 bool colorsensorBlackLineDetect(sensor_color_t & Color1, BrickPi3 & BP);
 void limiter(int & right, int & left, const int & maximum_speed);
 void MotorController(int left, int right, BrickPi3 & BP);
-void drive(float value, float power, BrickPi3 & BP);
-void stuur(int lijn_waarde, BrickPi3 & BP);
+void drive(float direction_control, unsigned int speed_calculator, unsigned int base_speed, BrickPi3 & BP);
+void direction(int line_value, BrickPi3 & BP);
 bool checkVoltage(BrickPi3 & BP);
-vector<int> defineDifference(const int & hoogste, const int & laagste);
-int defineDirection(const int & gemiddelde, const int & laagste_verschil, const int & hoogste_verschil, const int & actuele_licht_meting);
+vector<int> defineDifference(const int & high, const int & low);
+int defineDirection(const int & averge, const int & lowest_difference, const int & highest_difference, const int & current_light)
 vector<int> calibartion(BrickPi3 & BP, sensor_color_t & Color1);
 
 
