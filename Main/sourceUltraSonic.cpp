@@ -18,7 +18,7 @@ void objectDetect(sensor_ultrasonic_t &data_struct, BrickPi3 & BP, int threshold
         int motorSpeed = 180;
         MotorController(motorSpeed, motorSpeed, BP);
 
-        while (distance < (threshold +10) {
+        while (distance < (threshold +10)) {
             if(distance < threshold) {
                 motorSpeed = 0;
             } else {
