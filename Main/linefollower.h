@@ -42,6 +42,8 @@ bool checkVoltage(BrickPi3 & BP);
 
 vector<int> defineDifferenceToAverage(const int & min_reflection_value , const int & max_reflection_value);
 int defineDirection(const int & gemiddelde, const int & laagste_verschil, const int & hoogste_verschil, const int & actuele_licht_meting);
+void driveOnSpot(char direction, BrickPi3 & BP);
+void readMotorEncoders(BrickPi3 & BP);
 void crossroad(BrickPi3 & BP);
 void driveForward(BrickPi3 & BP);
 void driveRight(BrickPi3 & BP);
