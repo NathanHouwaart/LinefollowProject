@@ -42,4 +42,7 @@ return 0;
 http://wiringpi.com/pins/
 https://projects.drogon.net/raspberry-pi/wiringpi/software-pwm-library/
 https://github.com/DexterInd/BrickPi3/blob/master/Hardware/BrickPi%203.2.1.pdf
+/usr/bin/gpio mode 4 output
+/usr/bin/gpio write 4 1
+
 */
