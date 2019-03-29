@@ -20,3 +20,5 @@ CTestTestfile.cmake
 \.idea/workspace\.xml
 
 *.xml
+
+\.idea/

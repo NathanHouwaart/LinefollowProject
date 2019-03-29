@@ -19,15 +19,25 @@ int getUltraSValue(uint8_t port, sensor_ultrasonic_t & data_struct, BrickPi3 & B
     return static_cast<int>(data_struct.cm) - 1;
 }
 
-void objectDetect(sensor_ultrasonic_t & data_struct, BrickPi3 & BP, int threshold) {
+void objectDetect(sensor_ultrasonic_t &data_struct, BrickPi3 & BP, int threshold) {
     while (true) {
         int distance = getUltraSValue(PORT_4, data_struct, BP);
-        MotorController(180, 180, BP);
+        int motorSpeed = 180;
+        MotorController(motorSpeed, motorSpeed, BP);
 
-        while (distance < threshold) {
-            MotorController(0, 0, BP);
+        while (distance < (threshold +10)) {
+            if(distance < threshold){
+                if(distance > (threshold -1)) {
+                    motorSpeed = 0;
+                } else {
+                    motorSpeed = (threshold - distance) * -18;
+                }
+            } else {
+                motorSpeed = (distance - threshold) * 18;
+            }
+            MotorController(motorSpeed, motorSpeed, BP);
             distance = getUltraSValue(PORT_4, data_struct, BP);
-            usleep(500 * 1000);
+            usleep(250 * 1000);
         }
     }
 }

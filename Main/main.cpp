@@ -38,7 +38,7 @@ int main() {
     sleep(1);
 
     /*-----Follow the line untill the ultrasonic sensor measures something withing X cm-----*/
-    while (true) {
+    /*while (true) {
         BP.get_sensor(PORT_1, Color1);                          // Read colorsensor1 and put data in struct Color1
 	    BP.get_sensor(PORT_3, Color2);
         if(getUltraSValue(PORT_4, UltraSonic1, BP) > 10){       // If the measured US distance is bigger than 10:
@@ -52,7 +52,9 @@ int main() {
         }else{                                                  // If an object was detected within X cm, execute this code
             drive(DIRECTION_STOP, 0, 360, BP);                  // Stop the car
         }
-    }
+    }*/
+
+    driveAround(BP);
 }
 
 void exit_signal_handler(int signo) {

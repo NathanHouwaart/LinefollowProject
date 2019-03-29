@@ -39,6 +39,7 @@ void MotorController(int left, int right, BrickPi3 & BP);
 void drive(float direction_control, unsigned int speed_calculator, unsigned int base_speed, BrickPi3 & BP);
 void stuur(int lijn_waarde, BrickPi3 & BP);
 bool checkVoltage(BrickPi3 & BP);
+void driveAround(BrickPi3 & BP);
 
 vector<int> defineDifferenceToAverage(const int & min_reflection_value , const int & max_reflection_value);
 int defineDirection(const int & gemiddelde, const int & laagste_verschil, const int & hoogste_verschil, const int & actuele_licht_meting);
