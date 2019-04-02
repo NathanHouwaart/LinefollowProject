@@ -30,28 +30,32 @@ int main() {
     sensor_color_t Color2;                                      // Initialise struct for data storage color sensor 2
     sensor_ultrasonic_t UltraSonic1;
 
-    // if(!checkVoltage(BP)) return 0;                          // Checks whether battery has enough power
+     if(!checkVoltage(BP)) return 0;                          // Checks whether battery has enough power
 
     /*-----Calibrate min and max reflection values and determine lightvalue the robot wants to follow-----*/
     vector<int> min_max_reflection_value = calibration(Color1, BP);
-    vector<int> default_values = defineDifferenceToAverage((min_max_reflection_value[0]), (min_max_reflection_value[1]+100));
-    sleep(1);
+    vector<int> default_values = defineDifferenceToAverage((min_max_reflection_value[0]), (min_max_reflection_value[1]));
+    sleep(1); //Waiting for sensors to see normally
+	char modeselect;
+	/*-----Follow the line untill the ultrasonic sensor measures something withing X cm-----*/
+    // TODO: --> Fuctie maken die een keuze aanbied aan de gebruiker. (LINE/GRID/FREE) (char terug L/G/F)
+    // TODO: --> Modus selecteren (3 soorten while loops)
+    cout << "Select mode: (Line follow (L) / grid follow (G) / Free ride (F))" << endl;
+    cin >> modeselect;
+    switch (modeselect){
+        case 'L':
+            lineFollowLoop(Color1, Color2, UltraSonic1, min_max_reflection_value, default_values, BP);
+            break;
+        case 'G':
+            gridFollowLoop(Color1, Color2, UltraSonic1, min_max_reflection_value, default_values, BP);
+            break;
+        case 'F':
+            freeRideLoop(BP);
+            break;
+        default:
+            cout << "ERROR, wrong input" << endl;
+            return -1;
 
-    /*-----Follow the line untill the ultrasonic sensor measures something withing X cm-----*/
-    while (true) {
-        BP.get_sensor(PORT_1, Color1);                          // Read colorsensor1 and put data in struct Color1
-	    BP.get_sensor(PORT_3, Color2);
-        if(getUltraSValue(PORT_4, UltraSonic1, BP) > 10){       // If the measured US distance is bigger than 10:
-            if(Color2.reflected_red < (default_values[0]) && Color1.reflected_red < default_values[0]){
-                // Uncomment for debug
-                crossroad(BP);
-            }else {                                             // If no intersection was detected, follow the line
-                int stuurwaarde = defineDirection(default_values[0], default_values[1], default_values[2], Color1.reflected_red);
-                stuur(stuurwaarde, BP);
-            }
-        }else{                                                  // If an object was detected within X cm, execute this code
-            drive(DIRECTION_STOP, 0, 360, BP);                  // Stop the car
-        }
     }
 }
 
