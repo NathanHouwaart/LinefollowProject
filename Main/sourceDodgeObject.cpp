@@ -6,6 +6,8 @@
 
 using namespace std;
 
+// TODO: --> Complete remake
+
 void drive_straight(int32_t to_drive, BrickPi3 & BP){
 	uint8_t motor_2 = PORT_D;
 	uint8_t motor_1 = PORT_A;

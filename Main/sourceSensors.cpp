@@ -11,6 +11,8 @@
 
 using namespace std;
 
+//TODO: --> Word veranderd bij verandering in obstakel ontwijken.
+
 int getUltraSValue(uint8_t port, sensor_ultrasonic_t & data_struct, BrickPi3 & BP) {
     /*-----Function reads Ultrasonic Sensor (US) and returns measured distance in cm.
      * Since the US sensor is not completely accurate, there will be a correction of -1 cm-----*/
@@ -40,4 +42,30 @@ void objectDetect(sensor_ultrasonic_t &data_struct, BrickPi3 & BP, int threshold
             usleep(250 * 1000);
         }
     }
+}
+
+bool colorsensorBlackLineDetect(sensor_color_t & Color1, BrickPi3 & BP) {
+    /* Function checks if color sensor on port 3 (Hardcoded) has detected a black line.
+     * If color == black it returns true.
+     * Otherwise it returns false */
+    // TODO: Check if return false can only be at case 6.
+
+    if (BP.get_sensor(PORT_1, Color1) == 0) {
+        int color_rgb_sensor = Color1.color;
+        switch (color_rgb_sensor) {
+            case 1:
+                return true;
+            case 2:
+                return false;
+            case 3:
+                return false;
+            case 4:
+                return false;
+            case 5:
+                return false;
+            case 6:
+                return false;
+        }
+    }
+    return false;
 }
