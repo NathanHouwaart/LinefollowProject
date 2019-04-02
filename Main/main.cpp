@@ -41,13 +41,13 @@ int main() {
     // TODO: --> Fuctie maken die een keuze aanbied aan de gebruiker. (LINE/GRID/FREE) (char terug L/G/F)
     // TODO: --> Modus selecteren (3 soorten while loops)
     cout << "Select mode: (Line follow (L) / grid follow (G) / Free ride (F))" << endl;
-    getline(cin, modeselect);
+    cin >> modeselect;
     switch (modeselect){
         case 'L':
-            lineFollowLoop(BP);
+            lineFollowLoop(Color1, Color2, UltraSonic1, min_max_reflection_value, default_values, BP);
             break;
         case 'G':
-            gridFollowLoop(BP);
+            gridFollowLoop(Color1, Color2, UltraSonic1, min_max_reflection_value, default_values, BP);
             break;
         case 'F':
             freeRideLoop(BP);
