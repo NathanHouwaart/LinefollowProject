@@ -38,7 +38,7 @@ int main() {
     sleep(1);
 	int counter_object = 0;
     /*-----Follow the line untill the ultrasonic sensor measures something withing X cm-----*/
-    while (true) {
+/*    while (true) {
         BP.get_sensor(PORT_1, Color1);                          // Read colorsensor1 and put data in struct Color1
 	    BP.get_sensor(PORT_3, Color2);
 	//cout << "Afstand is: " <<  getUltraSValue(PORT_4, UltraSonic1, BP);
@@ -55,12 +55,13 @@ int main() {
 		counter_object++;
 		if(counter_object%1000 == 0){cout << "Joe 1000 iets" << counter_object << endl;}
 		drive(DIRECTION_STOP,0,360,BP);
-		if(counter_object >= 1500){
+		if(counter_object >= 3000){
 			cout << "Counter is groot genoeg"<< endl;
 			driveAround(BP);
 		}//Start driving around milk
         }
-    }
+    }*/
+	objectDetect(UltraSonic1,BP,10);
 }
 
 void exit_signal_handler(int signo) {

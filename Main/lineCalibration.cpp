@@ -63,8 +63,8 @@ vector<int> calibration(sensor_color_t & Color1, BrickPi3 & BP) {
     BP.set_motor_dps(motor_left, 0);
     BP.set_motor_dps(motor_right, 0);
 
-    low_high_values.push_back(low-50);          // Puts the highest value and the lowst value in the vector answer
-    low_high_values.push_back(high+20);
+    low_high_values.push_back(low);          // Puts the highest value and the lowst value in the vector answer
+    low_high_values.push_back(high);
     cout << "Lowest measurement " << low << endl;
     cout << "Highest measurement " << high << endl;
     return low_high_values;                  // returns the vector<int> answer

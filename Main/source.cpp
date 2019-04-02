@@ -66,6 +66,7 @@ void drive(float direction_control, unsigned int speed_multiplier_percentage, un
         int motor_speed = rotation_speed*(speed_multiplier_percentage/100.0);   // Calculates motor rotation speed
         int motor_speed_L;                                                      // Variables to save motor speed of both engines
         int motor_speed_R;
+//	cout << "direction_control: "<< direction_control << endl;
         if (direction_control >= 0){                                            // && direction_control <= 2){ ---kan ik als het goed is weglaten!---
             motor_speed_L = motor_speed * direction_control;                    // To steer, one engine has to provide more power than the other
             motor_speed_R = motor_speed * (2-direction_control);
@@ -136,7 +137,7 @@ void stuur(int lijn_waarde, BrickPi3 & BP) {
 
     int fine_tune_value = 0;
     unsigned int power = 100;                       // The default value of the variable power is 100
-
+//	cout << lijn_waarde << endl;
     float direction = (0.01 * lijn_waarde) + 1;     // Here we calcualte the direction between 0 and 2 for the function drive with the value you of the light sensor. With a P controller form the PID controller
     if (direction > 1) {                            // If the direction is higher than 1 and the robot is going right we calcualte the speed, how shaper he turns how slower it goes
         power = (1 - (direction - 1)) * 100;
@@ -195,6 +196,10 @@ int defineDirection(const int & gemiddelde, const int & laagste_verschil, const 
     } else {
         stuurwaarde = 0;
     }
+	cout << "stuuurwaarde: " << stuurwaarde << endl;
+	cout << "Act verschil: " << actueel_verschil << endl;
+	cout << "hoogste verschil " << hoogste_verschil << endl;
+	cout << "laagste verschil " << laagste_verschil << endl;
     return stuurwaarde;
 }
 
