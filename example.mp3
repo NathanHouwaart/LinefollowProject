@@ -1,0 +1,20 @@
+--2019-04-02 12:08:29--  http://rpf.io/lamp3
+Resolving rpf.io (rpf.io)... 104.18.52.13, 104.18.53.13, 2606:4700:30::6812:350d, ...
+Connecting to rpf.io (rpf.io)|104.18.52.13|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://rpf.io/lamp3 [following]
+--2019-04-02 12:08:30--  https://rpf.io/lamp3
+Connecting to rpf.io (rpf.io)|104.18.52.13|:443... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://raw.githubusercontent.com/raspberrypilearning/burping-jelly-baby/master/data/la.mp3 [following]
+--2019-04-02 12:08:31--  https://raw.githubusercontent.com/raspberrypilearning/burping-jelly-baby/master/data/la.mp3
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 151.101.36.133
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|151.101.36.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 17260 (17K) [audio/mpeg]
+Saving to: ‘lamp3’
+
+     0K .......... ......                                     100%  158K=0.1s
+
+2019-04-02 12:08:31 (158 KB/s) - ‘lamp3’ saved [17260/17260]
+
