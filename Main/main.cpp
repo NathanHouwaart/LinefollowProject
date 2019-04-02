@@ -44,13 +44,13 @@ int main() {
     getline(cin, modeselect);
     switch (modeselect){
         case 'L':
-            lineFollowLoop();
+            lineFollowLoop(BP);
             break;
         case 'G':
-            gridFollowLoop();
+            gridFollowLoop(BP);
             break;
         case 'F':
-            freeRideLoop();
+            freeRideLoop(BP);
             break;
         default:
             cout << "ERROR, wrong input" << endl;
@@ -59,7 +59,7 @@ int main() {
     }
 }
 
-void exit_signal_handler(int signo) {
+void exitSignalHandler(int signo) {
     /*-----This code will run when exiting the program with ctr + c. Used to reset de BrickPi outputs-----*/
     if(signo == SIGINT){
         BP.reset_all();    // Reset everything so there are no run-away motors

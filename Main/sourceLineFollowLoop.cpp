@@ -4,7 +4,7 @@ using namespace std;
 // TODO: --> Mogelijke aanpassing door verandering object ontwijken.
 // TODO: --> Meting lager of hoger dan min of max meting (calibratie) Waarde laag en hoog aanpassen.
 int counter_object = 0;
-void lineFollowLoop() {
+void lineFollowLoop(BrickPi3 & BP){
     while (true) {
         BP.get_sensor(PORT_1, Color1);                          // Read colorsensor1 and put data in struct Color1
         BP.get_sensor(PORT_3, Color2);
