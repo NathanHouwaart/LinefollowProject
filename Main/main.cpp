@@ -59,7 +59,7 @@ int main() {
     }
 }
 
-void exitSignalHandler(int signo) {
+void exit_signal_handler(int signo) {
     /*-----This code will run when exiting the program with ctr + c. Used to reset de BrickPi outputs-----*/
     if(signo == SIGINT){
         BP.reset_all();    // Reset everything so there are no run-away motors

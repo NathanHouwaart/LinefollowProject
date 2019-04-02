@@ -39,7 +39,7 @@ void driveCurved(int32_t to_drive, BrickPi3 & BP);
 void driveAround(BrickPi3 & BP);
 
 // sourceDriveRobot.cpp
-void speedLimiter(int & right, int & left, const int & maximum_speed = 360);
+void speedLimiter(int & right, int & left, const int & maximum_speed);
 void MotorController(int left, int right, BrickPi3 & BP);
 void drive(float direction_control, unsigned int speed_multiplier_percentage, unsigned int rotation_speed, BrickPi3 & BP);
 void driveOnSpot(char turn_direction, BrickPi3 & BP);
@@ -48,10 +48,10 @@ void driveOnSpot(char turn_direction, BrickPi3 & BP);
 void freeRideLoop(BrickPi3 & BP);
 
 // sourceGridFollowLoop.cpp
-void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & Ultrasonic1, vector<int> & min_max_reflection_value, vector<int> & default_values, BrickPi3 & BP);
+void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic1, vector<int> & min_max_reflection_value, vector<int> & default_values, BrickPi3 & BP);
 
 // sourceLineFollowLoop.cpp
-void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & Ultrasonic1, vector<int> & min_max_reflection_value, vector<int> & default_values, BrickPi3 & BP);
+void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic1, vector<int> & min_max_reflection_value, vector<int> & default_values, BrickPi3 & BP);
 
 // sourceMainFunctions.cpp
 vector<int> calibration(sensor_color_t & Color1, BrickPi3 & BP);

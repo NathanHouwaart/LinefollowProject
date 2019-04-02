@@ -11,7 +11,7 @@
 
 using namespace std;
 
-void speedLimiter(int & right, int & left, const int & maximum_speed = 360) {
+void speedLimiter(int & right, int & left, const int & maximum_speed) {
     /* This is the limiter function.
      * This function makes sure that the motors don't go above the maximum_speed.
      * It checks if the given motorspeed is above the max, and if it calculates the difference.

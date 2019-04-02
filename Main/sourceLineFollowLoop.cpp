@@ -1,10 +1,13 @@
 #include "linefollower.h"
 
 using namespace std;
+
 // TODO: --> Mogelijke aanpassing door verandering object ontwijken.
 // TODO: --> Meting lager of hoger dan min of max meting (calibratie) Waarde laag en hoog aanpassen.
+
 int counter_object = 0;
-void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & Ultrasonic1, vector<int> & min_max_reflection_value, vector<int> & default_values, BrickPi3 & BP){
+
+void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic1, vector<int> & min_max_reflection_value, vector<int> & default_values, BrickPi3 & BP){
     while (true) {
         BP.get_sensor(PORT_1, Color1);                          // Read colorsensor1 and put data in struct Color1
         BP.get_sensor(PORT_3, Color2);
