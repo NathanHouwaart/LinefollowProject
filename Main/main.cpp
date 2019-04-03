@@ -61,6 +61,9 @@ int main() {
     lookLeft(BP);
     sleep(2);
     lookRight(BP);
+    sleep(2);
+    BP.reset_all();
+    exit(-2);
 }
 
 void exit_signal_handler(int signo) {
