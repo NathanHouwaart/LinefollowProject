@@ -20,14 +20,14 @@ void playSound(char selection, int & playing) {
         case 'F':  //forward
             if(playing != 1) {
                 stopSound();
-                system("omxplayer --no-keys -o local Noises/forward.wav &");
+                system("omxplayer --loop --no-keys -o local Noises/forward.wav &");
                 playing = 1;
             }
             break;
         case 'B':  //backwards
             if(playing != 2) {
                 stopSound();
-                system("omxplayer --no-keys -o local Noises/backwards.wav &");
+                system("omxplayer --loop --no-keys -o local Noises/backwards.wav &");
                 playing = 2;
             }
             break;
@@ -59,17 +59,38 @@ void playSound(char selection, int & playing) {
                 playing = 6;
             }
             break;
-        // case 'X':  //plan X, playing megalovania while charging at the object
-        //     if(playing != 7) {
-        //         stopSound();
-        //         system("omxplayer --no-keys -o local Noises/megalovania.wav &");
-        //         playing = 7;
-        //     }
-        //     break;
+        case 'X':  //plan X, playing megalovania while charging at the object
+             if(playing != 7) {
+                 stopSound();
+                 system("omxplayer --no-keys -o local Noises/megalovaniaRobotCharge.wav &");
+                 playing = 7;
+             }
+             break;
     }
 }
 
 //stopping the sound because the time to play can be different
 void stopSound() {
     system("killall omxplayer.bin");
+}
+
+void megaCharge(int & playing, BrickPi3 & BP) {
+    drive(DIRECTION_STOP, 0, 360, BP); //stop the car
+    cout << "Object detected: What do you want to do, type: D(dodge) or X(Plan X)" << endl;
+    char choice;
+    cin >> choice;
+    switch (choice) {
+        case 'X':
+            playSound(X, playing);
+            drive(1, 100, 360, BP);
+            sleep(16);
+            drive(DIRECTION_STOP, 0, 360, BP);
+            break;
+        case 'D':
+            driveAround(BP);
+            break;
+        default:
+            cout << "Wrong input. Please try again";
+            megaCharge();
+    }
 }

@@ -78,5 +78,6 @@ bool colorsensorBlackLineDetect(sensor_color_t & Color1, BrickPi3 & BP);
 
 //sourceSound.cpp
 void playSound(char selection, int & playing);
+void megaCharge(int & playing, BrickPi3 & BP);
 void stopSound();
 #endif //LinefollowProject_LINEFOLLOWER_H
