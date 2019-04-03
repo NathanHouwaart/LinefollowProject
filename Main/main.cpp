@@ -45,10 +45,10 @@ int main() {
     cin >> modeselect;
     switch (modeselect){
         case 'L':
-            lineFollowLoop(Color1, Color2, UltraSonic1, min_max_reflection_value, default_values, BP);
+            lineFollowLoop(Color1, Color2 UltraSonic1, struct_line_values, BP);
             break;
         case 'G':
-            gridFollowLoop(Color1, Color2, UltraSonic1, min_max_reflection_value, default_values, BP);
+            gridFollowLoop(Color1, Color2 UltraSonic1, struct_line_values, BP);
             break;
         case 'F':
             freeRideLoop(BP);
