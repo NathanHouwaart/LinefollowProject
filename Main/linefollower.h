@@ -26,6 +26,15 @@ using namespace std;
 #define DIRECTION_RIGHT 2
 #define MAX_MOTOR_SPEED 400
 
+// This struct is used to save the data used in calculating the avarage
+struct CalculatingErrorData{
+    int lowest_measurment;
+    int highest_measurment;
+    int avarage_min_max;
+    int difference_min_avarage;
+    int difference_max_avarage;
+};
+
 // sourceCrossroad.cpp
 void crossLine(BrickPi3 & BP, int32_t forward_degrees);
 void driveLeft(BrickPi3 & BP);
@@ -49,7 +58,7 @@ void driveOnSpot(char turn_direction, BrickPi3 & BP);
 void freeRideLoop(BrickPi3 & BP);
 
 // sourceGridFollowLoop.cpp
-void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic1, vector<int> & min_max_reflection_value, vector<int> & default_values, BrickPi3 & BP);
+void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP);
 
 // sourceGridFollowFunctions.cpp
 uint64_t factorial(uint64_t n);
@@ -61,16 +70,16 @@ char updateRobotPosition(vector<vector<char>> & grid, const char & driven_robot_
 void updateBarrier(vector<vector<char>> & grid, vector<int> barrier_coordinates);
 
 // sourceLineFollowLoop.cpp
-void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic1, vector<int> & min_max_reflection_value, vector<int> & default_values, BrickPi3 & BP);
+void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP);
 
 // sourceMainFunctions.cpp
-vector<int> calibration(sensor_color_t & Color1, BrickPi3 & BP);
+void calibration(sensor_color_t & Color1, CalculatingErrorData & data_struct,  BrickPi3 & BP);
 bool checkVoltage(BrickPi3 & BP);
-vector<int> defineDifferenceToAverage(const int & min_reflection_value , const int & max_reflection_value);
+void defineDifferenceToAverage(CalculatingErrorData & data_struct);
 
 // sourcePIDController.cpp
-int defineDirection(const int & gemiddelde, const int & laagste_verschil, const int & hoogste_verschil, const int & actuele_licht_meting);
-void stuur(int lijn_waarde, BrickPi3 & BP);
+int defineError(int avarage_lowest_highest, int dist_lowest_avarage, int dist_highest_avarage, int current_measurment);
+void pController(int error_value, BrickPi3 & BP);
 
 // sourceSensors.cpp
 int getUltraSValue(uint8_t port, sensor_ultrasonic_t & data_struct, BrickPi3 & BP);

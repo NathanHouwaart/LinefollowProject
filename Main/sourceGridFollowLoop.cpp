@@ -4,7 +4,7 @@ using namespace std;
 
 // TODO: --> Maak een loop voor het volgen van een grid. (Zie activity diagram)
 
-void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic1, vector<int> & min_max_reflection_value, vector<int> & default_values, BrickPi3 & BP){
+void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP){
 
     unsigned int width;
     unsigned int height;
@@ -41,3 +41,4 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
     cout << "Finished" << endl;
     BP.reset_all();
 }
+
