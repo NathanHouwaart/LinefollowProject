@@ -1,3 +1,5 @@
-build:
-    g++ sourceCrossroad.cpp sourceDodgeObject.cpp sourceDriveRobot.cpp sourceFreeRideLoop.cpp sourceGridFollowLoop.cpp sourceLineFollowLoop.cpp sourceMainFunctions.cpp sourcePIDController.cpp sourceSensors.cpp sourceSound.cpp BrickPi3.cpp main.cpp -o run
+CXX=g++
+OBJ = BrickPi3.o main.o sourceCrossroad.o sourceDodgeObject.o sourceDriveRobot.o sourceFreeRideLoop.o sourceGridFollowLoop.o sourceLineFollowLoop.o sourceMainFunctions.o sourcePIDController.o sourceSensors.o
 
+testbuild: $(OBJ)
+	$(CXX) -o $@ $^

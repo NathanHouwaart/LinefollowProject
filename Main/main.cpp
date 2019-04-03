@@ -33,8 +33,9 @@ int main() {
      if(!checkVoltage(BP)) return 0;                          // Checks whether battery has enough power
 
     /*-----Calibrate min and max reflection values and determine lightvalue the robot wants to follow-----*/
-    vector<int> min_max_reflection_value = calibration(Color1, BP);
-    vector<int> default_values = defineDifferenceToAverage((min_max_reflection_value[0]), (min_max_reflection_value[1]));
+    CalculatingErrorData struct_line_values;
+    calibration(Color1, struct_line_values, BP);
+    defineDifferenceToAverage(struct_line_values);
     sleep(1); //Waiting for sensors to see normally
 	char modeselect;
 	/*-----Follow the line untill the ultrasonic sensor measures something withing X cm-----*/
@@ -44,10 +45,10 @@ int main() {
     cin >> modeselect;
     switch (modeselect){
         case 'L':
-            lineFollowLoop(Color1, Color2, UltraSonic1, min_max_reflection_value, default_values, BP);
+            lineFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, BP);
             break;
         case 'G':
-            gridFollowLoop(Color1, Color2, UltraSonic1, min_max_reflection_value, default_values, BP);
+            gridFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, BP);
             break;
         case 'F':
             freeRideLoop(BP);
