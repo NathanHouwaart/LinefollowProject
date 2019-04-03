@@ -11,14 +11,13 @@
 
 using namespace std;
 
-vector<int> calibration(sensor_color_t & Color1, BrickPi3 & BP) {
+void calibration(sensor_color_t & Color1, CalculatingErrorData & data_struct,  BrickPi3 & BP) {
     /*This function looks for the highest and the lowest light value. The vector contains vector<int> anwser = {low, high};*/
 
-    uint8_t motor_right = PORT_D;               // Here are the motor ports defined so we can talk to them
+    uint8_t motor_right = PORT_D;       // Here are the motor ports defined so we can talk to them
     uint8_t motor_left = PORT_A;
-    vector<int> low_high_values = {};            // An vector for the return value
 
-    int low;                       // Varialbe for the highest and lowest function
+    int low;                            // Varialbe for the highest and lowest function
     int high;
 
     uint16_t speed = 90;               // Om de snelheid van het draaien aan te geven. LET OP niet hoger dan 180!
@@ -63,11 +62,10 @@ vector<int> calibration(sensor_color_t & Color1, BrickPi3 & BP) {
     BP.set_motor_dps(motor_left, 0);
     BP.set_motor_dps(motor_right, 0);
 
-    low_high_values.push_back(low);          // Puts the highest value and the lowst value in the vector answer
-    low_high_values.push_back(high);
     cout << "Lowest measurement " << low << endl;
     cout << "Highest measurement " << high << endl;
-    return low_high_values;                  // returns the vector<int> answer
+    data_struct.lowest_measurment = low;       // Puts the highest value and the lowst value in the struct
+    data_struct.highest_measurment = high;
 }
 
 bool checkVoltage(BrickPi3 & BP) {
@@ -84,20 +82,18 @@ bool checkVoltage(BrickPi3 & BP) {
     }
 }
 
-vector<int> defineDifferenceToAverage(const int & min_reflection_value , const int & max_reflection_value) {
+void defineDifferenceToAverage(CalculatingErrorData & data_struct) {
     /* In order to calculate how far off the current measurement is from our target, we first need to define the target value.
      * This is done by calculating the average of the min and max reflection value.
      * Then the difference from minimum to avg & maximum to avg is calculated.
      * These values are used to determine how far the current measurement is off from our target on a scale of 0 - 100 %. */
 
-    vector<int> calculated_distance_to_average;                                 // Constructs a vector to return multiple values
-    int average = (max_reflection_value + min_reflection_value) / 2;            // Calculate average
-    int distance_lowest_value_to_avg = average - min_reflection_value;        // Calculate distance min--avg
-    int distance_highest_value_to_avg = max_reflection_value - average;       // Calculate distance max--avg
+    vector<int> calculated_distance_to_average;                         // Constructs a vector to return multiple values
+    int average = (max_reflection_value + min_reflection_value) / 2;    // Calculate average
+    int distance_lowest_value_to_avg = average - min_reflection_value;  // Calculate distance min--avg
+    int distance_highest_value_to_avg = max_reflection_value - average; // Calculate distance max--avg
 
-    calculated_distance_to_average.push_back(average);
-    calculated_distance_to_average.push_back(distance_lowest_value_to_avg);
-    calculated_distance_to_average.push_back(distance_highest_value_to_avg);
-
-    return calculated_distance_to_average;                                      // Return values
+    data_struct.avarage_min_max = average;                              //Puts data in struct.
+    data_struct.difference_min_avarage = distance_lowest_value_to_avg;
+    data_struct.difference_max_avarage = distance_highest_value_to_avg;
 }
