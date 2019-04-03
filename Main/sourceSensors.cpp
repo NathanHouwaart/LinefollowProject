@@ -37,7 +37,7 @@ void objectDetect(sensor_ultrasonic_t &data_struct, BrickPi3 & BP, int threshold
                     playSound('S', playing);
                     motorSpeed = 0;
                 } else {
-                    playSound('F', playing);
+                    playSound('B', playing);
                     motorSpeed = (threshold - distance) * -18;
                 }
             } else {
