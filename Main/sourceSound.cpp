@@ -81,7 +81,7 @@ void megaCharge(int & playing, BrickPi3 & BP) {
     cin >> choice;
     switch (choice) {
         case 'X':
-            playSound(X, playing);
+            playSound('X', playing);
             drive(1, 100, 360, BP);
             sleep(16);
             drive(DIRECTION_STOP, 0, 360, BP);
@@ -91,6 +91,6 @@ void megaCharge(int & playing, BrickPi3 & BP) {
             break;
         default:
             cout << "Wrong input. Please try again";
-            megaCharge();
+            megaCharge(playing, BP);
     }
 }
