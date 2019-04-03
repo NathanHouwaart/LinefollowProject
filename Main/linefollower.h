@@ -68,6 +68,6 @@ void objectDetect(sensor_ultrasonic_t &data_struct, BrickPi3 & BP, int threshold
 bool colorsensorBlackLineDetect(sensor_color_t & Color1, BrickPi3 & BP);
 
 //sourceSound.cpp
-void playSound(char & selection);
+void playSound(char selection, int & playing);
 void stopSound();
 #endif //LinefollowProject_LINEFOLLOWER_H

@@ -5,7 +5,7 @@
 using namespace std;
 
 // playing the right sound by asking for a parameter
-void playSound(char & selection, int & playing) {
+void playSound(char selection, int & playing) {
     /*
     playing = 0; means there is no sound playing currently
     playing = 1; The forward sound is playing
@@ -71,5 +71,5 @@ void playSound(char & selection, int & playing) {
 
 //stopping the sound because the time to play can be different
 void stopSound() {
-    system("killall omxplayer.bin")
+    system("killall omxplayer.bin");
 }
