@@ -33,9 +33,8 @@ void objectDetect(sensor_ultrasonic_t &data_struct, BrickPi3 & BP, int threshold
         while (distance < (threshold +10)) {
 
             if(distance < threshold){
-                playSound('S', playing);
-
                 if(distance > (threshold -1)) {
+                    playSound('S', playing);
                     motorSpeed = 0;
                 } else {
                     playSound('F', playing);
