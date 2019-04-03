@@ -47,7 +47,7 @@ vector<char> fastestRoute(const unsigned int & grid_height, const unsigned int &
     for(unsigned int i = 0; i < grid_height; i++){
         fastest_route.push_back('F');                           // Go all the way down on the grid
     }
-    fastest_route.push_back('R');
+    fastest_route.push_back('L');
     for(unsigned int i = 1; i < grid_width; i++){
         fastest_route.push_back('F');                           // If robot is all the way down, go all the way to the right
     }

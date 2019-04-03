@@ -39,4 +39,5 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
         }
     }
     cout << "Finished" << endl;
+    BP.reset_all();
 }
