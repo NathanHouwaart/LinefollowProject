@@ -23,12 +23,12 @@ int main() {
 //    /*-----Set sensor types-----*/
 //    BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_RED);      // Set port 1 to be read as a color sensor
 //    BP.set_sensor_type(PORT_3, SENSOR_TYPE_NXT_COLOR_RED);      // Set port 3 to be read as a color sensor
-//    BP.set_sensor_type(PORT_4, SENSOR_TYPE_NXT_ULTRASONIC);     // Set port 4 to be read as a ultrasonic sensor
+    BP.set_sensor_type(PORT_4, SENSOR_TYPE_NXT_ULTRASONIC);     // Set port 4 to be read as a ultrasonic sensor
 //
 //    /*-----Set data structs-----*/
 //    sensor_color_t Color1;                                      // Initialise struct for data storage color sensor 1
 //    sensor_color_t Color2;                                      // Initialise struct for data storage color sensor 2
-//    sensor_ultrasonic_t UltraSonic1;
+    sensor_ultrasonic_t UltraSonic1;
 //
 //     if(!checkVoltage(BP)) return 0;                          // Checks whether battery has enough power
 //
@@ -58,9 +58,9 @@ int main() {
 //            return -1;
 //
 //    }
-    lookLeft(BP);
+    lookLeft(UltraSonic1, BP);
     sleep(2);
-    lookRight(BP);
+    lookRight(UltraSonic1, BP);
     sleep(2);
     BP.reset_all();
     exit(-2);
