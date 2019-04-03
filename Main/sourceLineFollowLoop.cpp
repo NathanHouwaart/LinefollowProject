@@ -15,7 +15,6 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
         //cout << "Afstand is: " <<  getUltraSValue(PORT_4, UltraSonic1, BP);
         if (getUltraSValue(PORT_4, UltraSonic1, BP) > 10) {       // If the measured US distance is bigger than 10:
             counter_object = 0;
-            playSound('F', playing);
             if (Color2.reflected_red < (default_values[0]) && Color1.reflected_red < default_values[0]) {
                 crossroad(BP);
             } else {                                             // If no intersection was detected, follow the line
@@ -30,7 +29,6 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
             if (counter_object % 1000 == 0) { cout << "Joe 1000 iets" << counter_object << endl; }
             if (counter_object >= 1500) {
                 cout << "Counter is groot genoeg" << endl;
-                playSound('D', playing);
                 driveAround(BP);
                 break;
             }//Start driving around milk
