@@ -23,7 +23,16 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
     while (true) {
         BP.get_sensor(PORT_1, Color1);                          // Read colorsensor1 and put data in struct Color1
         BP.get_sensor(PORT_3, Color2);
-        if (Color2.reflected_red < (default_values[0]) && Color1.reflected_red < default_values[0]) {
+        int main_sensor_measurment = Color1.reflected_red;
+        if(main_sensor_measurment < data_struct.lowest_measurment){
+            data_struct.lowest_measurment = main_sensor_measurment;
+            defineDifferenceToAverage(data_struct);
+        } else if(main_sensor_measurment > data_struct.highest_measurment){
+            data_struct.highest_measurment = main_sensor_measurment;
+            defineDifferenceToAverage(data_struct);
+        }
+
+        if (Color2.reflected_red < (data_struct.avarage_min_max) && main_sensor_measurment < data_struct.avarage_min_max) {
             direction_index += 1;
             if(direction_index >= fastest_route.size()){
                 break;
@@ -33,9 +42,9 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
                 crossroad(BP, fastest_route[direction_index]);
             }
         } else {                                             // If no intersection was detected, follow the line
-            int stuurwaarde = defineDirection(default_values[0], default_values[1], default_values[2],
-                                              Color1.reflected_red);
-            stuur(stuurwaarde, BP);
+            int error_to_average = defineError(data_struct.avarage_min_max, data_struct.difference_min_avarage, data_struct.difference_max_avarage,
+                                              main_sensor_measurment);
+            pController(error_to_average, BP);
         }
     }
     cout << "Finished" << endl;
