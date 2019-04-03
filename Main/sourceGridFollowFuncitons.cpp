@@ -137,12 +137,12 @@ char updateRobotPosition(vector<vector<char>> & grid, const char & driven_robot_
                 new_facing_direction = 'U';
             } else if (driven_robot_direction == 'R') {   // If the robot has driven to the right, it went right. turning in direction to the right
                 grid[y_coordinate][x_coordinate] = 'X';
-                grid[y_coordinate][x_coordinate + 2] = 'R';
-                new_facing_direction = 'R';
+                grid[y_coordinate][x_coordinate - 2] = 'R';
+                new_facing_direction = 'L';
             } else if (driven_robot_direction == 'L') {   // If the robot has driven to the left, it went left, turning in direction to the left
                 grid[y_coordinate][x_coordinate] = 'X';
-                grid[y_coordinate ][x_coordinate - 2] = 'R';
-                new_facing_direction = 'L';
+                grid[y_coordinate ][x_coordinate + 2] = 'R';
+                new_facing_direction = 'R';
             }
             break;
         case 'U': // Facing up
