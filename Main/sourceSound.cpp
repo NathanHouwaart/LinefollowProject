@@ -5,29 +5,67 @@
 using namespace std;
 
 // playing the right sound by asking for a parameter
-void playSound(char & selection) {
+void playSound(char & selection, int & playing) {
+    /*
+    playing = 0; means there is no sound playing currently
+    playing = 1; The forward sound is playing
+    playing = 2; The backwards sound is playing
+    playing = 3; The turnonspot sound is playing
+    playing = 4; the See object is playing
+    playing = 5; doge object sound is playing
+    playing = 6; the crossroad sound is playing
+    playing = 7; beta megalovania
+    */
     switch(selection) {
         case 'F':  //forward
-            system("omxplayer --no-keys -o local Noises/forward.wav &");
+            if(playing != 1) {
+                stopSound();
+                system("omxplayer --no-keys -o local Noises/forward.wav &");
+                playing = 1;
+            }
             break;
         case 'B':  //backwards
-            system("omxplayer --no-keys -o local Noises/backwards.wav &");
+            if(playing != 2) {
+                stopSound();
+                system("omxplayer --no-keys -o local Noises/backwards.wav &");
+                playing = 2;
+            }
             break;
         case 'T':  //turn on spot
-            system("omxplayer --no-keys -o local Noises/turnonspot.wav &");
+            if(playing != 3) {
+                stopSound();
+                system("omxplayer --no-keys -o local Noises/turnonspot.wav &");
+                playing = 3;
+            }
             break;
         case 'S':  //see object
-            system("omxplayer --no-keys -o local Noises/seeobject.wav &");
+            if(playing != 4) {
+                stopSound();
+                system("omxplayer --no-keys -o local Noises/seeobject.wav &");
+                playing = 4;
+            }
             break;
         case 'D':  //dodge object
-            system("omxplayer --no-keys -o local Noises/dodge.wav &");
+            if(playing != 5) {
+                stopSound();
+                system("omxplayer --no-keys -o local Noises/dodge.wav &");
+                playing = 5;
+            }
             break;
         case 'C':  //crossroad
-            system("omxplayer --no-keys -o local Noises/crossroad.wav &");
+            if(playing != 6) {
+                stopSound();
+                system("omxplayer --no-keys -o local Noises/crossroad.wav &");
+                playing = 6;
+            }
             break;
-        /*case 'X':  //plan X, playing megalovania while charging at the object
-            system("omxplayer --no-keys -o local Noises/megalovania.wav &");
-            break;*/
+        // case 'X':  //plan X, playing megalovania while charging at the object
+        //     if(playing != 7) {
+        //         stopSound();
+        //         system("omxplayer --no-keys -o local Noises/megalovania.wav &");
+        //         playing = 7;
+        //     }
+        //     break;
     }
 }
 
