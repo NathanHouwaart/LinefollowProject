@@ -22,24 +22,19 @@ int getUltraSValue(uint8_t port, sensor_ultrasonic_t & data_struct, BrickPi3 & B
 }
 //need to make playing a parameter so it can be used and be the same in multiple functions
 void objectDetect(sensor_ultrasonic_t &data_struct, BrickPi3 & BP, int threshold) {
+    int playing = 0;
     while (true) {
         int distance = getUltraSValue(PORT_4, data_struct, BP);
         int motorSpeed = 180;
         MotorController(motorSpeed, motorSpeed, BP);
-
-        if(!playing){
-            playSound('F');
-            playing = true;
-        }
+        
+        playSound('F', playing);
 
         while (distance < (threshold +10)) {
 
             if(distance < threshold){
-                if(playing) {
-                    stopSound();
-                    playSound('S');
-                    playing = true;
-                }
+                playSound('S', playing);
+
                 if(distance > (threshold -1)) {
                     motorSpeed = 0;
                 } else {
