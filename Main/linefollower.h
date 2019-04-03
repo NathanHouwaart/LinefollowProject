@@ -77,8 +77,8 @@ void objectDetect(sensor_ultrasonic_t &data_struct, BrickPi3 & BP, int threshold
 bool colorsensorBlackLineDetect(sensor_color_t & Color1, BrickPi3 & BP);
 
 //sourceGridObjectDetect.cpp
-bool lookLeft(sensor_ultrasonic_t UltraSonic, BrickPi3 & BP)
-bool lookRight(sensor_ultrasonic_t UltraSonic, BrickPi3 & BP)
-bool lookForward(sensor_ultrasonic_t UltraSonic, BrickPi3 & BP)
+bool lookLeft(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP);
+bool lookRight(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP);
+bool lookForward(sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP);
 
 #endif //LinefollowProject_LINEFOLLOWER_H
