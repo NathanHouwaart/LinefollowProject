@@ -32,6 +32,7 @@ void driveLeft(BrickPi3 & BP);
 void driveRight(BrickPi3 & BP);
 void driveForward(BrickPi3 & BP);
 void crossroad(BrickPi3 & BP);
+void crossroad(BrickPi3 & BP, const char & direction_instruction);
 
 // sourceDodgeObject.cpp
 void drive_straight(int32_t to_drive, BrickPi3 & BP);
@@ -49,6 +50,15 @@ void freeRideLoop(BrickPi3 & BP);
 
 // sourceGridFollowLoop.cpp
 void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic1, vector<int> & min_max_reflection_value, vector<int> & default_values, BrickPi3 & BP);
+
+// sourceGridFollowFunctions.cpp
+uint64_t factorial(uint64_t n);
+unsigned int possibleRoutes(const unsigned int & grid_height, const unsigned int & grid_width);
+vector<char> fastestRoute(const unsigned int & grid_height, const unsigned int & grid_width, char & current_facing_position, BrickPi3 & BP);
+vector<vector<char>> gridSetup(const unsigned int & grid_height, const unsigned int & grid_width);
+void printGrid(const vector<vector<char>> & grid);
+char updateRobotPosition(vector<vector<char>> & grid, const char & driven_robot_direction, const char & current_facing_direction);
+void updateBarrier(vector<vector<char>> & grid, vector<int> barrier_coordinates);
 
 // sourceLineFollowLoop.cpp
 void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic1, vector<int> & min_max_reflection_value, vector<int> & default_values, BrickPi3 & BP);
