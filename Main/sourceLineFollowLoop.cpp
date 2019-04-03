@@ -30,7 +30,7 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
             defineDifferenceToAverage(data_struct);
         }
 
-        if (getUltraSValue(PORT_4, UltraSonic1, BP) > 10) {       // If the measured US distance is bigger than 10:
+        if (getUltraSValue(PORT_4, UltraSonic, BP) > 10) {       // If the measured US distance is bigger than 10:
             counter_object = 0;
             if (Color2.reflected_red < data_struct.avarage_min_max && main_sensor_measurment < data_struct.avarage_min_max) {
                 crossroad(BP);
