@@ -82,9 +82,9 @@ void megaCharge(int & playing, BrickPi3 & BP) {
     switch (choice) {
         case 'X':
             playSound('X', playing);
-            sleep(4);
+            usleep(4500 *1000);
             drive(1, 100, 360, BP);
-            sleep(16);
+            sleep(11);
             drive(DIRECTION_STOP, 0, 360, BP);
             break;
         case 'D':
