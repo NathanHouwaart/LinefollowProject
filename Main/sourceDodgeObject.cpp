@@ -29,16 +29,9 @@ void driveCurved(int32_t to_drive, BrickPi3 & BP) {
 void driveAround(BrickPi3 & BP) {
     driveOnSpot('R', BP);
     drive_straight(400,BP);
-    //MotorController(360, 360, BP);
-    //usleep(1000*1000);
     driveOnSpot('L', BP);
     drive_straight(1000,BP);
-    //driveCurved(300, BP);
-    //MotorController(360, 360, BP);
-    //usleep(3300*1000);
     driveOnSpot('L', BP);
     drive_straight(385,BP);
-    //MotorController(360, 360, BP);
-    //usleep(1100*1000);
     driveOnSpot('R', BP);
 }
