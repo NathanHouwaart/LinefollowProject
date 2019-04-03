@@ -29,6 +29,7 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
                 break;
             }else{
                 printGrid(grid);
+                facing_direction = updateRobotPosition(grid, fastest_route[i], facing_direction);
                 crossroad(BP, fastest_route[direction_index]);
             }
         } else {                                             // If no intersection was detected, follow the line
