@@ -52,6 +52,8 @@ int main() {
         case 'F':
             freeRideLoop(BP);
             break;
+        case 'O':
+            objectDetect(UltraSonic1, BP, 10);
         default:
             cout << "ERROR, wrong input" << endl;
             return -1;
