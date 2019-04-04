@@ -45,9 +45,6 @@ void crossroad(BrickPi3 & BP);
 // sourceDodgeObject.cpp
 void turnUS (float values_wheels, BrickPi3 & BP);
 
-void drive_straight(int32_t to_drive, BrickPi3 & BP);
-void driveCurved(int32_t to_drive, BrickPi3 & BP);
-void driveAround(BrickPi3 & BP);
 
 // sourceDriveRobot.cpp
 void speedLimiter(int & right, int & left, const int & maximum_speed);

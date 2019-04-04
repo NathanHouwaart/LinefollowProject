@@ -70,7 +70,7 @@ void drive(float direction_control, unsigned int speed_multiplier_percentage, un
         int motor_speed_R;
         //	cout << "direction_control: "<< direction_control << endl;
         if (direction_control >= 0){                                            // && direction_control <= 2){ ---kan ik als het goed is weglaten!---
-	    turnUS(direction_control,BP);
+	        turnUS(direction_control,BP);
             motor_speed_L = motor_speed * direction_control;                    // To steer, one engine has to provide more power than the other
             motor_speed_R = motor_speed * (2-direction_control);
         } else if (direction_control == -1) {                                   // Robot stops
