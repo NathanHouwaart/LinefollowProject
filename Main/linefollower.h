@@ -76,6 +76,11 @@ int getUltraSValue(uint8_t port, sensor_ultrasonic_t & data_struct, BrickPi3 & B
 void objectDetect(sensor_ultrasonic_t &data_struct, BrickPi3 & BP, int threshold);
 bool colorsensorBlackLineDetect(sensor_color_t & Color1, BrickPi3 & BP);
 
+//sourceSound.cpp
+void playSound(char selection, int & playing);
+void megaCharge(int & playing, BrickPi3 & BP);
+void stopSound();
+
 //sourceGridObjectDetect.cpp
 bool lookLeft(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP);
 bool lookRight(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP);
