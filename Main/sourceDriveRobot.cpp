@@ -70,13 +70,14 @@ void drive(float direction_control, unsigned int speed_multiplier_percentage, un
         int motor_speed_L;                                                      // Variables to save motor speed of both engines
         int motor_speed_R;
         bool sharp_corner = false;
+        float avarage_result = 0;
         size_t buffer_size = 30;
 
         if(buffer_sharp_corners.size() < buffer_size){
             buffer_sharp_corners.push_back(direction_control);
         } else{
             buffer_sharp_corners.push_back(direction_control);
-            float avarage_result = vectorAvarage(buffer_sharp_corners);
+            avarage_result = vectorAvarage(buffer_sharp_corners);
             sharp_corner = (avarage_result > 1.9 || avarage_result < 0.1);
         }
 
@@ -99,6 +100,10 @@ void drive(float direction_control, unsigned int speed_multiplier_percentage, un
         } else{
             cout << "The given value doesn't correspond to the given parameters of x=-2,-1 or 0=<x<=2." << endl;
         }
+        cout << "avarage_result: " << avarage_result << endl;
+        cout << "sharp_corner: " << sharp_corner << endl;
+        cout << "motor_speed_L: " << motor_speed_L << endl;
+        cout << "motor_speed_R: " << motor_speed_R << endl;
         MotorController(motor_speed_L, motor_speed_R, BP);
     }
 }
