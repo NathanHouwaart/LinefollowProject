@@ -10,6 +10,7 @@
 #include "linefollower.h"
 
 using namespace std;
+vector<float> buffer_sharp_corners ={};
 
 // TODO: --> turn sharp functie
 
@@ -68,11 +69,27 @@ void drive(float direction_control, unsigned int speed_multiplier_percentage, un
         int motor_speed = rotation_speed*(speed_multiplier_percentage/100.0);   // Calculates motor rotation speed
         int motor_speed_L;                                                      // Variables to save motor speed of both engines
         int motor_speed_R;
-        //	cout << "direction_control: "<< direction_control << endl;
+        bool sharp_corner = false;
+        size_t buffer_size = 30;
+
+        if(buffer_sharp_corners.size() < buffer_size){
+            buffer_sharp_corners.push_back(direction_control);
+        } else{
+            buffer_sharp_corners.push_back(direction_control);
+            float avarage_result = vectorAvarage(buffer_sharp_corners);
+            sharp_corner = (avarage_result > 1.9 || avarage_result < 0.1);
+        }
+
         if (direction_control >= 0){                                            // && direction_control <= 2){ ---kan ik als het goed is weglaten!---
 	        turnUS(direction_control,BP);
             motor_speed_L = motor_speed * direction_control;                    // To steer, one engine has to provide more power than the other
             motor_speed_R = motor_speed * (2-direction_control);
+
+            if(sharp_corner && direction_control < 1){
+                motor_speed_L = (motor_speed_R*-0.1);
+            } else if(sharp_corner && direction_control > 1){
+                motor_speed_R = (motor_speed_L*-0.1);
+            }
         } else if (direction_control == -1) {                                   // Robot stops
             motor_speed_L = 0;
             motor_speed_R = 0;
@@ -82,10 +99,8 @@ void drive(float direction_control, unsigned int speed_multiplier_percentage, un
         } else{
             cout << "The given value doesn't correspond to the given parameters of x=-2,-1 or 0=<x<=2." << endl;
         }
-        //cout << "speed_calculator: " << speed_calculator << " motor_speed: " << motor_speed << " motor L:" << motor_speed_L << " motor R: " << motor_speed_R << endl;
         MotorController(motor_speed_L, motor_speed_R, BP);
     }
-
 }
 
 void driveOnSpot(char turn_direction, BrickPi3 & BP){
