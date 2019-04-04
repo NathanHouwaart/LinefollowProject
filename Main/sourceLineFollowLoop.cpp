@@ -49,7 +49,6 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
                 //playSound('D', playing);
                 //driveAround(BP);
                 megaCharge(playing, BP);
-                break;
             }//Start driving around milk
         }
     }
