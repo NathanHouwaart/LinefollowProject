@@ -279,20 +279,23 @@ void whereToLook(vector<vector<char>> & grid, const char & look_direction, const
         case 'D':
             if(look_direction == 'F'){
                 lookForward(UltraSonic, BP);
-                if(UltraSonic.cm < 30){
+                if(UltraSonic.cm < 40){
                     updateBarrier(grid, position[0], position[1]+2);
+                    printGrid(grid);
                 }
             }else if(look_direction == 'L'){
                 lookLeft(UltraSonic, BP);
-                if(UltraSonic.cm < 30){
+                if(UltraSonic.cm < 40){
                     updateBarrier(grid, position[0]+2, position[1]);
+                    printGrid(grid);
                 }
             }else if(look_direction == 'R'){
                 lookRight(UltraSonic, BP);
-                if(UltraSonic.cm < 30){
+                if(UltraSonic.cm < 40){
                     updateBarrier(grid, position[0]-2, position[1]);
+                    printGrid(grid);
                 }
             }
+            break;
     }
-
 }
