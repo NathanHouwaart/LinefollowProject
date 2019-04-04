@@ -38,6 +38,8 @@ struct CalculatingErrorData{
 struct errorValues {
     int current_error;
     int last_error = 0;
+    int correction;
+    int counter = 0;
 };
 
 // sourceCrossroad.cpp

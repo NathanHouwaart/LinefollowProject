@@ -56,11 +56,14 @@ void pController(int error_value, BrickPi3 & BP) {
 }
 
 void dController(errorValues & error_values) {
-    //if (error_values.current_error < 50 && error_values.current_error > -50) {
+    if (error_values.counter == 30) {
         int Kd = 1;             // This is used as a time unit within the d_error calculation
-        int d_error = (error_values.current_error - error_values.last_error) / Kd;
-        int adjusted_error = error_values.current_error + d_error;
+        int d_error = (error_values.current_error - error_values.last_error) / Kd;      // this calculates the error
+        error_values.correction = d_error;
         error_values.last_error = error_values.current_error;
-        error_values.current_error = adjusted_error;    
-    //}  
+        error_values.counter = 0;
+    }
+    error_values.counter++;
+    error_values.current_error = error_values.current_error + error_values.correction;
+
 }
