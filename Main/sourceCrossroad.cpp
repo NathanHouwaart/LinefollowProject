@@ -24,7 +24,7 @@ void crossLine(BrickPi3 & BP, int32_t forward_degrees){
 
 void driveLeft(BrickPi3 & BP) {         //skip over line and turn left
 	crossLine(BP,240);
-	usleep(1000*400);
+	usleep(1000*5000);
 	driveOnSpot('L',BP);
 	crossLine(BP, 40);
 }
