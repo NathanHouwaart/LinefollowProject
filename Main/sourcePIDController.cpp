@@ -41,7 +41,7 @@ void pController(int error_value, BrickPi3 & BP) {
     } else {                                          // If the direction is 1 and the robot goes straight the power is 100
         power = 100;
     }
-    float limit = 50;
+    float limit = 10;
     // Here i reduce the scale of the power. Fist we have the range 0 to 100 and than you can change the range to 0 to limit to find the perfect speed
     power =fine_tune_value+(power-fine_tune_value)*(limit-fine_tune_value)/(100-fine_tune_value);
     // If the power/ speed is lower than 10 the speed will be 10 to prevend the robot form stalling
@@ -51,15 +51,15 @@ void pController(int error_value, BrickPi3 & BP) {
         power = 100;
     }
     power = 100-power;
-    drive(direction,power,360,BP); // We give the direction and the speed to the function drive
+    drive(direction,power,500,BP); // We give the direction and the speed to the function drive
 }
 
 void dController(errorValues & error_values) {
-    if (error_values.current_error < 50 && error_values.current_error > -50) {
+    //if (error_values.current_error < 50 && error_values.current_error > -50) {
         int Kd = 1;             // This is used as a time unit within the d_error calculation
         int d_error = (error_values.current_error - error_values.last_error) / Kd;
         int adjusted_error = error_values.current_error + d_error;
         error_values.last_error = error_values.current_error;
         error_values.current_error = adjusted_error;    
-    }  
+    //}  
 }

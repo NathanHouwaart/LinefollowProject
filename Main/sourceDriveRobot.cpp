@@ -1,3 +1,4 @@
+
 /*
 ---------------------------------------------------------------------------------------------
 -----Created by TICT-1C groep 1                                                         -----
@@ -43,7 +44,8 @@ void MotorController(int left, int right, BrickPi3 & BP) {
      */
     uint8_t motor_right = PORT_D;                       // Here we define the motor ports so we can talk to them
     uint8_t motor_left = PORT_A;
-    speedLimiter(right, left, MAX_MOTOR_SPEED);         // The values of the right and left motor are send to the limiter
+    speedLimiter(right, left, MAX_MOTOR_SPEED);
+		         // The values of the right and left motor are send to the limiter
     BP.set_motor_dps(motor_right, right);               // This starts the motors
     BP.set_motor_dps(motor_left, left);
 }
@@ -70,7 +72,7 @@ void drive(float direction_control, unsigned int speed_multiplier_percentage, un
         if (direction_control >= 0){                                            // && direction_control <= 2){ ---kan ik als het goed is weglaten!---
             motor_speed_L = motor_speed * direction_control;                    // To steer, one engine has to provide more power than the other
             motor_speed_R = motor_speed * (2-direction_control);
-        } else if (direction_control == -1) {                                   // Robot stops
+	} else if (direction_control == -1) {                                   // Robot stops
             motor_speed_L = 0;
             motor_speed_R = 0;
         } else if (direction_control == -2) {                                   // Robot will go backwards
