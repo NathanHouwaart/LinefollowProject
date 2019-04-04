@@ -31,6 +31,7 @@ void pController(int error_value, BrickPi3 & BP) {
 
     int from_range_min = 0;
     int to_range_min = 0;
+    int fine_tune_value = 0;
     unsigned int power = 100;                       // The default value of the variable power is 100
 //	cout << error_value << endl;
     float Kp = 0.01;                                           // This is the gain for the p controller. You can adust there for a better experience
