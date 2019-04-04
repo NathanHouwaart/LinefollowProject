@@ -38,8 +38,15 @@ struct CalculatingErrorData{
 struct errorValues {
     int current_error;
     int last_error = 0;
-    int correction;
     int counter = 0;
+    float Kd = 30.0;
+};
+
+struct PIDValues {
+    float p_control;
+    float d_control;
+    float power;
+    int max_speed = 400;
 };
 
 // sourceCrossroad.cpp
@@ -76,8 +83,9 @@ void defineDifferenceToAverage(CalculatingErrorData & data_struct);
 
 // sourcePIDController.cpp
 int defineError(int avarage_lowest_highest, int dist_lowest_avarage, int dist_highest_avarage, int current_measurment);
-void pController(int error_value, BrickPi3 & BP);
-void dController(errorValues & error_values);
+void pController(int error_value, PIDValues & pidValues);
+void dController(errorValues & error_values, PIDValues & pidValues);
+void pdControl(PIDValues & pidValues, BrickPi3 & BP);
 
 // sourceSensors.cpp
 int getUltraSValue(uint8_t port, sensor_ultrasonic_t & data_struct, BrickPi3 & BP);

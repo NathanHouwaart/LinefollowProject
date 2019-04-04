@@ -19,6 +19,7 @@ int counter_object = 0;
 
 void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP){
     errorValues errors;
+    PIDValues pidValues;
     while (true) {
         BP.get_sensor(PORT_1, Color1);                          // Read colorsensor1 and put data in struct Color1
         BP.get_sensor(PORT_3, Color2);
@@ -37,8 +38,9 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
                 crossroad(BP);
             } else {                                             // If no intersection was detected, follow the line
                 errors.current_error = defineError(data_struct.avarage_min_max, data_struct.difference_min_avarage, data_struct.difference_max_avarage, main_sensor_measurment);
-                dController(errors);
-                pController(errors.current_error, BP);
+                dController(errors, pidValues);
+                pController(errors.current_error, pidValues);
+                pdControl(pidValues, BP);
             }
         } else {                                                  // If an object was detected within X cm, execute this code
             drive(DIRECTION_STOP, 0, 360, BP); // Stop the car

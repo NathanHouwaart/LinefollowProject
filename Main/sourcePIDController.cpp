@@ -24,7 +24,7 @@ int defineError(int avarage_lowest_highest, int dist_lowest_avarage, int dist_hi
     return steering_error;
 }
 
-void pController(int error_value, BrickPi3 & BP) {
+void pController(int error_value, PIDValues & pidValues) {
     /* In this function we calculate the speed and the direction for the light sensor*/
     //TODO: --> wat is lijnwaarde precies? Is nu error_value, en dat is de error ten opzichte van de lijn tussen -100 en 100
     //TODO: -->
@@ -52,20 +52,21 @@ void pController(int error_value, BrickPi3 & BP) {
     } else if(power > 100){
         power = 100;
     }
-    power = 100-power;
-    drive(direction,power,300,BP); // We give the direction and the speed to the function drive
+    pidValues.power = 100-power;
+    pidValues.p_control = direction;
 }
 
-void dController(errorValues & error_values) {
-    if (error_values.counter == 30) {
-        int Kd = 1;             // This is used as a time unit within the d_error calculation
-        int d_error = (error_values.current_error - error_values.last_error) / Kd;      // this calculates the error
-        error_values.correction = d_error;
+void dController(errorValues & error_values, PIDValues & pidValues) {
+    if (error_values.counter == error_values.Kd) {
+        float d_error = (error_values.current_error - error_values.last_error) / error_values.Kd;      // this calculates the error
+        pidValues.d_control = d_error;
         error_values.last_error = error_values.current_error;
         error_values.counter = 0;
     }
     error_values.counter++;
-    error_values.current_error = error_values.current_error + error_values.correction;
-    cout << "current_error: " << error_values.current_error << endl;
+}
 
+void pdControl(PIDValues & pidValues, BrickPi3 & BP){
+    float final_control = pidValues.p_control + pidValues.d_control;
+    drive(final_control, 100, pidValues.max_speed, BP);
 }
