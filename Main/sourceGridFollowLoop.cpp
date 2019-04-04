@@ -18,7 +18,7 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
     cin >> facing_direction;
 
     vector<vector<char>> grid = gridSetup(height, width);
-    vector<char> fastest_route = fastestRoute(height, width, facing_direction, BP);
+    vector<char> fastest_route = fastestRoute(height, width);
 
     while (true) {
         BP.get_sensor(PORT_1, Color1);                          // Read colorsensor1 and put data in struct Color1
@@ -38,8 +38,9 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
                 break;
             }else{
                 printGrid(grid);
-                facing_direction = updateRobotPosition(grid, fastest_route[i], facing_direction);
-                crossroad(BP, fastest_route[direction_index]);
+                updateRobotPosition(grid, fastest_route[direction_index], fastest_route, direction_index);
+                char robot_direction = relativeDirection(facing_direction, fastest_route[direction_index]);
+                crossroad(BP, robot_direction);
             }
         } else {                                             // If no intersection was detected, follow the line
             int error_to_average = defineError(data_struct.avarage_min_max, data_struct.difference_min_avarage, data_struct.difference_max_avarage,

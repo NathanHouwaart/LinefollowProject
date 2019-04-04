@@ -61,13 +61,18 @@ void freeRideLoop(BrickPi3 & BP);
 void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP);
 
 // sourceGridFollowFunctions.cpp
+char relativeDirection(char & current_robot_orientation, const char & absolute_direction);
 uint64_t factorial(uint64_t n);
+void updateRoute(vector<char> & fastest_route, const unsigned int & index, const char & new_direction, const bool & redirect);
 unsigned int possibleRoutes(const unsigned int & grid_height, const unsigned int & grid_width);
-vector<char> fastestRoute(const unsigned int & grid_height, const unsigned int & grid_width, char & current_facing_position, BrickPi3 & BP);
+vector<char> fastestRoute(const unsigned int & grid_height, const unsigned int & grid_width);
 vector<vector<char>> gridSetup(const unsigned int & grid_height, const unsigned int & grid_width);
 void printGrid(const vector<vector<char>> & grid);
-char updateRobotPosition(vector<vector<char>> & grid, const char & driven_robot_direction, const char & current_facing_direction);
+void updateRobotPosition(vector<vector<char>> & grid, const char & robot_direction, vector<char> & fastest_route, const unsigned int & index);
 void updateBarrier(vector<vector<char>> & grid, vector<int> barrier_coordinates);
+bool lookLeft(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP);
+bool lookRight(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP);
+bool lookForward(sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP);
 
 // sourceLineFollowLoop.cpp
 void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP);
@@ -85,10 +90,5 @@ void pController(int error_value, BrickPi3 & BP);
 int getUltraSValue(uint8_t port, sensor_ultrasonic_t & data_struct, BrickPi3 & BP);
 void objectDetect(sensor_ultrasonic_t &data_struct, BrickPi3 & BP, int threshold);
 bool colorsensorBlackLineDetect(sensor_color_t & Color1, BrickPi3 & BP);
-
-//sourceGridObjectDetect.cpp
-bool lookLeft(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP);
-bool lookRight(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP);
-bool lookForward(sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP);
 
 #endif //LinefollowProject_LINEFOLLOWER_H
