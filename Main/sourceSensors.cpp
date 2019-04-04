@@ -14,6 +14,7 @@ using namespace std;
 
 int getUltraSValue(uint8_t port, sensor_ultrasonic_t & data_struct, BrickPi3 & BP) {
     //TODO: --> Word veranderd bij verandering in obstakel ontwijken.
+    //WARNING: DEZE FUNCTIE NIET VERANDEREN! (
     /*-----Function reads Ultrasonic Sensor (US) and returns measured distance in cm.
      * Since the US sensor is not completely accurate, there will be a correction of -1 cm-----*/
     BP.get_sensor(port, data_struct);                           //Getting sensordata and storing it in a given struct

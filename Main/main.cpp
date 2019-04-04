@@ -16,54 +16,45 @@ void exit_signal_handler(int signo);
 BrickPi3 BP;
 
 int main() {
-//    /*-----Setup exit handler and detect BrickPi-----*/
-//    signal(SIGINT, exit_signal_handler);                        // Register the exit function for Ctrl+C & cleanup
-//    BP.detect();                                                // Make sure that the BrickPi3 is communicating and that the firmware is compatible with the drivers.
-//
-//    /*-----Set sensor types-----*/
-//    BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_RED);      // Set port 1 to be read as a color sensor
-//    BP.set_sensor_type(PORT_3, SENSOR_TYPE_NXT_COLOR_RED);      // Set port 3 to be read as a color sensor
+    /*-----Setup exit handler and detect BrickPi-----*/
+    signal(SIGINT, exit_signal_handler);                        // Register the exit function for Ctrl+C & cleanup
+    BP.detect();                                                // Make sure that the BrickPi3 is communicating and that the firmware is compatible with the drivers.
+
+    /*-----Set sensor types-----*/
+    BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_RED);      // Set port 1 to be read as a color sensor
+    BP.set_sensor_type(PORT_3, SENSOR_TYPE_NXT_COLOR_RED);      // Set port 3 to be read as a color sensor
     BP.set_sensor_type(PORT_4, SENSOR_TYPE_NXT_ULTRASONIC);     // Set port 4 to be read as a ultrasonic sensor
-//
-//    /*-----Set data structs-----*/
-//    sensor_color_t Color1;                                      // Initialise struct for data storage color sensor 1
-//    sensor_color_t Color2;                                      // Initialise struct for data storage color sensor 2
+
+    /*-----Set data structs-----*/
+    sensor_color_t Color1;                                      // Initialise struct for data storage color sensor 1
+    sensor_color_t Color2;                                      // Initialise struct for data storage color sensor 2
     sensor_ultrasonic_t UltraSonic1;
-//
-//     if(!checkVoltage(BP)) return 0;                          // Checks whether battery has enough power
-//
-//    /*-----Calibrate min and max reflection values and determine lightvalue the robot wants to follow-----*/
-//    CalculatingErrorData struct_line_values;
-//    calibration(Color1, struct_line_values, BP);
-//    defineDifferenceToAverage(struct_line_values);
-//    sleep(1); //Waiting for sensors to see normally
-//	char modeselect;
-//	/*-----Follow the line untill the ultrasonic sensor measures something withing X cm-----*/
-//    // TODO: --> Fuctie maken die een keuze aanbied aan de gebruiker. (LINE/GRID/FREE) (char terug L/G/F)
-//    // TODO: --> Modus selecteren (3 soorten while loops)
-//    cout << "Select mode: (Line follow (L) / grid follow (G) / Free ride (F))" << endl;
-//    cin >> modeselect;
-//    switch (modeselect){
-//        case 'L':
-//            lineFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, BP);
-//            break;
-//        case 'G':
-//            gridFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, BP);
-//            break;
-//        case 'F':
-//            freeRideLoop(BP);
-//            break;
-//        default:
-//            cout << "ERROR, wrong input" << endl;
-//            return -1;
-//
-//    }
-    lookLeft(UltraSonic1, BP);
-    sleep(2);
-    lookRight(UltraSonic1, BP);
-    sleep(2);
-    BP.reset_all();
-    exit(-2);
+
+     if(!checkVoltage(BP)) return 0;                          // Checks whether battery has enough power
+
+    /*-----Calibrate min and max reflection values and determine lightvalue the robot wants to follow-----*/
+    CalculatingErrorData struct_line_values;
+    calibration(Color1, struct_line_values, BP);
+    defineDifferenceToAverage(struct_line_values);
+    sleep(1); //Waiting for sensors to see normally
+	char modeselect;
+	/*-----Follow the line untill the ultrasonic sensor measures something withing X cm-----*/
+    cout << "Select mode: (Line follow (L) / grid follow (G) / Free ride (F))" << endl;
+    cin >> modeselect;
+    switch (modeselect){
+        case 'L':
+            lineFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, BP);
+            break;
+        case 'G':
+            gridFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, BP);
+            break;
+        case 'F':
+            freeRideLoop(BP);
+            break;
+        default:
+            cout << "ERROR, wrong input" << endl;
+            return -1;
+   }
 }
 
 void exit_signal_handler(int signo) {
