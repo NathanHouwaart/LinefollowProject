@@ -44,7 +44,7 @@ void crossroad(BrickPi3 & BP);
 
 // sourceDodgeObject.cpp
 void turnUS (float values_wheels, BrickPi3 & BP);
-float vectorAvarage(const vector<float> & to_calculate)
+float vectorAvarage(const vector<float> & to_calculate);
 
 
 // sourceDriveRobot.cpp

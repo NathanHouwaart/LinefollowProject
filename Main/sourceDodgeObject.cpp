@@ -36,7 +36,7 @@ void turnUS (float values_wheels, BrickPi3 & BP){
 	int degrees_to_turn = 0;
 	uint8_t motor_middle = PORT_B; // Setting the motor to communicate
 
-	if(buffer_motor_values.size() < 100){
+	if(buffer_motor_values.size() < 300){
 		buffer_motor_values.push_back(values_wheels);
 	} else{
 		buffer_motor_values.push_back(values_wheels);
@@ -52,12 +52,12 @@ void turnUS (float values_wheels, BrickPi3 & BP){
 
 		degrees_to_turn = target_degrees_us - current_position_us;
 
-		cout << "avarage_of_vector: " << avarage_of_vector << endl;
-		cout << "current_position " << current_position_us << endl;
-		cout << "target_degrees_us " << target_degrees_us << endl;
-		cout << "Degrees_to_turn " << degrees_to_turn  << endl;
+//		cout << "avarage_of_vector: " << avarage_of_vector << endl;
+//		cout << "current_position " << current_position_us << endl;
+//		cout << "target_degrees_us " << target_degrees_us << endl;
+//		cout << "Degrees_to_turn " << degrees_to_turn  << endl;
 		current_position_us = target_degrees_us;
 		//BP.set_motor_limits(motor_middle, 100, 90); // Limit the motor so the gears can keep up
-		BP.set_motor_position_relative(motor_middle, target_degrees_us);
+		BP.set_motor_position_relative(motor_middle, degrees_to_turn);
 	}
 }
