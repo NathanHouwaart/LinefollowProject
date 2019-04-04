@@ -267,6 +267,7 @@ bool lookRight(sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP){
 }
 
 bool lookForward(sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP){
+    usleep(1000*400);    
     getUltraSValue(PORT_4, UltraSonic, BP); //Get value of USsensor and put it in a struct
     float afstand_in_centimeter = UltraSonic.cm; //Get the last struct value
     cout << "Waarde is: " << afstand_in_centimeter << endl; //Print the last struct value (last measurement)
@@ -279,19 +280,23 @@ void whereToLook(vector<vector<char>> & grid, const char & look_direction, const
         case 'D':
             if(look_direction == 'F'){
                 lookForward(UltraSonic, BP);
-                if(UltraSonic.cm < 40){
+                if(UltraSonic.cm < 30){
                     updateBarrier(grid, position[0], position[1]+2);
                     printGrid(grid);
-                }
+		    lookRight(UltraSonic, BP);
+		    if(UltraSonic.cm < 20){
+			updateBarrier(grid, position[0]+2, position[1]);
+                    }
+		}
             }else if(look_direction == 'L'){
                 lookLeft(UltraSonic, BP);
-                if(UltraSonic.cm < 40){
+                if(UltraSonic.cm < 20){
                     updateBarrier(grid, position[0]+2, position[1]);
                     printGrid(grid);
                 }
             }else if(look_direction == 'R'){
                 lookRight(UltraSonic, BP);
-                if(UltraSonic.cm < 40){
+                if(UltraSonic.cm < 20){
                     updateBarrier(grid, position[0]-2, position[1]);
                     printGrid(grid);
                 }
@@ -300,19 +305,19 @@ void whereToLook(vector<vector<char>> & grid, const char & look_direction, const
         case 'R':
             if(look_direction == 'R'){
                 lookForward(UltraSonic, BP);
-                if(UltraSonic.cm < 40){
+                if(UltraSonic.cm < 20){
                     updateBarrier(grid, position[0], position[1]+2);
                     printGrid(grid);
                 }
             }else if(look_direction == 'F'){
                 lookLeft(UltraSonic, BP);
-                if(UltraSonic.cm < 40){
+                if(UltraSonic.cm < 30){
                     updateBarrier(grid, position[0]+2, position[1]);
                     printGrid(grid);
                 }
             }else if(look_direction == 'L'){
                 lookRight(UltraSonic, BP);
-                if(UltraSonic.cm < 40){
+                if(UltraSonic.cm < 20){
                     updateBarrier(grid, position[0], position[1]-2);
                     printGrid(grid);
                 }
@@ -320,19 +325,19 @@ void whereToLook(vector<vector<char>> & grid, const char & look_direction, const
         case 'L':
             if(look_direction == 'L'){
                 lookForward(UltraSonic, BP);
-                if(UltraSonic.cm < 40){
+                if(UltraSonic.cm < 20){
                     updateBarrier(grid, position[0], position[1]+2);
                     printGrid(grid);
                 }
             }else if(look_direction == 'F'){
                 lookLeft(UltraSonic, BP);
-                if(UltraSonic.cm < 40){
+                if(UltraSonic.cm < 30){
                     updateBarrier(grid, position[0]-2, position[1]);
                     printGrid(grid);
                 }
             }else if(look_direction == 'R'){
                 lookRight(UltraSonic, BP);
-                if(UltraSonic.cm < 40){
+                if(UltraSonic.cm < 20){
                     updateBarrier(grid, position[0], position[1]-2);
                     printGrid(grid);
                 }
