@@ -67,12 +67,14 @@ void updateRoute(vector<char> & fastest_route, const unsigned int & index, const
 unsigned int possibleRoutes(const unsigned int & grid_height, const unsigned int & grid_width);
 vector<char> fastestRoute(const unsigned int & grid_height, const unsigned int & grid_width);
 vector<vector<char>> gridSetup(const unsigned int & grid_height, const unsigned int & grid_width);
-void printGrid(const vector<vector<char>> & grid);
-void updateRobotPosition(vector<vector<char>> & grid, const char & robot_direction, vector<char> & fastest_route, const unsigned int & index);
-void updateBarrier(vector<vector<char>> & grid, vector<int> barrier_coordinates);
+vector<size_t> printGridAndGetRobotPosition(const vector<vector<char>> & grid);
+void updateRobotPosition(vector<vector<char>> & grid, const size_t & x_coordinate, const size_t & y_coordinate, const char & robot_direction, vector<char> & fastest_route, const unsigned int & index);
+void updateBarrier(vector<vector<char>> & grid, const size_t & x_coordinate, const size_t & y_coordinate)
 bool lookLeft(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP);
 bool lookRight(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP);
 bool lookForward(sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP);
+void whereToLook(vector<vector<char>> & grid, const char & look_direction, const char & facing_direction,
+                 vector<size_t> position, sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP);
 
 // sourceLineFollowLoop.cpp
 void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP);

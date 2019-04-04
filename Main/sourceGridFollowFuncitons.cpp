@@ -235,9 +235,9 @@ void updateRobotPosition(vector<vector<char>> & grid, const size_t & x_coordinat
 }
 
 
-void updateBarrier(vector<vector<char>> & grid, vector<size_t> barrier_coordinates){
+void updateBarrier(vector<vector<char>> & grid, const size_t & x_coordinate, const size_t & y_coordinate){
     /* Function to add a barrier to a grid. This is used so the robot can calculate whether or not it can pass through a point */
-    grid[barrier_coordinates[1]][barrier_coordinates[0]] = '+';
+    grid[y_coordinate][x_coordinate] = '+';
 }
 
 bool lookLeft(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP){
@@ -262,7 +262,7 @@ bool lookRight(sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP){
     BP.set_motor_position_relative(motor_middle, draai*-1-10);// Turn the motor back to original position
 }
 
-bool lookForward(vector<vector<char>> & grid, sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP){
+bool lookForward(sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP){
     getUltraSValue(PORT_4, UltraSonic, BP); //Get value of USsensor and put it in a struct
     float afstand_in_centimeter = UltraSonic.cm; //Get the last struct value
     cout << "Waarde is: " << afstand_in_centimeter << endl; //Print the last struct value (last measurement)
@@ -276,17 +276,17 @@ void whereToLook(vector<vector<char>> & grid, const char & look_direction, const
             if(look_direction == 'F'){
                 lookForward(UltraSonic, BP);
                 if(UltraSonic.cm < 30){
-                    updateBarrier(grid, {position[0], position[1]+2});
+                    updateBarrier(grid, position[0], position[1]+2);
                 }
             }else if(look_direction == 'L'){
                 lookLeft(UltraSonic, BP);
                 if(UltraSonic.cm < 30){
-                    updateBarrier(grid, {position[0]+2, position[1]});
+                    updateBarrier(grid, position[0]+2, position[1]);
                 }
             }else if(look_direction == 'R'){
                 lookRight(UltraSonic, BP);
                 if(UltraSonic.cm < 30){
-                    updateBarrier(grid, {position[0]-2, position[1]});
+                    updateBarrier(grid, position[0]-2, position[1]);
                 }
             }
     }
