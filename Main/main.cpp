@@ -39,8 +39,6 @@ int main() {
     sleep(1); //Waiting for sensors to see normally
 	char modeselect;
 	/*-----Follow the line untill the ultrasonic sensor measures something withing X cm-----*/
-    // TODO: --> Fuctie maken die een keuze aanbied aan de gebruiker. (LINE/GRID/FREE) (char terug L/G/F)
-    // TODO: --> Modus selecteren (3 soorten while loops)
     cout << "Select mode: (Line follow (L) / grid follow (G) / Free ride (F))" << endl;
     cin >> modeselect;
     switch (modeselect){
@@ -56,8 +54,7 @@ int main() {
         default:
             cout << "ERROR, wrong input" << endl;
             return -1;
-
-    }
+   }
 }
 
 void exit_signal_handler(int signo) {
