@@ -168,7 +168,7 @@ vector<vector<char>> gridSetup(const unsigned int & grid_height, const unsigned 
     return grid;
 }
 
-void printGrid(const vector<vector<char>> & grid){
+vector<size_t> printGridAndGetRobotPosition(const vector<vector<char>> & grid){
     /* Debug print to see if grid is constructed correctly */
     for(int i = 0; i < grid.size(); i++) {
         for (int j = 0; j < grid[i].size(); j++) {
@@ -177,16 +177,8 @@ void printGrid(const vector<vector<char>> & grid){
         cout << endl;
     }
     cout << endl;
-}
-
-void updateRobotPosition(vector<vector<char>> & grid, const char & robot_direction, vector<char> & fastest_route, const unsigned int & index) {
-    /* Updates the grid vector accordingly to the movement of the robot. Expects three parameters:
-     * 1. The grid
-     * 2. The direction the robot has driven
-     * 3. the current facing direction of the robot. */
 
     size_t x_coordinate = 0, y_coordinate = 0;
-
     for (size_t i = 0; i < grid.size(); i++) {
         for (size_t j = 0; j < grid[i].size(); ++j) {
             if (grid[i][j] == 'R') {
@@ -195,6 +187,17 @@ void updateRobotPosition(vector<vector<char>> & grid, const char & robot_directi
             }
         }
     }
+
+    return {x_coordinate, y_coordinate};
+}
+
+void updateRobotPosition(vector<vector<char>> & grid, const size_t & x_coordinate, const size_t & y_coordinate,
+        const char & robot_direction, vector<char> & fastest_route, const unsigned int & index) {
+    /* Updates the grid vector accordingly to the movement of the robot. Expects three parameters:
+     * 1. The grid
+     * 2. The direction the robot has driven
+     * 3. the current facing direction of the robot. */
+
     switch (robot_direction){
         case 'D':
             if(grid[y_coordinate + 2][x_coordinate] == '+'){
@@ -232,7 +235,7 @@ void updateRobotPosition(vector<vector<char>> & grid, const char & robot_directi
 }
 
 
-void updateBarrier(vector<vector<char>> & grid, vector<int> barrier_coordinates){
+void updateBarrier(vector<vector<char>> & grid, vector<size_t> barrier_coordinates){
     /* Function to add a barrier to a grid. This is used so the robot can calculate whether or not it can pass through a point */
     grid[barrier_coordinates[1]][barrier_coordinates[0]] = '+';
 }
@@ -259,8 +262,33 @@ bool lookRight(sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP){
     BP.set_motor_position_relative(motor_middle, draai*-1-10);// Turn the motor back to original position
 }
 
-bool lookForward(sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP){
+bool lookForward(vector<vector<char>> & grid, sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP){
     getUltraSValue(PORT_4, UltraSonic, BP); //Get value of USsensor and put it in a struct
     float afstand_in_centimeter = UltraSonic.cm; //Get the last struct value
     cout << "Waarde is: " << afstand_in_centimeter << endl; //Print the last struct value (last measurement)
+}
+
+void whereToLook(vector<vector<char>> & grid, const char & look_direction, const char & facing_direction,
+        vector<size_t> position, sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP){
+
+    switch (facing_direction){
+        case 'D':
+            if(look_direction == 'F'){
+                lookForward(UltraSonic, BP);
+                if(UltraSonic.cm < 30){
+                    updateBarrier(grid, {position[0], position[1]+2});
+                }
+            }else if(look_direction == 'L'){
+                lookLeft(UltraSonic, BP);
+                if(UltraSonic.cm < 30){
+                    updateBarrier(grid, {position[0]+2, position[1]});
+                }
+            }else if(look_direction == 'R'){
+                lookRight(UltraSonic, BP);
+                if(UltraSonic.cm < 30){
+                    updateBarrier(grid, {position[0]-2, position[1]});
+                }
+            }
+    }
+
 }
