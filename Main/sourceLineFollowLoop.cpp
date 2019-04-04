@@ -44,7 +44,7 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
             if (counter_object % 1000 == 0) { cout << "Joe 1000 iets" << counter_object << endl; }
             if (counter_object >= 1500) {
                 cout << "Counter is groot genoeg" << endl;
-                driveAround(BP);
+                //driveAround(BP);
                 break;
             }//Start driving around milk
         }
