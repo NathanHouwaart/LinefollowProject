@@ -12,6 +12,8 @@
 using namespace std;
 vector<float> buffer_sharp_corners ={};
 bool sharp_corner = false;
+float avarage_result = 0;
+
 
 // TODO: --> turn sharp functie
 
@@ -26,16 +28,18 @@ void speedLimiter(int & right, int & left, const int & maximum_speed) {
         int difference_right = right - maximum_speed;    //Calculates difference
         right -= difference_right;                       //subtracs the difference from both motors.
         left -= difference_right;
-        if(left < 0){                                   //makes sure that the other motor doesn't go 0.
-            left = 0;
+        if(left < 0 && !sharp_corner){                                   //makes sure that the other motor doesn't go 0.
+        	left = 0;
+		cout << "In een 0!" << endl;
         }
     }
     if (left > maximum_speed) {
         int difference_left = left - maximum_speed;      //The same principles apply here as seen above.
         right -= difference_left;
         left -= difference_left;
-        if(right < 0){
-            right = 0;
+        if(right < 0 && !sharp_corner){
+        	right = 0;
+		cout << "In een 0!" << endl;
         }
     }
 }
@@ -70,15 +74,17 @@ void drive(float direction_control, unsigned int speed_multiplier_percentage, un
         int motor_speed = rotation_speed*(speed_multiplier_percentage/100.0);   // Calculates motor rotation speed
         int motor_speed_L;                                                      // Variables to save motor speed of both engines
         int motor_speed_R;
-        float avarage_result = 0;
-        size_t buffer_size = 30;
-
+        size_t buffer_size = 1;
+	float sharp_corner_white_aggression = -0.4;
+	float sharp_corner_black_aggression = -0.4;
+	cout << "direction_control: " << direction_control << endl;
         if(buffer_sharp_corners.size() < buffer_size){
             buffer_sharp_corners.push_back(direction_control);
         } else{
             buffer_sharp_corners.push_back(direction_control);
             avarage_result = vectorAvarage(buffer_sharp_corners);
-            sharp_corner = (avarage_result > 1.8 || avarage_result < 0.2);
+	    buffer_sharp_corners = {};
+            sharp_corner = (avarage_result > 1.9 || avarage_result < 0.35);
         }
 
         if (direction_control >= 0){                                            // && direction_control <= 2){ ---kan ik als het goed is weglaten!---
@@ -87,9 +93,9 @@ void drive(float direction_control, unsigned int speed_multiplier_percentage, un
             motor_speed_R = motor_speed * (2-direction_control);
 
             if(sharp_corner && direction_control < 1){
-                motor_speed_L = (motor_speed_R*-0.1);
+                motor_speed_L = (motor_speed_R*sharp_corner_black_aggression);
             } else if(sharp_corner && direction_control > 1){
-                motor_speed_R = (motor_speed_L*-0.1);
+                motor_speed_R = (motor_speed_L*sharp_corner_white_aggression);
             }
         } else if (direction_control == -1) {                                   // Robot stops
             motor_speed_L = 0;
@@ -100,10 +106,12 @@ void drive(float direction_control, unsigned int speed_multiplier_percentage, un
         } else{
             cout << "The given value doesn't correspond to the given parameters of x=-2,-1 or 0=<x<=2." << endl;
         }
-        cout << "avarage_result: " << avarage_result << endl;
-        cout << "sharp_corner: " << sharp_corner << endl;
-        cout << "motor_speed_L: " << motor_speed_L << endl;
-        cout << "motor_speed_R: " << motor_speed_R << endl;
+	if(sharp_corner){
+        	cout << "avarage_result: " << avarage_result << endl;
+        	cout << "sharp_corner: " << sharp_corner << endl;
+        	cout << "motor_speed_L: " << motor_speed_L << endl;
+        	cout << "motor_speed_R: " << motor_speed_R << endl;
+	}
         MotorController(motor_speed_L, motor_speed_R, BP);
     }
 }
