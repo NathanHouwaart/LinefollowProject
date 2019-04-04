@@ -297,5 +297,45 @@ void whereToLook(vector<vector<char>> & grid, const char & look_direction, const
                 }
             }
             break;
+        case 'R':
+            if(look_direction == 'R'){
+                lookForward(UltraSonic, BP);
+                if(UltraSonic.cm < 40){
+                    updateBarrier(grid, position[0], position[1]+2);
+                    printGrid(grid);
+                }
+            }else if(look_direction == 'F'){
+                lookLeft(UltraSonic, BP);
+                if(UltraSonic.cm < 40){
+                    updateBarrier(grid, position[0]+2, position[1]);
+                    printGrid(grid);
+                }
+            }else if(look_direction == 'L'){
+                lookRight(UltraSonic, BP);
+                if(UltraSonic.cm < 40){
+                    updateBarrier(grid, position[0], position[1]-2);
+                    printGrid(grid);
+                }
+            }
+        case 'L':
+            if(look_direction == 'L'){
+                lookForward(UltraSonic, BP);
+                if(UltraSonic.cm < 40){
+                    updateBarrier(grid, position[0], position[1]+2);
+                    printGrid(grid);
+                }
+            }else if(look_direction == 'F'){
+                lookLeft(UltraSonic, BP);
+                if(UltraSonic.cm < 40){
+                    updateBarrier(grid, position[0]-2, position[1]);
+                    printGrid(grid);
+                }
+            }else if(look_direction == 'R'){
+                lookRight(UltraSonic, BP);
+                if(UltraSonic.cm < 40){
+                    updateBarrier(grid, position[0], position[1]-2);
+                    printGrid(grid);
+                }
+            }
     }
 }
