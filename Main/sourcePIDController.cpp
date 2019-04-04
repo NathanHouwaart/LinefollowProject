@@ -66,5 +66,6 @@ void dController(errorValues & error_values) {
     }
     error_values.counter++;
     error_values.current_error = error_values.current_error + error_values.correction;
+    cout << "current_error: " << error_values.current_error << endl;
 
 }
