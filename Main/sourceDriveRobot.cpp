@@ -11,6 +11,7 @@
 
 using namespace std;
 vector<float> buffer_sharp_corners ={};
+bool sharp_corner = false;
 
 // TODO: --> turn sharp functie
 
@@ -69,7 +70,6 @@ void drive(float direction_control, unsigned int speed_multiplier_percentage, un
         int motor_speed = rotation_speed*(speed_multiplier_percentage/100.0);   // Calculates motor rotation speed
         int motor_speed_L;                                                      // Variables to save motor speed of both engines
         int motor_speed_R;
-        bool sharp_corner = false;
         float avarage_result = 0;
         size_t buffer_size = 30;
 
@@ -78,7 +78,7 @@ void drive(float direction_control, unsigned int speed_multiplier_percentage, un
         } else{
             buffer_sharp_corners.push_back(direction_control);
             avarage_result = vectorAvarage(buffer_sharp_corners);
-            sharp_corner = (avarage_result > 1.9 || avarage_result < 0.1);
+            sharp_corner = (avarage_result > 1.8 || avarage_result < 0.2);
         }
 
         if (direction_control >= 0){                                            // && direction_control <= 2){ ---kan ik als het goed is weglaten!---
