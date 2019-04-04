@@ -29,7 +29,8 @@ void pController(int error_value, BrickPi3 & BP) {
     //TODO: --> wat is lijnwaarde precies? Is nu error_value, en dat is de error ten opzichte van de lijn tussen -100 en 100
     //TODO: -->
 
-    int fine_tune_value = 0;
+    int from_range_min = 0;
+    int to_range_min = 0;
     unsigned int power = 100;                       // The default value of the variable power is 100
 //	cout << error_value << endl;
     float Kp = 0.01;                                           // This is the gain for the p controller. You can adust there for a better experience
@@ -41,9 +42,9 @@ void pController(int error_value, BrickPi3 & BP) {
     } else {                                          // If the direction is 1 and the robot goes straight the power is 100
         power = 100;
     }
-    float limit = 10;
+    float limit = 100;
     // Here i reduce the scale of the power. Fist we have the range 0 to 100 and than you can change the range to 0 to limit to find the perfect speed
-    power =fine_tune_value+(power-fine_tune_value)*(limit-fine_tune_value)/(100-fine_tune_value);
+    power = fine_tune_value+(power-from_range_min)*(limit-to_range_min)/(100-form_range_min);
     // If the power/ speed is lower than 10 the speed will be 10 to prevend the robot form stalling
     if (power < 10){
         power = 10;
@@ -51,7 +52,7 @@ void pController(int error_value, BrickPi3 & BP) {
         power = 100;
     }
     power = 100-power;
-    drive(direction,power,500,BP); // We give the direction and the speed to the function drive
+    drive(direction,power,300,BP); // We give the direction and the speed to the function drive
 }
 
 void dController(errorValues & error_values) {
