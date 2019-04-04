@@ -65,7 +65,7 @@ void drive(float direction_control, unsigned int speed_multiplier_percentage, un
     } else if(speed_multiplier_percentage < 0 || speed_multiplier_percentage > 100){
         cout << "Please give a speed_calculator between 0 and 100." << endl;
     } else{
-        turnUS(direction_control);
+        turnUS(direction_control,BP);
         int motor_speed = rotation_speed*(speed_multiplier_percentage/100.0);   // Calculates motor rotation speed
         int motor_speed_L;                                                      // Variables to save motor speed of both engines
         int motor_speed_R;
