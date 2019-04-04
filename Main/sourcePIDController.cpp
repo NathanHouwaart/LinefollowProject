@@ -32,7 +32,8 @@ void pController(int error_value, BrickPi3 & BP) {
     int fine_tune_value = 0;
     unsigned int power = 100;                       // The default value of the variable power is 100
 //	cout << error_value << endl;
-    float direction = (0.01 * error_value) + 1;     // Here we calcualte the direction between 0 and 2 for the function drive with the value you of the light sensor. With a P controller form the PID controller
+    float Kp = 0.01;                                           // This is the gain for the p controller. You can adust there for a better experience
+    float direction = (Kp * error_value) + 1;     // Here we calcualte the direction between 0 and 2 for the function drive with the value you of the light sensor. With a P controller form the PID controller
     if (direction > 1) {                            // If the direction is higher than 1 and the robot is going right we calcualte the speed, how shaper he turns how slower it goes
         power = (1 - (direction - 1)) * 100;
     } else if (direction < 1) {                       // Here does it the same for right but now it goes left
@@ -51,4 +52,14 @@ void pController(int error_value, BrickPi3 & BP) {
     }
     power = 100-power;
     drive(direction,power,360,BP); // We give the direction and the speed to the function drive
+}
+
+void dController(errorValues & error_values) {
+    if (error_values.current_error < 50 && error_values.current_error > -50) {
+        int Kd = 1;             // This is used as a time unit within the d_error calculation
+        int d_error = (error_values.current_error - error_values.last_error) / Kd;
+        int adjusted_error = error_values.current_error + d_error;
+        error_values.last_error = error_values.current_error;
+        error_values.current_error = adjusted_error;    
+    }  
 }
