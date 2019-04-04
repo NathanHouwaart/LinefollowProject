@@ -15,7 +15,7 @@ int current_position_us=0;
 // TODO: --> Lijn terugvinden na object & niet tegen het object aan rijden.
 
 
-void turnUS (float values_wheels){
+void turnUS (float values_wheels, BrickPi3 & BP){
 	//values_wheels een waarde tussen 0 & 2
 	int max_degrees_turned = 95;
 	int min_degrees_turned = -95;
