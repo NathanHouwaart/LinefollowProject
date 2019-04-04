@@ -168,7 +168,7 @@ vector<vector<char>> gridSetup(const unsigned int & grid_height, const unsigned 
     return grid;
 }
 
-vector<size_t> printGridAndGetRobotPosition(const vector<vector<char>> & grid){
+void printGrid(const vector<vector<char>> & grid){
     /* Debug print to see if grid is constructed correctly */
     for(int i = 0; i < grid.size(); i++) {
         for (int j = 0; j < grid[i].size(); j++) {
@@ -177,7 +177,9 @@ vector<size_t> printGridAndGetRobotPosition(const vector<vector<char>> & grid){
         cout << endl;
     }
     cout << endl;
+}
 
+vector<size_t> getRobotPosition(const vector<vector<char>> & grid){
     size_t x_coordinate = 0, y_coordinate = 0;
     for (size_t i = 0; i < grid.size(); i++) {
         for (size_t j = 0; j < grid[i].size(); ++j) {
@@ -191,12 +193,14 @@ vector<size_t> printGridAndGetRobotPosition(const vector<vector<char>> & grid){
     return {x_coordinate, y_coordinate};
 }
 
-void updateRobotPosition(vector<vector<char>> & grid, const size_t & x_coordinate, const size_t & y_coordinate,
-        const char & robot_direction, vector<char> & fastest_route, const unsigned int & index) {
+void updateRobotPosition(vector<vector<char>> & grid, const char & robot_direction, vector<char> & fastest_route, const unsigned int & index) {
     /* Updates the grid vector accordingly to the movement of the robot. Expects three parameters:
      * 1. The grid
      * 2. The direction the robot has driven
      * 3. the current facing direction of the robot. */
+    vector<size_t> robot_position = getRobotPosition(grid);
+    size_t y_coordinate = robot_position[1];
+    size_t x_coordinate = robot_position[0];
 
     switch (robot_direction){
         case 'D':

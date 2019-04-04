@@ -37,10 +37,11 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
             if(direction_index >= fastest_route.size()){
                 break;
             }else{
-                vector<size_t> position = printGridAndGetRobotPosition(grid);
-                char look_direction = relativeDirection(facing_direction, fastest_route[direction_index]);
-                whereToLook(grid, look_direction, facing_direction, position, UltraSonic, BP);
-                updateRobotPosition(grid, fastest_route[direction_index], position[0], position[1], fastest_route, direction_index);
+//                vector<size_t> position = getRobotPosition(grid);
+//                drive(DIRECTION_STOP, 0, 360, BP);
+//                char look_direction = relativeDirection(facing_direction, fastest_route[direction_index]);
+//                whereToLook(grid, look_direction, facing_direction, position, UltraSonic, BP);
+                updateRobotPosition(grid, fastest_route[direction_index], fastest_route, direction_index);
                 char robot_direction = relativeDirection(facing_direction, fastest_route[direction_index]);
                 crossroad(BP, robot_direction);
             }
