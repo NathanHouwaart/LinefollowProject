@@ -17,8 +17,8 @@ int current_position_us=0;
 
 void turnUS (float values_wheels, BrickPi3 & BP){
 	//values_wheels een waarde tussen 0 & 2
-	int max_degrees_turned = 95;
-	int min_degrees_turned = -95;
+	int max_degrees_turned = -95;
+	int min_degrees_turned = 95;
 	int target_degrees_us = 0;
 	int degrees_to_turn = 0;
 	uint8_t motor_middle = PORT_B; // Setting the motor to communicate
@@ -28,11 +28,15 @@ void turnUS (float values_wheels, BrickPi3 & BP){
 	} else if(values_wheels < 1){
 		target_degrees_us = min_degrees_turned * (1-values_wheels);
 	} else{
-		target_degrees_us = max_degrees_turned/values_wheels;
+		target_degrees_us = (max_degrees_turned * (values_wheels-1));
 	}
-
+	cout << "Value Wheels: " << values_wheels << endl;
+	cout << "current position " << current_position_us << endl;
+	cout << "target_degrees_us " << target_degrees_us << endl;
 	degrees_to_turn = target_degrees_us - current_position_us;
-	BP.set_motor_limits(motor_middle, 100, 90); // Limit the motor so the gears can keep up
+	cout << "Degrees to turn " << degrees_to_turn  << endl;
+	current_position_us = target_degrees_us;
+	//BP.set_motor_limits(motor_middle, 100, 90); // Limit the motor so the gears can keep up
 	BP.set_motor_position_relative(motor_middle, target_degrees_us);
 }
 

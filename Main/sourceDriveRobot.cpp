@@ -65,12 +65,12 @@ void drive(float direction_control, unsigned int speed_multiplier_percentage, un
     } else if(speed_multiplier_percentage < 0 || speed_multiplier_percentage > 100){
         cout << "Please give a speed_calculator between 0 and 100." << endl;
     } else{
-        turnUS(direction_control,BP);
         int motor_speed = rotation_speed*(speed_multiplier_percentage/100.0);   // Calculates motor rotation speed
         int motor_speed_L;                                                      // Variables to save motor speed of both engines
         int motor_speed_R;
         //	cout << "direction_control: "<< direction_control << endl;
         if (direction_control >= 0){                                            // && direction_control <= 2){ ---kan ik als het goed is weglaten!---
+	    turnUS(direction_control,BP);
             motor_speed_L = motor_speed * direction_control;                    // To steer, one engine has to provide more power than the other
             motor_speed_R = motor_speed * (2-direction_control);
         } else if (direction_control == -1) {                                   // Robot stops
