@@ -45,7 +45,7 @@ void pController(int error_value, BrickPi3 & BP) {
     }
     float limit = 100;
     // Here i reduce the scale of the power. Fist we have the range 0 to 100 and than you can change the range to 0 to limit to find the perfect speed
-    power = fine_tune_value+(power-from_range_min)*(limit-to_range_min)/(100-form_range_min);
+    power = fine_tune_value+(power-from_range_min)*(limit-to_range_min)/(100-from_range_min);
     // If the power/ speed is lower than 10 the speed will be 10 to prevend the robot form stalling
     if (power < 10){
         power = 10;
