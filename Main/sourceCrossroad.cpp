@@ -22,11 +22,13 @@ void crossLine(BrickPi3 & BP, int32_t forward_degrees){
 
 void driveLeft(BrickPi3 & BP) {         //skip over line and turn left
 	crossLine(BP,160);
+    playSound('T', playing);
 	driveOnSpot('L',BP);
 }
 
 void driveRight(BrickPi3 & BP) {        //skip over line and turn right
 	crossLine(BP,90);
+	playSound('T', playing);
 	driveOnSpot('R',BP);
 }
 
