@@ -57,17 +57,12 @@ void pController(float error_value, PIDValues & pidValues) {
 void dController(errorValues & error_values, PIDValues & pidValues) {
     if (error_values.counter == error_values.Kd) {                      // Wait a couple of measurements to calculate the D
         float d_error = (error_values.current_error - error_values.last_error) / error_values.Kd;      // this calculates the error
-        if (d_error > 100) {                    // To chatch any invaild values
-            d_error = 100;
-        } else if (d_error < -100) {
-            d_error = -100;
-        }
 
         cout << "last error: " << error_values.last_error << endl;
 	    cout << "current error: " << error_values.current_error << endl;
 	    cout << "Kd: " << error_values.Kd << endl;
 
-	    pidValues.d_control = (0.05 * d_error) + 0.5;                              // Put variable in a struct to use it in oter functions
+	    pidValues.d_control = (0.005 * d_error) + 0.5;                              // Put variable in a struct to use it in oter functions
         error_values.last_error = error_values.current_error;       // Define the last erre
         error_values.counter = 0;
     }
@@ -77,6 +72,11 @@ void dController(errorValues & error_values, PIDValues & pidValues) {
 void pdControl(PIDValues & pidValues, BrickPi3 & BP){
     /* In this function we combine the P and the D controller and pass it on to the drive function */
     float final_control = pidValues.p_control + pidValues.d_control;
+    if (final_control > 2) {                    // To chatch any invalid values and to keep controlling the motors even if the value is out of bounds
+        final_control = 2;
+    } else if (final_control < 0) {
+        final_control = 0
+    }
     cout << "p waarde: " << pidValues.p_control << endl;
     cout << "d waarde: " << pidValues.d_control << endl;
     cout << "stuurwaarde: " << final_control << endl;
