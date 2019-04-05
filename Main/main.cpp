@@ -44,7 +44,7 @@ int main() {
     CalculatingErrorData struct_line_values;
     calibration(Color1, struct_line_values, BP);
     defineDifferenceToAverage(struct_line_values);
-    setLcd('calibration', 'Done')    // wirting to the lcd Done
+    setLcd('calibration', 'Done');    // wirting to the lcd Done
     sleep(1); //Waiting for sensors to see normally
     ClrLcd();           // Clear the lcd
 	char modeselect;
@@ -65,7 +65,7 @@ int main() {
             freeRideLoop(BP);
             break;
         default:
-            setLcd('ERROR goodbye', 'Have a nice day')
+            setLcd('ERROR goodbye', 'Have a nice day');
             cout << "ERROR, wrong input" << endl;
             return -1;
    }
