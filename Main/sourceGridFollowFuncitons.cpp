@@ -346,6 +346,10 @@ void whereToLook(vector<vector<char>> & grid, const char & look_direction, const
                     updateBarrier(grid, position[0], position[1]+2);
                     printGrid(grid);
                 }
+		lookForward(UltraSonic, BP);
+		if(UltraSonic.cm < 20){
+		    updateBarrier(grid, position[0]+2, position[1]);
+		}
             }else if(look_direction == 'F'){
                 lookForward(UltraSonic, BP);
                 if(UltraSonic.cm < 20){
