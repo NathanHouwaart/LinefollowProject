@@ -58,7 +58,7 @@ float vectorAvarage(const vector<float> & to_calculate);
 // sourceDriveRobot.cpp
 void speedLimiter(int & right, int & left, const int & maximum_speed);
 void MotorController(int left, int right, BrickPi3 & BP);
-void drive(float direction_control, unsigned int speed_multiplier_percentage, unsigned int rotation_speed, BrickPi3 & BP);
+void drive(float direction_control, unsigned int speed_multiplier_percentage, unsigned int rotation_speed, SharpCornerSettings & SharpCorner ,BrickPi3 & BP);
 void driveOnSpot(char turn_direction, BrickPi3 & BP);
 
 // sourceFreeRideLoop.cpp
