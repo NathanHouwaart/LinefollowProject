@@ -41,7 +41,7 @@ void pController(float error_value, PIDValues & pidValues) {
     } else {                                          // If the direction is 1 and the robot goes straight the power is 100
         power = 100;
     }
-    float limit = 100;
+    float limit = 50;
     // Here i reduce the scale of the power. Fist we have the range 0 to 100 and than you can change the range to 0 to limit to find the perfect speed
     power = to_range_min+(power-from_range_min)*(limit-to_range_min)/(100-from_range_min);
     // If the power/ speed is lower than 10 the speed will be 10 to prevend the robot form stalling
