@@ -23,24 +23,42 @@ void freeRideLoop(BrickPi3 & BP){
             }
             cout << ".";
             cout.flush();
-            usleep(500000); // wacht 500 ms
+            usleep(200000); // wacht 500 ms
         }
         clientsock->close();
     }
 }
 
 void selectDirection(const string & input, BrickPi3 & BP, float & steer) {
+
     if (input == "UP") {
+        steer = 1;
         drive(1, 100, 360, BP);
     } else if (input == "DOWN") {
+        steer = 1;
         drive(-2, 100, 360, BP);
     } else if (input == "FIRE") {
         drive(-1, 100, 360, BP);
     } else if (input == "LEFT") {
-        steer -= 0.1;
+        steer -= 0.2;
+        if(steer <= 0){
+            steer = 0;
+        }
         drive(steer, 100, 360, BP);
     } else if (input == "RIGHT") {
-        steer += 0.1;
+        steer += 0.2;
+        if(steer <= 2){
+            steer = 2;
+        }
         drive(steer, 100, 360, BP);
+    } else {
+        int playing = 0;
+        if (input == "A") {
+            playSound('T', playing);
+        }else if (input == "B"){
+            playSound('X', playing);
+        }else if (input == "C"){
+            playSound('C', playing);
+        }
     }
 }
