@@ -51,7 +51,7 @@ void crossroad(BrickPi3 & BP, SharpCornerSettings & StructCorner) {
             break;
         default:
             cout << "Wrong input. Please try again";
-            crossroad(BP);
+            crossroad(BP,StructCorner);
     }
 }
 
