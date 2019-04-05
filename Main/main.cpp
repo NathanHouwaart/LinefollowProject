@@ -25,6 +25,14 @@ int main() {
     BP.set_sensor_type(PORT_3, SENSOR_TYPE_NXT_COLOR_RED);      // Set port 3 to be read as a color sensor
     BP.set_sensor_type(PORT_4, SENSOR_TYPE_NXT_ULTRASONIC);     // Set port 4 to be read as a ultrasonic sensor
 
+    /*-----Set the lcd pins and the start the lcd------*/
+    if (wiringPiSetup () == -1) {
+        cout << "wiringpisetup did not work" << endl << "return 1;" << endl;
+        return 1;
+    }
+    fd = wiringPiI2CSetup(I2C_ADDR);
+    lcd_init(); // setup LCD
+
     /*-----Set data structs-----*/
     sensor_color_t Color1;                                      // Initialise struct for data storage color sensor 1
     sensor_color_t Color2;                                      // Initialise struct for data storage color sensor 2
