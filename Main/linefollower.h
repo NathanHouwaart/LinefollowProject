@@ -53,7 +53,7 @@ void crossroad(BrickPi3 & BP, SharpCornerSettings & StructCorner);
 // sourceDodgeObject.cpp
 void turnUS (float values_wheels, BrickPi3 & BP);
 float vectorAvarage(const vector<float> & to_calculate);
-void objectDodge(sensor_ultrasonic_t UltraSonic1, BrickPi3 BP);
+void objectDodge(sensor_ultrasonic_t & UltraSonic1, BrickPi3 & BP);
 
 // sourceDriveRobot.cpp
 void speedLimiter(int & right, int & left, const int & maximum_speed);

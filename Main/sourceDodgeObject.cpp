@@ -62,7 +62,7 @@ void turnUS (float values_wheels, BrickPi3 & BP){
 	}
 }
 
-void objectDodge(sensor_ultrasonic_t UltraSonic1, BrickPi3 BP){
+void objectDodge(sensor_ultrasonic_t & UltraSonic1, BrickPi3 & BP){
 	int afstand_voorwerp_in_cm = 30;
 	getUltraSValue(PORT_4, UltraSonic1, BP);
 	int check_90_degrees = 0;
@@ -72,7 +72,7 @@ void objectDodge(sensor_ultrasonic_t UltraSonic1, BrickPi3 BP){
 		BP.set_motor_position_relative(PORT_D, wheel_right);
 		BP.set_motor_position_relative(PORT_B, ultra_sensor_motor);
 		getUltraSValue(PORT_4, UltraSonic1, BP);
-		check_90_degrees += wheel_left*-1;
+		check_90_degrees += wheel_left;
 		if(check_90_degrees >= 500){
 			wheel_left = 2, wheel_right = 2, ultra_sensor_motor = 0;
 		}
@@ -89,6 +89,7 @@ void objectDodge(sensor_ultrasonic_t UltraSonic1, BrickPi3 BP){
 		while (UltraSonic1.cm < actuele_stand) {
 			BP.set_motor_position_relative(PORT_A, wheel_left);
 			BP.set_motor_position_relative(PORT_D, wheel_right);
+			getUltraSValue(PORT_4, UltraSonic1, BP);
 		}
 	}
 
