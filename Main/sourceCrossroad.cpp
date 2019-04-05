@@ -37,25 +37,25 @@ void driveForward(BrickPi3 & BP) {      //skip over line
 void crossroad(BrickPi3 & BP) {
     drive(DIRECTION_STOP, 0, 360, BP); //stop the car
     cout << "Crossroad detected: Do you want to go LEFT(L)/RIGHT(R)/FORWARD(F)" << endl;
-    setLcd("Which way", "R, L, F");
+    setLcd('Which way', 'R, L, F');
     char choice;
     cin >> choice;
     switch (choice) {
         case 'L':
-            setLcd("going left" , "");
+            setLcd('going left' , '');
             driveLeft(BP);
             break;
         case 'R':
-            setLcd("going right" , "");
+            setLcd('going right' , '');
             driveRight(BP);
             break;
         case 'F':
-            setLcd("going forward" , "");
+            setLcd('going forward' , '');
             driveForward(BP);
             break;
         default:
             cout << "Wrong input. Please try again";
-            setLcd("Wring input" , "try again");
+            setLcd('Wrong input' , 'try again');
             delay(500)
             crossroad(BP);
     }
