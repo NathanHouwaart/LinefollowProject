@@ -19,31 +19,27 @@ void freeRideLoop(BrickPi3 & BP){
             input = mb.readMessage();  //blokkeert niet
             if(input != "") {
                 cout << endl << input << endl;
-                selectDirection(input, BP);
+                selectDirection(input, BP, steer);
             }
             cout << ".";
             cout.flush();
             usleep(500000); // wacht 500 ms
         }
-
         clientsock->close();
-
-
     }
 }
-}
 
-selectDirection(const string & input, BrickPi3 & BP, float & steer) {
+void selectDirection(const string & input, BrickPi3 & BP, float & steer) {
     if (input == "UP") {
         drive(1, 100, 360, BP);
-    } else if (input == 'DOWN') {
+    } else if (input == "DOWN") {
         drive(-2, 100, 360, BP);
-    } else if (input == 'FIRE') {
+    } else if (input == "FIRE") {
         drive(-1, 100, 360, BP);
-    } else if (input == 'LEFT') {
+    } else if (input == "LEFT") {
         steer -= 0.1;
         drive(steer, 100, 360, BP);
-    } else if (input == 'RIGHT') {
+    } else if (input == "RIGHT") {
         steer += 0.1;
         drive(steer, 100, 360, BP);
     }
