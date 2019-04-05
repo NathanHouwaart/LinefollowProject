@@ -19,7 +19,7 @@ int counter_object = 0;
 
 void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP){
     SharpCornerSettings StructSharpCorner;
-
+    int distance_to_object = 30;
     while (true) {
         BP.get_sensor(PORT_1, Color1);                          // Read colorsensor1 and put data in struct Color1
         BP.get_sensor(PORT_3, Color2);
@@ -31,8 +31,7 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
             data_struct.highest_measurment = main_sensor_measurment;
             defineDifferenceToAverage(data_struct);
         }
-
-        if (getUltraSValue(PORT_4, UltraSonic, BP) > 10) {       // If the measured US distance is bigger than 10:
+        if (getUltraSValue(PORT_4, UltraSonic, BP) > distance_to_object) {       // If the measured US distance is bigger than 10:
             counter_object = 0;
             if (Color2.reflected_red < data_struct.avarage_min_max && main_sensor_measurment < data_struct.avarage_min_max) {
                 crossroad(BP, StructSharpCorner);
@@ -41,7 +40,7 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
                 pController(error_to_avarage, BP, StructSharpCorner);
             }
         } else {                                                  // If an object was detected within X cm, execute this code
-            objectDodge(UltraSonic, BP);
+            objectDodge(UltraSonic, Color1, Color2, data_struct, distance_to_object, StructSharpCorner, BP);
         }
     }
 }

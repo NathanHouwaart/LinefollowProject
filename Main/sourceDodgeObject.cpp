@@ -61,7 +61,7 @@ void turnUS (float values_wheels, BrickPi3 & BP){
 		BP.set_motor_position_relative(motor_middle, degrees_to_turn);
 	}
 }
-
+/*
 void objectDodge(sensor_ultrasonic_t & UltraSonic1, BrickPi3 & BP){
 	int afstand_voorwerp_in_cm = 30;
 	getUltraSValue(PORT_4, UltraSonic1, BP);
@@ -93,4 +93,22 @@ void objectDodge(sensor_ultrasonic_t & UltraSonic1, BrickPi3 & BP){
 		}
 	}
 
+}
+*/
+
+void objectDodge(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sensor_color_t & Color2, CalculatingErrorData data_struct, int target_in_cm, SharpCornerSettings StructSharp, BrickPi3 & BP){
+	uint8_t motor_left = PORT_A;
+	uint8_t motor_right = PORT_D;
+	uint8_t motor_US = PORT_B;
+	float peer = 1;
+	while(Color2.reflected_red > data_struct.avarage_min_max && Color1.reflected_red > data_struct.avarage_min_max){
+		getUltraSValue(PORT_4, UltraSonic, BP);
+		if(UltraSonic.cm < target_in_cm){
+			peer -= 0.025;
+		}else{
+			peer += 0.025;
+		}
+		drive(peer, 100, 200, StructSharp, BP);
+	}
+	crossroad(BP, StructSharp);
 }
