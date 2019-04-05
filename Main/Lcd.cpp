@@ -43,7 +43,7 @@ int main()   {
     lcdLoc(LINE1);
     typeln("Using wiringPi");
     lcdLoc(LINE2);
-    typeln("Geany editor.");
+    typeln("LOLLLLLLLL.");
 
     delay(2000);
     ClrLcd();
@@ -55,9 +55,9 @@ int main()   {
     delay(2000);
     ClrLcd();
     lcdLoc(LINE1);
-    typeln("Arduino like");
+    typeln("Arduino");
     lcdLoc(LINE2);
-    typeln("fast and easy.");
+    typeln("Nope Pi3");
 
     delay(2000);
     ClrLcd();
