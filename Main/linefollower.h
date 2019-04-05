@@ -41,6 +41,7 @@ void driveLeft(BrickPi3 & BP);
 void driveRight(BrickPi3 & BP);
 void driveForward(BrickPi3 & BP);
 void crossroad(BrickPi3 & BP);
+void crossroad(BrickPi3 & BP, const char & direction_instruction);
 
 // sourceDodgeObject.cpp
 void drive_straight(int32_t to_drive, BrickPi3 & BP);
@@ -58,6 +59,24 @@ void freeRideLoop(BrickPi3 & BP);
 
 // sourceGridFollowLoop.cpp
 void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP);
+
+// sourceGridFollowFunctions.cpp
+char relativeDirection(const char & current_robot_orientation, const char & absolute_direction);
+void updateRobotOrientation(char & current_robot_orientation, const char & absolute_direction);
+uint64_t factorial(uint64_t n);
+void updateRoute(vector<char> & fastest_route, const unsigned int & index, const char & new_direction, const bool & redirect);
+unsigned int possibleRoutes(const unsigned int & grid_height, const unsigned int & grid_width);
+vector<char> fastestRoute(const unsigned int & grid_height, const unsigned int & grid_width);
+vector<vector<char>> gridSetup(const unsigned int & grid_height, const unsigned int & grid_width);
+void printGrid(const vector<vector<char>> & grid);
+vector<size_t> getRobotPosition(const vector<vector<char>> & grid);
+void updateRobotPosition(vector<vector<char>> & grid, const char & robot_direction, vector<char> & fastest_route, const unsigned int & index);
+void updateBarrier(vector<vector<char>> & grid, const size_t & x_coordinate, const size_t & y_coordinate);
+bool lookLeft(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP);
+bool lookRight(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP);
+bool lookForward(sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP);
+void whereToLook(vector<vector<char>> & grid, const char & look_direction, const char & facing_direction,
+                 vector<size_t> position, sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP);
 
 // sourceLineFollowLoop.cpp
 void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP);
