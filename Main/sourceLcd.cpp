@@ -3,9 +3,9 @@
 void setLcd(const char message1, const char message2) {
     ClrLcd();                           // clear lcd
     lcdLoc(LINE1);                      // set cursor on LINE1
-    typeln(*message1);              // Print Calibrating to the lcd
+    typeln(message1);              // Print Calibrating to the lcd
     lcdLoc(LINE2);
-    typeln(*message2);
+    typeln(message2);
 }
 
 void resetLcd() {
