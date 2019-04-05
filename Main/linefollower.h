@@ -11,12 +11,14 @@
 #define LinefollowProject_LINEFOLLOWER_H
 
 #include "BrickPi3.h" // for BrickPi3
+#include "BluetoothSocket.h"
 #include <iostream>      // for cout
 #include <unistd.h>     // for sleep
 #include <signal.h>     // for catching exit signals
 #include <iomanip>		// for setw and setprecision>
 #include <vector>
 #include <time.h>
+
 
 using namespace std;
 
