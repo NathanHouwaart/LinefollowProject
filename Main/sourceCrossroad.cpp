@@ -42,21 +42,21 @@ void crossroad(BrickPi3 & BP) {
     cin >> choice;
     switch (choice) {
         case 'L':
-            setLcd('going left' , '');
+            setLcd('going left' , ' ');
             driveLeft(BP);
             break;
         case 'R':
-            setLcd('going right' , '');
+            setLcd('going right' , ' ');
             driveRight(BP);
             break;
         case 'F':
-            setLcd('going forward' , '');
+            setLcd('going forward' , ' ');
             driveForward(BP);
             break;
         default:
             cout << "Wrong input. Please try again";
             setLcd('Wrong input' , 'try again');
-            delay(500)
+            delay(500);
             crossroad(BP);
     }
 }
