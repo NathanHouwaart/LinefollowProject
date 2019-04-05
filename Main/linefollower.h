@@ -37,9 +37,9 @@ struct CalculatingErrorData{
 
 struct SharpCornerSettings{
     float min_value_black = 0.36; //This value is the min. value needed by direction_control to be a sharp corner(black)
-    float min_value_white = 1.91;  //This value is the min. value needed by direction_control to be a sharp corner(white)
+    float min_value_white = 1.74;  //This value is the min. value needed by direction_control to be a sharp corner(white)
     float max_aggression_black = 0.8;
-    float max_aggression_white = 0.6;
+    float max_aggression_white = 1;
 };
 
 

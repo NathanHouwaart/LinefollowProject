@@ -1,9 +1,5 @@
-/*
----------------------------------------------------------------------------------------------
------Created by TICT-1C groep 1                                                         -----
------Lego mindstorms linefollower robot project                                         -----
------Contributors:                                                                      -----
------Jochem van Weelde, Stijn van Wijk, Wietse ten Dam, Kevin Patist & Nathan Houwaart  -----
+/* --------------------------------------------------------------------------------------------- -----Created by TICT-1C groep 1 ----- -----Lego mindstorms linefollower robot 
+project ----- -----Contributors: ----- -----Jochem van Weelde, Stijn van Wijk, Wietse ten Dam, Kevin Patist & Nathan Houwaart -----
  ---------------------------------------------------------------------------------------------
 */
 
@@ -16,7 +12,7 @@ float amount_of_aggression = 0;
 float sharp_corner_white_aggression = 0; //bepaald hoe hard het andere wiel achteruit gaat
 float sharp_corner_black_aggression = 0;
 
-
+ 
 // TODO: --> turn sharp functie
 
 void speedLimiter(int & right, int & left, const int & maximum_speed) {
@@ -75,7 +71,7 @@ void drive(float direction_control, unsigned int speed_multiplier_percentage, un
         int motor_speed = rotation_speed*(speed_multiplier_percentage/100.0);   // Calculates motor rotation speed
         int motor_speed_L;                                                      // Variables to save motor speed of both engines
         int motor_speed_R;
-        size_t buffer_size = 25;
+        size_t buffer_size = 3;
 
         if(buffer_amount_of_aggression.size() < buffer_size){
             buffer_amount_of_aggression.push_back(direction_control);
