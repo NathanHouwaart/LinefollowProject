@@ -10,7 +10,14 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
     unsigned int height;
     int direction_index = -1;
     char seperator, facing_direction;
-
+ /*   
+    cout << "Looking right" << endl;
+    lookRight(UltraSonic, BP);
+    usleep(1000*1000);
+    cout << "Looking Left" << endl;
+    lookLeft(UltraSonic, BP);
+    usleep(1000*1000);
+*/
     cout << "Welcome in GRID mode!" << endl;
     cout << "What is the height and with of the grid? Format 'H, W':\t";
     cin >> height >> seperator >> width;
@@ -19,6 +26,7 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
 
     vector<vector<char>> grid = gridSetup(height, width);
     vector<char> fastest_route = fastestRoute(height, width);
+
 
     while (true) {
         BP.get_sensor(PORT_1, Color1);                          // Read colorsensor1 and put data in struct Color1
@@ -60,4 +68,3 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
     cout << "Finished" << endl;
     BP.reset_all();
 }
-

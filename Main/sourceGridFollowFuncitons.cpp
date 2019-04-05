@@ -284,10 +284,11 @@ bool lookRight(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP){
     int32_t draai = 95; // The degrees needed to turn the USsensor with gears
     BP.set_motor_limits(PORT_B, 100, 90); // Limit the motor so the gears can keep up
     BP.set_motor_position_relative(motor_middle, draai*-1); // Turn  the motor -draai- degrees
-    sleep(1);
+    sleep(2);
     lookForward(UltraSonic, BP);
-    sleep(1);
+    sleep(2);
     BP.set_motor_position_relative(motor_middle, draai+10); // Turn the motor back to original position
+    sleep(2);
 }
 
 bool lookLeft(sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP){
@@ -295,10 +296,11 @@ bool lookLeft(sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP){
     int32_t draai = 95; // The degrees needed to turn the motor Right
     BP.set_motor_limits(PORT_B, 100, 90); // Limit the motor so the gears can keep up
     BP.set_motor_position_relative(motor_middle, draai);// Turn the motor -draai- degrees Right
-    sleep(1);
+    sleep(2);
     lookForward(UltraSonic, BP);
-    sleep(1);
+    sleep(2);
     BP.set_motor_position_relative(motor_middle, draai*-1-10);// Turn the motor back to original position
+    sleep(2);
 }
 
 bool lookForward(sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP){
