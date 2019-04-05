@@ -94,15 +94,15 @@ void driveOnSpot(char turn_direction, BrickPi3 & BP){
     uint8_t motor_right = PORT_D;
     uint8_t motor_left = PORT_A;
     int32_t turn_90_degrees = 250;
-    if(turn_direction != 'L' && turn_direction != 'R'){
+    if(turn_direction != 'L' && turn_direction != 'R'){                         // We control if the variable passd on is a L or R
         cout << "Nee ik wil een L of een R!" << endl;
-    }else if(turn_direction == 'L'){
+    }else if(turn_direction == 'L'){                                            // It turns left
         BP.set_motor_position_relative(motor_left,(-1*turn_90_degrees));
         BP.set_motor_position_relative(motor_right,turn_90_degrees);
-    }else{
+    }else{                                                                      // It turns right
         BP.set_motor_position_relative(motor_left,turn_90_degrees);
         BP.set_motor_position_relative(motor_right,(-1*turn_90_degrees));
     }
-    usleep(1000*800);
+    usleep(1000*800);                                                           // We wait long enought for the motor to end the turn
 }
 

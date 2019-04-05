@@ -57,19 +57,20 @@ void pController(float error_value, PIDValues & pidValues) {
 }
 
 void dController(errorValues & error_values, PIDValues & pidValues) {
-    if (error_values.counter == error_values.Kd) {
+    if (error_values.counter == error_values.Kd) {                      // Wait a couple of measurements to calculate the D
         float d_error = (error_values.current_error - error_values.last_error) / error_values.Kd;      // this calculates the error
         cout << "last error: " << error_values.last_error << endl;
-	cout << "current error: " << error_values.current_error << endl;
-	cout << "Kd: " << error_values.Kd << endl;
-	pidValues.d_control = d_error;
-        error_values.last_error = error_values.current_error;
+	    cout << "current error: " << error_values.current_error << endl;
+	    cout << "Kd: " << error_values.Kd << endl;
+	    pidValues.d_control = d_error;                              // Put variable in a struct to use it in oter functions
+        error_values.last_error = error_values.current_error;       // Define the last erre
         error_values.counter = 0;
     }
-    error_values.counter++;
+    error_values.counter++;                                         // Here we add 1 to the counter to keep track how many measurements has taken place
 }
 
 void pdControl(PIDValues & pidValues, BrickPi3 & BP){
+    /* In this function we combine the P and the D controller and pass it on to the drive function */
     float final_control = pidValues.p_control + pidValues.d_control;
     cout << "p waarde: " << pidValues.p_control << endl;
     cout << "d waarde: " << pidValues.d_control << endl;
