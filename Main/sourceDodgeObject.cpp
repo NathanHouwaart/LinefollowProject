@@ -61,3 +61,35 @@ void turnUS (float values_wheels, BrickPi3 & BP){
 		BP.set_motor_position_relative(motor_middle, degrees_to_turn);
 	}
 }
+
+void objectDodge(sensor_ultrasonic_t UltraSonic1, BrickPi3 BP){
+	int afstand_voorwerp_in_cm = 30;
+	getUltraSValue(PORT_4, UltraSonic1, BP);
+	int check_90_degrees = 0;
+	int32_t wheel_left = 2, wheel_right = 1, ultra_sensor_motor = -2;
+	while(UltraSonic1.cm < afstand_voorwerp_in_cm){
+		BP.set_motor_position_relative(PORT_A, wheel_left);
+		BP.set_motor_position_relative(PORT_D, wheel_right);
+		BP.set_motor_position_relative(PORT_B, ultra_sensor_motor);
+		getUltraSValue(PORT_4, UltraSonic1, BP);
+		check_90_degrees += wheel_left*-1;
+		if(check_90_degrees >= 500){
+			wheel_left = 2, wheel_right = 2, ultra_sensor_motor = 0;
+		}
+		cout << "Actuele meting: " << UltraSonic1.cm << endl;
+	}
+	cout << "Actuele meting: " << UltraSonic1.cm << endl;
+	for(int i = 0; i < 2; i++) {
+		wheel_left = 45, wheel_right = 90;
+		BP.set_motor_position_relative(PORT_A, wheel_left);
+		BP.set_motor_position_relative(PORT_D, wheel_right);
+		getUltraSValue(PORT_4, UltraSonic1, BP);
+		int actuele_stand = UltraSonic1.cm;
+		wheel_left = 1, wheel_right = 1;
+		while (UltraSonic1.cm < actuele_stand) {
+			BP.set_motor_position_relative(PORT_A, wheel_left);
+			BP.set_motor_position_relative(PORT_D, wheel_right);
+		}
+	}
+
+}
