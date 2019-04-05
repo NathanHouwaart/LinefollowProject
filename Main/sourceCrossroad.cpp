@@ -12,7 +12,6 @@
 using namespace std;
 
 void crossLine(BrickPi3 & BP, int32_t forward_degrees){
-//	cout << "Ik ben crossline" << endl;
 	uint8_t motor_right = PORT_D;
 	uint8_t motor_left = PORT_A;
 //	BP.set_motor_limits(PORT_D, 100, 90);
@@ -24,7 +23,7 @@ void crossLine(BrickPi3 & BP, int32_t forward_degrees){
 
 void driveLeft(BrickPi3 & BP) {         //skip over line and turn left
 	crossLine(BP,240);
-	usleep(1000*5000);
+	usleep(1000*400);
 	driveOnSpot('L',BP);
 	crossLine(BP, 40);
 }
