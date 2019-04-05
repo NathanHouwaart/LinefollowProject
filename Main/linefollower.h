@@ -61,7 +61,8 @@ void freeRideLoop(BrickPi3 & BP);
 void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP);
 
 // sourceGridFollowFunctions.cpp
-char relativeDirection(char & current_robot_orientation, const char & absolute_direction);
+char relativeDirection(const char & current_robot_orientation, const char & absolute_direction);
+void updateRobotOrientation(char & current_robot_orientation, const char & absolute_direction);
 uint64_t factorial(uint64_t n);
 void updateRoute(vector<char> & fastest_route, const unsigned int & index, const char & new_direction, const bool & redirect);
 unsigned int possibleRoutes(const unsigned int & grid_height, const unsigned int & grid_width);

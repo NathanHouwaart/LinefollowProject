@@ -7,7 +7,7 @@
 
 using namespace std;
 
-char relativeDirection(char & current_robot_orientation, const char & absolute_direction){
+char relativeDirection(const char & current_robot_orientation, const char & absolute_direction){
     /* This function translates the absolute directions given to relative directions the robot can follow */
 
     if(current_robot_orientation == absolute_direction){                //  If the facing direction is the same as the direction the robot needs to drive in:
@@ -16,50 +16,85 @@ char relativeDirection(char & current_robot_orientation, const char & absolute_d
         switch (current_robot_orientation){
             case 'D':                                                   // If robot is oriented DOWN:
                 if(absolute_direction =='R'){                               // If robot needs to go to the right:
-                    current_robot_orientation = absolute_direction;             // Orientation changes to right
                     return 'L';                                                 // Robot needs to turn left
                 }else if(absolute_direction == 'U'){                        // If robot needs to go up
-                    current_robot_orientation = absolute_direction;             // Orientation changes to up
                     return 'B';                                                 // Robot needs to turn around and go backwards
                 }else if(absolute_direction == 'L') {                       // If robot needs to go to the left
-                    current_robot_orientation = absolute_direction;             // Orientation changes to left
                     return 'R';                                                 // Robot needs to turn right
                 }
                 break;
             case 'R':                                                   // If robot is orientated RIGHT
                 if(absolute_direction =='U'){                               // If robot needs to go up
-                    current_robot_orientation = absolute_direction;             // Orientation changes to up
                     return 'L';                                                 // Robot needs to turn left
                 }else if(absolute_direction == 'L'){                        // If robot needs to go to the Left
-                    current_robot_orientation = absolute_direction;             // Orientation changes to left
                     return 'B';                                                 // Robot needs to turn around and go backwards
                 }else if(absolute_direction == 'D') {                       // If robot needs to go down
-                    current_robot_orientation = absolute_direction;             // Orientation changes to down
                     return 'R';                                                 // Robot needs to turn right
                 }
                 break;
             case 'U':                                                   // If robot is oriented UP
                 if(absolute_direction =='L'){                               // If robot needs to go to the Left
-                    current_robot_orientation = absolute_direction;             // Orientation changes to left
                     return 'L';                                                 // Robot needs to turn left
                 }else if(absolute_direction == 'R'){                        // If robot needs to go to the right:
-                    current_robot_orientation = absolute_direction;             // Orientation changes to right
                     return 'R';                                                 // Robot needs to turn right
                 }else if(absolute_direction == 'D') {                       // If robot needs to go down
-                    current_robot_orientation = absolute_direction;             // Orientation changes to down
                     return 'B';                                                 // Robot needs to turn around and go backwards
                 }
                 break;
             case 'L':                                                   // If robot is oriented LEFT
                 if(absolute_direction =='U'){                               // If robot needs to go up
-                    current_robot_orientation = absolute_direction;             // Orientation changes to up
                     return 'R';                                                 // Robot needs to turn right
                 }else if(absolute_direction == 'R'){                        // If robot needs to go to the right:
-                    current_robot_orientation = absolute_direction;             // Orientation changes to right
                     return 'B';                                                 // Robot needs to turn around and go backwards
                 }else if(absolute_direction == 'D') {                       // If robot needs to go down
-                    current_robot_orientation = absolute_direction;             // Orientation changes to down
                     return 'L';                                                 // Robot needs to turn left
+                }
+                break;
+        }
+    }
+}
+
+void updateRobotOrientation(char & current_robot_orientation, const char & absolute_direction){
+    /* This function translates the absolute directions given to relative directions the robot can follow */
+
+    if(current_robot_orientation == absolute_direction){                //  If the facing direction is the same as the direction the robot needs to drive in:
+        return;
+    }else{
+        switch (current_robot_orientation){
+            case 'D':                                                   // If robot is oriented DOWN:
+                if(absolute_direction =='R'){                               // If robot needs to go to the right:
+                    current_robot_orientation = absolute_direction;             // Orientation changes to right
+                }else if(absolute_direction == 'U'){                        // If robot needs to go up
+                    current_robot_orientation = absolute_direction;             // Orientation changes to up
+                }else if(absolute_direction == 'L') {                       // If robot needs to go to the left
+                    current_robot_orientation = absolute_direction;             // Orientation changes to left
+                }
+                break;
+            case 'R':                                                   // If robot is orientated RIGHT
+                if(absolute_direction =='U'){                               // If robot needs to go up
+                    current_robot_orientation = absolute_direction;             // Orientation changes to up
+                }else if(absolute_direction == 'L'){                        // If robot needs to go to the Left
+                    current_robot_orientation = absolute_direction;             // Orientation changes to left
+                }else if(absolute_direction == 'D') {                       // If robot needs to go down
+                    current_robot_orientation = absolute_direction;             // Orientation changes to down
+                }
+                break;
+            case 'U':                                                   // If robot is oriented UP
+                if(absolute_direction =='L'){                               // If robot needs to go to the Left
+                    current_robot_orientation = absolute_direction;             // Orientation changes to left
+                }else if(absolute_direction == 'R'){                        // If robot needs to go to the right:
+                    current_robot_orientation = absolute_direction;             // Orientation changes to right
+                }else if(absolute_direction == 'D') {                       // If robot needs to go down
+                    current_robot_orientation = absolute_direction;             // Orientation changes to down
+                }
+                break;
+            case 'L':                                                   // If robot is oriented LEFT
+                if(absolute_direction =='U'){                               // If robot needs to go up
+                    current_robot_orientation = absolute_direction;             // Orientation changes to up
+                }else if(absolute_direction == 'R'){                        // If robot needs to go to the right:
+                    current_robot_orientation = absolute_direction;             // Orientation changes to right
+                }else if(absolute_direction == 'D') {                       // If robot needs to go down
+                    current_robot_orientation = absolute_direction;             // Orientation changes to down
                 }
                 break;
         }
@@ -244,9 +279,9 @@ void updateBarrier(vector<vector<char>> & grid, const size_t & x_coordinate, con
     grid[y_coordinate][x_coordinate] = '+';
 }
 
-bool lookLeft(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP){
+bool lookRight(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP){
     uint8_t motor_middle = PORT_B; //Setting the motor to communicate
-    int32_t draai = 130; // The degrees needed to turn the USsensor with gears
+    int32_t draai = 95; // The degrees needed to turn the USsensor with gears
     BP.set_motor_limits(PORT_B, 100, 90); // Limit the motor so the gears can keep up
     BP.set_motor_position_relative(motor_middle, draai*-1); // Turn  the motor -draai- degrees
     sleep(1);
@@ -255,9 +290,9 @@ bool lookLeft(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP){
     BP.set_motor_position_relative(motor_middle, draai+10); // Turn the motor back to original position
 }
 
-bool lookRight(sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP){
+bool lookLeft(sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP){
     uint8_t motor_middle = PORT_B; // Setting the motor to communicate
-    int32_t draai = 110; // The degrees needed to turn the motor Right
+    int32_t draai = 95; // The degrees needed to turn the motor Right
     BP.set_motor_limits(PORT_B, 100, 90); // Limit the motor so the gears can keep up
     BP.set_motor_position_relative(motor_middle, draai);// Turn the motor -draai- degrees Right
     sleep(1);
@@ -278,20 +313,20 @@ void whereToLook(vector<vector<char>> & grid, const char & look_direction, const
 
     switch (facing_direction){
         case 'D':
-            if(look_direction == 'F'){
+            if(look_direction == 'F') {
                 lookForward(UltraSonic, BP);
-                if(UltraSonic.cm < 30){
-                    updateBarrier(grid, position[0], position[1]+2);
+                if (UltraSonic.cm < 30) {
+                    updateBarrier(grid, position[0], position[1] + 2);
                     printGrid(grid);
-                    lookRight(UltraSonic, BP);
-                    if(UltraSonic.cm < 20){
-                    updateBarrier(grid, position[0]+2, position[1]);
+                    lookLeft(UltraSonic, BP);
+                    if (UltraSonic.cm < 20) {
+                        updateBarrier(grid, position[0] + 2, position[1]);
                     }
-		        }
-            }else if(look_direction == 'L'){
+                }
+            }else if(look_direction == 'L') {
                 lookLeft(UltraSonic, BP);
-                if(UltraSonic.cm < 20){
-                    updateBarrier(grid, position[0]+2, position[1]);
+                if (UltraSonic.cm < 20) {
+                    updateBarrier(grid, position[0] + 2, position[1]);
                     printGrid(grid);
                 }
             }else if(look_direction == 'R'){
@@ -304,19 +339,19 @@ void whereToLook(vector<vector<char>> & grid, const char & look_direction, const
             break;
         case 'R':
             if(look_direction == 'R'){
-                lookForward(UltraSonic, BP);
+                lookRight(UltraSonic, BP);
                 if(UltraSonic.cm < 20){
                     updateBarrier(grid, position[0], position[1]+2);
                     printGrid(grid);
                 }
             }else if(look_direction == 'F'){
-                lookLeft(UltraSonic, BP);
+                lookForward(UltraSonic, BP);
                 if(UltraSonic.cm < 30){
                     updateBarrier(grid, position[0]+2, position[1]);
                     printGrid(grid);
                 }
             }else if(look_direction == 'L'){
-                lookRight(UltraSonic, BP);
+                lookLeft(UltraSonic, BP);
                 if(UltraSonic.cm < 20){
                     updateBarrier(grid, position[0], position[1]-2);
                     printGrid(grid);
@@ -324,13 +359,13 @@ void whereToLook(vector<vector<char>> & grid, const char & look_direction, const
             }
         case 'L':
             if(look_direction == 'L'){
-                lookForward(UltraSonic, BP);
+                lookLeft(UltraSonic, BP);
                 if(UltraSonic.cm < 20){
                     updateBarrier(grid, position[0], position[1]+2);
                     printGrid(grid);
                 }
             }else if(look_direction == 'F'){
-                lookLeft(UltraSonic, BP);
+                lookForward(UltraSonic, BP);
                 if(UltraSonic.cm < 30){
                     updateBarrier(grid, position[0]-2, position[1]);
                     printGrid(grid);

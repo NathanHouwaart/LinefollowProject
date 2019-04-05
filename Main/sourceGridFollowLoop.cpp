@@ -46,13 +46,10 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
                 whereToLook(grid, look_direction, facing_direction, position, UltraSonic, BP);
                 printGrid(grid);
 
-                for(int i = 0; i< fastest_route.size(); i++){
-                    cout << fastest_route[i] << " ";
-                }cout << endl;
-
                 updateRobotPosition(grid, fastest_route[direction_index], fastest_route, direction_index);
-                char robot_direction = relativeDirection(facing_direction, fastest_route[direction_index]);
-                crossroad(BP, robot_direction);
+                char robot_instruction = relativeDirection(facing_direction, fastest_route[direction_index]);
+                updateRobotOrientation(facing_direction, fastest_route[direction_index]);
+                crossroad(BP, robot_instruction);
             }
         } else {                                             // If no intersection was detected, follow the line
             int error_to_average = defineError(data_struct.avarage_min_max, data_struct.difference_min_avarage, data_struct.difference_max_avarage,
