@@ -48,7 +48,7 @@ void crossLine(BrickPi3 & BP, int32_t forward_degrees);
 void driveLeft(BrickPi3 & BP);
 void driveRight(BrickPi3 & BP);
 void driveForward(BrickPi3 & BP);
-void crossroad(BrickPi3 & BP);
+void crossroad(BrickPi3 & BP, SharpCornerSettings & StructCorner);
 
 // sourceDodgeObject.cpp
 void turnUS (float values_wheels, BrickPi3 & BP);
