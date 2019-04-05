@@ -36,8 +36,8 @@ struct CalculatingErrorData{
 };
 
 struct errorValues {
-    float current_error;
-    float last_error = 0;
+    float current_error = 0.0;
+    float last_error = 0.0;
     int counter = 0;
     float Kd = 10.0;
 };
