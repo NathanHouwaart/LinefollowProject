@@ -346,10 +346,10 @@ void whereToLook(vector<vector<char>> & grid, const char & look_direction, const
                     updateBarrier(grid, position[0], position[1]+2);
                     printGrid(grid);
                 }
-		lookForward(UltraSonic, BP);
-		if(UltraSonic.cm < 20){
-		    updateBarrier(grid, position[0]+2, position[1]);
-		}
+                lookForward(UltraSonic, BP);
+                if(UltraSonic.cm < 20){
+                    updateBarrier(grid, position[0]+2, position[1]);
+                }
             }else if(look_direction == 'F'){
                 lookForward(UltraSonic, BP);
                 if(UltraSonic.cm < 20){
@@ -384,6 +384,27 @@ void whereToLook(vector<vector<char>> & grid, const char & look_direction, const
                     printGrid(grid);
                 }
             }
-	    break;
+	        break;
+        case 'U':
+            if(look_direction == 'L'){
+                lookLeft(UltraSonic, BP);
+                if(UltraSonic.cm < 20){
+                    updateBarrier(grid, position[0]-2, position[1]);
+                    printGrid(grid);
+                }
+            }else if(look_direction == 'F'){
+                lookForward(UltraSonic, BP);
+                if(UltraSonic.cm < 30){
+                    updateBarrier(grid, position[0], position[1]+2);
+                    printGrid(grid);
+                }
+            }else if(look_direction == 'R'){
+                lookRight(UltraSonic, BP);
+                if(UltraSonic.cm < 20){
+                    updateBarrier(grid, position[0]+2, position[1]);
+                    printGrid(grid);
+                }
+            }
+            break;
     }
 }
