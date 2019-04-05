@@ -1,2 +1,5 @@
-testmake: main.cpp source.cpp BrickPi3.cpp
-    g++ -o testmake testmake main.cpp source.cpp BrickPi3.cpp
+CXX=g++
+OBJ = BrickPi3.o main.o sourceCrossroad.o sourceDodgeObject.o sourceDriveRobot.o sourceFreeRideLoop.o sourceGridFollowLoop.o sourceLineFollowLoop.o sourceMainFunctions.o sourcePIDController.o sourceSensors.o sourceSound.o
+
+testbuild: $(OBJ)
+	$(CXX) -o $@ $^
