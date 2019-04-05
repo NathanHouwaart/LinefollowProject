@@ -32,8 +32,8 @@ void pController(float error_value, PIDValues & pidValues) {
     int from_range_min = 0;
     int to_range_min = 0;
     unsigned int power = 100;                       // The default value of the variable power is 100
-    float Kp = 0.01;                                           // This is the gain for the p controller. You can adust there for a better experience
-    float direction = (Kp * error_value) + 1.0;     // Here we calcualte the direction between 0 and 2 for the function drive with the value you of the light sensor. With a P controller form the PID controller
+    float Kp = 0.005;                                           // This is the gain for the p controller. You can adust there for a better experience
+    float direction = (Kp * error_value) + 0.5;     // Here we calcualte the direction between 0 and 2 for the function drive with the value you of the light sensor. With a P controller form the PID controller
     if (direction > 1) {                            // If the direction is higher than 1 and the robot is going right we calcualte the speed, how shaper he turns how slower it goes
         power = (1 - (direction - 1)) * 100;
     } else if (direction < 1) {                       // Here does it the same for right but now it goes left
@@ -57,10 +57,17 @@ void pController(float error_value, PIDValues & pidValues) {
 void dController(errorValues & error_values, PIDValues & pidValues) {
     if (error_values.counter == error_values.Kd) {                      // Wait a couple of measurements to calculate the D
         float d_error = (error_values.current_error - error_values.last_error) / error_values.Kd;      // this calculates the error
+        if (d_error > 100) {                    // To chatch any invaild values
+            d_error = 100;
+        } else if (d_error < -100) {
+            d_error = -100;
+        }
+
         cout << "last error: " << error_values.last_error << endl;
 	    cout << "current error: " << error_values.current_error << endl;
 	    cout << "Kd: " << error_values.Kd << endl;
-	    pidValues.d_control = d_error;                              // Put variable in a struct to use it in oter functions
+
+	    pidValues.d_control = (0.05 * d_error) + 0.5;                              // Put variable in a struct to use it in oter functions
         error_values.last_error = error_values.current_error;       // Define the last erre
         error_values.counter = 0;
     }
