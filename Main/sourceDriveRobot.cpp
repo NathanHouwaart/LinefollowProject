@@ -10,9 +10,11 @@
 #include "linefollower.h"
 
 using namespace std;
-vector<float> buffer_sharp_corners ={};
+vector<float> buffer_amount_of_aggression ={};
 bool sharp_corner = false;
-float avarage_result = 0;
+float amount_of_aggression = 0;
+float sharp_corner_white_aggression = 0; //bepaald hoe hard het andere wiel achteruit gaat
+float sharp_corner_black_aggression = 0;
 
 
 // TODO: --> turn sharp functie
@@ -30,7 +32,6 @@ void speedLimiter(int & right, int & left, const int & maximum_speed) {
         left -= difference_right;
         if(left < 0 && !sharp_corner){                                   //makes sure that the other motor doesn't go 0.
         	left = 0;
-		cout << "In een 0!" << endl;
         }
     }
     if (left > maximum_speed) {
@@ -39,7 +40,6 @@ void speedLimiter(int & right, int & left, const int & maximum_speed) {
         left -= difference_left;
         if(right < 0 && !sharp_corner){
         	right = 0;
-		cout << "In een 0!" << endl;
         }
     }
 }
@@ -56,7 +56,7 @@ void MotorController(int left, int right, BrickPi3 & BP) {
     BP.set_motor_dps(motor_left, left);
 }
 
-void drive(float direction_control, unsigned int speed_multiplier_percentage, unsigned int rotation_speed, BrickPi3 & BP){
+void drive(float direction_control, unsigned int speed_multiplier_percentage, unsigned int rotation_speed, SharpCornerSettings & SharpCorner, BrickPi3 & BP){
     /*
      * Direction control is either -2, -1 or a value between 0 and 2.
      * If the direction control is 1 the robot will go straight.
@@ -71,21 +71,31 @@ void drive(float direction_control, unsigned int speed_multiplier_percentage, un
     } else if(speed_multiplier_percentage < 0 || speed_multiplier_percentage > 100){
         cout << "Please give a speed_calculator between 0 and 100." << endl;
     } else{
+        cout << "direction_control: " << direction_control << endl;
         int motor_speed = rotation_speed*(speed_multiplier_percentage/100.0);   // Calculates motor rotation speed
         int motor_speed_L;                                                      // Variables to save motor speed of both engines
         int motor_speed_R;
-        size_t buffer_size = 1;
-	float sharp_corner_white_aggression = -0.4;
-	float sharp_corner_black_aggression = -0.4;
-	cout << "direction_control: " << direction_control << endl;
-        if(buffer_sharp_corners.size() < buffer_size){
-            buffer_sharp_corners.push_back(direction_control);
+        size_t buffer_size = 25;
+
+        if(buffer_amount_of_aggression.size() < buffer_size){
+            buffer_amount_of_aggression.push_back(direction_control);
         } else{
-            buffer_sharp_corners.push_back(direction_control);
-            avarage_result = vectorAvarage(buffer_sharp_corners);
-	    buffer_sharp_corners = {};
-            sharp_corner = (avarage_result > 1.9 || avarage_result < 0.35);
+            buffer_amount_of_aggression.push_back(direction_control);
+            amount_of_aggression = vectorAvarage(buffer_amount_of_aggression);
+            buffer_amount_of_aggression = {};
+            if(amount_of_aggression > 1){
+                sharp_corner_white_aggression = ((direction_control-SharpCorner.min_value_white)/SharpCorner.min_value_white)*SharpCorner.max_aggression_white;
+                sharp_corner_black_aggression = 0;
+            } else{
+                sharp_corner_white_aggression = 0;
+                sharp_corner_black_aggression = ((direction_control-SharpCorner.min_value_black)/SharpCorner.min_value_black)*SharpCorner.max_aggression_black;
+            }
         }
+
+        //Bepaald of een corner een sharp corner is.
+        //TODO: Willen we dit echt een directe value? Geen kleine buffer
+        sharp_corner = (direction_control > SharpCorner.min_value_white || direction_control < SharpCorner.min_value_black);
+
 
         if (direction_control >= 0){                                            // && direction_control <= 2){ ---kan ik als het goed is weglaten!---
 	        turnUS(direction_control,BP);
@@ -107,10 +117,12 @@ void drive(float direction_control, unsigned int speed_multiplier_percentage, un
             cout << "The given value doesn't correspond to the given parameters of x=-2,-1 or 0=<x<=2." << endl;
         }
 	if(sharp_corner){
-        	cout << "avarage_result: " << avarage_result << endl;
+        	cout << "amount_of_aggression: " << amount_of_aggression << endl;
         	cout << "sharp_corner: " << sharp_corner << endl;
         	cout << "motor_speed_L: " << motor_speed_L << endl;
         	cout << "motor_speed_R: " << motor_speed_R << endl;
+        	cout << "white_aggression: " << sharp_corner_white_aggression << endl;
+            cout << "black_aggression: " << sharp_corner_black_aggression << endl;
 	}
         MotorController(motor_speed_L, motor_speed_R, BP);
     }

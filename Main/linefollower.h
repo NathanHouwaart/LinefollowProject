@@ -35,6 +35,14 @@ struct CalculatingErrorData{
     int difference_max_avarage;
 };
 
+struct SharpCornerSettings{
+    float min_value_black = 0.36; //This value is the min. value needed by direction_control to be a sharp corner(black)
+    float min_value_white = 1.91;  //This value is the min. value needed by direction_control to be a sharp corner(white)
+    float max_aggression_black = 0.8;
+    float max_aggression_white = 0.6;
+};
+
+
 // sourceCrossroad.cpp
 void crossLine(BrickPi3 & BP, int32_t forward_degrees);
 void driveLeft(BrickPi3 & BP);
@@ -50,7 +58,7 @@ float vectorAvarage(const vector<float> & to_calculate);
 // sourceDriveRobot.cpp
 void speedLimiter(int & right, int & left, const int & maximum_speed);
 void MotorController(int left, int right, BrickPi3 & BP);
-void drive(float direction_control, unsigned int speed_multiplier_percentage, unsigned int rotation_speed, BrickPi3 & BP);
+void drive(float direction_control, unsigned int speed_multiplier_percentage, unsigned int rotation_speed, SharpCornerSettings & SharpCorner ,BrickPi3 & BP);
 void driveOnSpot(char turn_direction, BrickPi3 & BP);
 
 // sourceFreeRideLoop.cpp
@@ -69,7 +77,7 @@ void defineDifferenceToAverage(CalculatingErrorData & data_struct);
 
 // sourcePIDController.cpp
 int defineError(int avarage_lowest_highest, int dist_lowest_avarage, int dist_highest_avarage, int current_measurment);
-void pController(int error_value, BrickPi3 & BP);
+void pController(int error_value, BrickPi3 & BP, SharpCornerSettings & StructSharp);
 
 // sourceSensors.cpp
 int getUltraSValue(uint8_t port, sensor_ultrasonic_t & data_struct, BrickPi3 & BP);

@@ -24,7 +24,7 @@ int defineError(int avarage_lowest_highest, int dist_lowest_avarage, int dist_hi
     return steering_error;
 }
 
-void pController(int error_value, BrickPi3 & BP) {
+void pController(int error_value, BrickPi3 & BP, SharpCornerSettings & StructSharp) {
     /* In this function we calculate the speed and the direction for the light sensor*/
     //TODO: --> wat is lijnwaarde precies? Is nu error_value, en dat is de error ten opzichte van de lijn tussen -100 en 100
     //TODO: -->
@@ -50,5 +50,5 @@ void pController(int error_value, BrickPi3 & BP) {
         power = 100;
     }
     power = 100-power;
-    drive(direction,power,360,BP); // We give the direction and the speed to the function drive
+    drive(direction,power,360,StructSharp,BP); // We give the direction and the speed to the function drive
 }
