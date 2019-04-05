@@ -1,44 +1,54 @@
-#include <linefollower.h>
+#include "linefollower.h"
 
-// float to string
+void setLcd(char[16] & message1, char[16] & message2) {
+    ClrLcd();                           // clear lcd
+    lcdLoc(LINE1);                      // set cursor on LINE1
+    typeln(message1);              // Print Calibrating to the lcd
+    lcdLoc(LINE2);
+    typeln(message2);
+}
+
+void resetLcd() {
+    Clrlcd()
+}
+
 void typeFloat(float myFloat) {
+// float to string
     char buffer[20];
     sprintf(buffer, "%4.2f",  myFloat);
     typeln(buffer);
 }
 
-// int to string
 void typeInt(int i) {
+// int to string
     char array1[20];
     sprintf(array1, "%d",  i);
     typeln(array1);
 }
 
-// clr lcd go home loc 0x80
 void ClrLcd(void) {
+// clr lcd go home loc 0x80
     lcd_byte(0x01, LCD_CMD);
     lcd_byte(0x02, LCD_CMD);
 }
 
-// go to location on LCD
 void lcdLoc(int line) {
+// go to location on LCD
     lcd_byte(line, LCD_CMD);
 }
 
-// out char to LCD at current position
 void typeChar(char val) {
+// out char to LCD at current position
     lcd_byte(val, LCD_CHR);
 }
 
 
-// this allows use of any size string
 void typeln(const char *s) {
+// this allows use of any size string
     while (*s) lcd_byte(*(s++), LCD_CHR);
 }
 
 void lcd_byte(int bits, int mode) {
-    
-    
     int bits_high;
     int bits_low;
     // uses the two half byte writes to LCD

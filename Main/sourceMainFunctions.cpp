@@ -14,6 +14,8 @@ using namespace std;
 void calibration(sensor_color_t & Color1, CalculatingErrorData & data_struct,  BrickPi3 & BP) {
     /*This function looks for the highest and the lowest light value. The vector contains vector<int> anwser = {low, high};*/
 
+    setLcd("calibration" , ".........");
+
     uint8_t motor_right = PORT_D;       // Here are the motor ports defined so we can talk to them
     uint8_t motor_left = PORT_A;
 

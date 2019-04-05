@@ -44,22 +44,29 @@ int main() {
     CalculatingErrorData struct_line_values;
     calibration(Color1, struct_line_values, BP);
     defineDifferenceToAverage(struct_line_values);
+    lcdLoc(LINE2);
+    typeLn("Done");     // wirting to the lcd Done
     sleep(1); //Waiting for sensors to see normally
+    ClrLcd();           // Clear the lcd
 	char modeselect;
 	/*-----Follow the line untill the ultrasonic sensor measures something withing X cm-----*/
     cout << "Select mode: (Line follow (L) / grid follow (G) / Free ride (F))" << endl;
     cin >> modeselect;
     switch (modeselect){
         case 'L':
+            setLcd("Linefollow", "mode");
             lineFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, BP);
             break;
         case 'G':
+            setLcd("Gridfollow", "mode");
             gridFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, BP);
             break;
         case 'F':
+            setLcd("Freeride", "mode");
             freeRideLoop(BP);
             break;
         default:
+            setLcd("ERROR goodbye", "Have a nice day")
             cout << "ERROR, wrong input" << endl;
             return -1;
    }
@@ -69,6 +76,7 @@ void exit_signal_handler(int signo) {
     /*-----This code will run when exiting the program with ctr + c. Used to reset de BrickPi outputs-----*/
     if(signo == SIGINT){
         BP.reset_all();    // Reset everything so there are no run-away motors
+        setLcd("You are" , "killimg me");
         exit(-2);
     }
 }
