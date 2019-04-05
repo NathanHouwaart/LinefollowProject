@@ -10,7 +10,7 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
     unsigned int height;
     int direction_index = -1;
     char seperator, facing_direction;
-    int playing = 0;
+    
  /*   
     cout << "Looking right" << endl;
     lookRight(UltraSonic, BP);
@@ -30,6 +30,7 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
 
 
     while (true) {
+        int playing = 0;
         BP.get_sensor(PORT_1, Color1);                          // Read colorsensor1 and put data in struct Color1
         BP.get_sensor(PORT_3, Color2);
         int main_sensor_measurment = Color1.reflected_red;
