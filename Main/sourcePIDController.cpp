@@ -31,9 +31,7 @@ void pController(float error_value, PIDValues & pidValues) {
 
     int from_range_min = 0;
     int to_range_min = 0;
-    int fine_tune_value = 0;
     unsigned int power = 100;                       // The default value of the variable power is 100
-//	cout << error_value << endl;
     float Kp = 0.01;                                           // This is the gain for the p controller. You can adust there for a better experience
     float direction = (Kp * error_value) + 1.0;     // Here we calcualte the direction between 0 and 2 for the function drive with the value you of the light sensor. With a P controller form the PID controller
     if (direction > 1) {                            // If the direction is higher than 1 and the robot is going right we calcualte the speed, how shaper he turns how slower it goes
@@ -45,7 +43,7 @@ void pController(float error_value, PIDValues & pidValues) {
     }
     float limit = 100;
     // Here i reduce the scale of the power. Fist we have the range 0 to 100 and than you can change the range to 0 to limit to find the perfect speed
-    power = fine_tune_value+(power-from_range_min)*(limit-to_range_min)/(100-from_range_min);
+    power = to_range_min+(power-from_range_min)*(limit-to_range_min)/(100-from_range_min);
     // If the power/ speed is lower than 10 the speed will be 10 to prevend the robot form stalling
     if (power < 10){
         power = 10;
