@@ -5,6 +5,7 @@ using namespace std;
 // TODO: --> Maak loop van de modus freeRideLoop() (Zie activity diagram)
 
 void freeRideLoop(BrickPi3 & BP){
+
     BluetoothServerSocket serversock(2, 1);  //2 is het channel-number
     cout << "listening" << endl;
     while(true) {
@@ -12,35 +13,14 @@ void freeRideLoop(BrickPi3 & BP){
         cout << "accepted from " << clientsock->getForeignAddress().getAddress() << endl;
         MessageBox& mb = clientsock->getMessageBox();
 
+        float steer = 1;
         string input;
         while(mb.isRunning()) {
             input = mb.readMessage();  //blokkeert niet
             if(input != "") {
                 cout << endl << input << endl;
-                switch (input){
-                    case 'RIGHT':
-                        cout << 'GOING RIGHT' << endl;
-                        break;
-                    case 'UP':
-                        cout << 'GOING UP' << endl;
-                        break;
-                    case 'LEFT':
-                        cout << 'GOING LEFT' << endl;
-                        break;
-                    case 'DOWN':
-                        cout << 'GOING DOWN' << endl;
-                        break;
-                    case 'A':
-                        cout << 'GOING A' << endl;
-                        break;
-                    case 'B':
-                        cout << 'GOING B' << endl;
-                        break;
-                    case 'C':
-                        cout << 'GOING C' << endl;
-                        break;
+                selectDirection(input, BP);
             }
-
             cout << ".";
             cout.flush();
             usleep(500000); // wacht 500 ms
@@ -48,6 +28,23 @@ void freeRideLoop(BrickPi3 & BP){
 
         clientsock->close();
 
+
     }
 }
+}
+
+selectDirection(const string & input, BrickPi3 & BP, float & steer) {
+    if (input == "UP") {
+        drive(1, 100, 360, BP);
+    } else if (input == 'DOWN') {
+        drive(-2, 100, 360, BP);
+    } else if (input == 'FIRE') {
+        drive(-1, 100, 360, BP);
+    } else if (input == 'LEFT') {
+        steer -= 0.1;
+        drive(steer, 100, 360, BP);
+    } else if (input == 'RIGHT') {
+        steer += 0.1;
+        drive(steer, 100, 360, BP);
+    }
 }
