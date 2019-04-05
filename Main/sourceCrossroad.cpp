@@ -21,7 +21,7 @@ void crossLine(BrickPi3 & BP, int32_t forward_degrees){
 	usleep(1000*400);
 }
 
-void driveLeft(BrickPi3 & BP) {         //skip over line and turn left
+void driveLeft(BrickPi3 & BP, int & playing) {         //skip over line and turn left
 	crossLine(BP,240);
     playSound('T', playing);
 	usleep(1000*400);
@@ -29,52 +29,53 @@ void driveLeft(BrickPi3 & BP) {         //skip over line and turn left
 	crossLine(BP, 40);
 }
 
-void driveRight(BrickPi3 & BP) {        //skip over line and turn right
+void driveRight(BrickPi3 & BP, int & playing) {        //skip over line and turn right
 	crossLine(BP,90);
 	playSound('T', playing);
 	driveOnSpot('R',BP);
 }
 
-void driveForward(BrickPi3 & BP) {      //skip over line
+void driveForward(BrickPi3 & BP, int & playing) {      //skip over line
 	crossLine(BP,90);
+    playSound('T', playing);
 }
 
-void crossroad(BrickPi3 & BP) {
+void crossroad(BrickPi3 & BP, int & playing) {
     drive(DIRECTION_STOP, 0, 360, BP); //stop the car
     cout << "Crossroad detected: Do you want to go LEFT(L)/RIGHT(R)/FORWARD(F)" << endl;
     char choice;
     cin >> choice;
     switch (choice) {
         case 'L':
-            driveLeft(BP);
+            driveLeft(BP, playing);
             break;
         case 'R':
-            driveRight(BP);
+            driveRight(BP, playing);
             break;
         case 'F':
-            driveForward(BP);
+            driveForward(BP, playing);
             break;
         default:
             cout << "Wrong input. Please try again";
-            crossroad(BP);
+            crossroad(BP, playing);
     }
 }
 
-void crossroad(BrickPi3 & BP, const char & direction_instruction) {
+void crossroad(BrickPi3 & BP, const char & direction_instruction, int & playing) {
     drive(DIRECTION_STOP, 0, 360, BP); //stop the car
     switch (direction_instruction) {
         case 'L':
-            driveLeft(BP);
+            driveLeft(BP, playing);
             break;
         case 'R':
-            driveRight(BP);
+            driveRight(BP, playing);
             break;
         case 'F':
-            driveForward(BP);
+            driveForward(BP, playing);
             break;
         default:
             cout << "Wrong input. Please try again";
-            crossroad(BP);
+            crossroad(BP, playing);
     }
 }
 
