@@ -34,8 +34,8 @@ void driveForward(BrickPi3 & BP) {      //skip over line
 	crossLine(BP,90);
 }
 
-void crossroad(BrickPi3 & BP) {
-    drive(DIRECTION_STOP, 0, 360, BP); //stop the car
+void crossroad(BrickPi3 & BP, SharpCornerSettings & StructCorner) {
+    drive(DIRECTION_STOP, 0, 360, StructCorner,BP); //stop the car
     cout << "Crossroad detected: Do you want to go LEFT(L)/RIGHT(R)/FORWARD(F)" << endl;
     char choice;
     cin >> choice;
