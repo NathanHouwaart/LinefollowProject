@@ -104,7 +104,7 @@ void lcdLoc(int line);
 void ClrLcd(void);
 void typeln(const char *s);
 void typeChar(char val);
-void setLcd(char & message1, char & message2);
+void setLcd(const char& message1, const char& message2);
 void resetLcd();
 
 #endif //LinefollowProject_LINEFOLLOWER_H
