@@ -1,6 +1,6 @@
 #include "linefollower.h"
 
-void setLcd(char[16] & message1, char[16] & message2) {
+void setLcd(const char[16] & message1, const char[16] & message2) {
     ClrLcd();                           // clear lcd
     lcdLoc(LINE1);                      // set cursor on LINE1
     typeln(message1);              // Print Calibrating to the lcd
