@@ -36,7 +36,10 @@ using namespace std;
 #define LCD_BACKLIGHT   0x08  // On
 // LCD_BACKLIGHT = 0x00  # Off
 #define ENABLE  0b00000100 // Enable bit to enable the lcd
-int fd;
+
+struct wiringPiValues {
+    int fd;
+};
 
 // This struct is used to save the data used in calculating the avarage
 struct CalculatingErrorData{

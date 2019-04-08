@@ -30,7 +30,8 @@ int main() {
         cout << "wiringpisetup did not work" << endl << "return 1;" << endl;
         return 1;
     }
-    fd = wiringPiI2CSetup(I2C_ADDR);
+    wiringPiValues val;
+    val.fd = wiringPiI2CSetup(I2C_ADDR);
     lcdStart(); // setup LCD
 
     /*-----Set data structs-----*/

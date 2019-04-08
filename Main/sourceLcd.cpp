@@ -1,5 +1,6 @@
 #include "linefollower.h"
 
+
 void setLcd(const char message1, const char message2) {
     resetLcd();                           // clear lcd
     lcdLoc(LINE1);                      // set cursor on LINE1
@@ -45,6 +46,7 @@ void typeCharArray(const char *s) {
 }
 
 void lcd_byte(int bits, int mode) {
+    wiringPiValues val;
     int bits_high;
     int bits_low;
     // uses the two half byte writes to LCD
@@ -52,20 +54,21 @@ void lcd_byte(int bits, int mode) {
     bits_low = mode | ((bits << 4) & 0xF0) | LCD_BACKLIGHT ;
 
     // High bits
-    wiringPiI2CReadReg8(fd, bits_high);
+    wiringPiI2CReadReg8(val.fd, bits_high);
     enableLcd(bits_high);
 
     // Low bits
-    wiringPiI2CReadReg8(fd, bits_low);
+    wiringPiI2CReadReg8(val.fd, bits_low);
     enableLcd(bits_low);
 }
 
 void enableLcd(int bits) {
     // Toggle enable pin on LCD display
+    wiringPiValues val;
     delayMicroseconds(500);
-    wiringPiI2CReadReg8(fd, (bits | ENABLE));
+    wiringPiI2CReadReg8(val.fd, (bits | ENABLE));
     delayMicroseconds(500);
-    wiringPiI2CReadReg8(fd, (bits & ~ENABLE));
+    wiringPiI2CReadReg8(val.fd, (bits & ~ENABLE));
     delayMicroseconds(500);
 }
 
