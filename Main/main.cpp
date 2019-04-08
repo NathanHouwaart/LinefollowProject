@@ -65,7 +65,7 @@ int main() {
             freeRideLoop(BP);
             break;
         default:
-            setLcd('ERROR goodbye', 'Have a nice day');
+            setLcd('Error goodbye', 'Have a nice day');
             cout << "ERROR, wrong input" << endl;
             return -1;
    }

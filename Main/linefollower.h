@@ -94,17 +94,15 @@ bool lookRight(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP);
 bool lookForward(sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP);
 
 //sourceLcd.cpp
-void lcd_init(void);
 void lcd_byte(int bits, int mode);
-void lcd_toggle_enable(int bits);
-
+void enableLcd(int bits);
 void typeInt(int i);
 void typeFloat(float myFloat);
 void lcdLoc(int line);
-void ClrLcd(void);
 void typeln(const char *s);
 void typeChar(char val);
 void setLcd(const char& message1, const char& message2);
 void resetLcd();
+void lcdStart();
 
 #endif //LinefollowProject_LINEFOLLOWER_H
