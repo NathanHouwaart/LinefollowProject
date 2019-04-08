@@ -40,7 +40,8 @@ void selectDirection(const string & input, BrickPi3 & BP, float & steer, int & p
         steer = 1;
         drive(-2, 100, 500, BP);
     } else if (input == "FIRE") {
-        drive(-1, 100, 500, BP);
+        stopSound(playing);
+	drive(-1, 100, 500, BP);
     } else if (input == "LEFT") {
         playSound('F', playing);
         steer -= 0.2;

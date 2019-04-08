@@ -21,63 +21,63 @@ void playSound(char selection, int & playing) {
     switch(selection) {
         case 'F':  //forward
             if(playing != 1) {
-                stopSound();
+                stopSound(playing);
                 system("omxplayer --loop --no-keys -o local Noises/forward.wav &");
                 playing = 1;
             }
             break;
         case 'B':  //backwards
             if(playing != 2) {
-                stopSound();
+                stopSound(playing);
                 system("omxplayer --loop --no-keys -o local Noises/backwards.wav &");
                 playing = 2;
             }
             break;
         case 'L':  //turn left on crossroad
             if(playing != 3) {
-                stopSound();
+                stopSound(playing);
                 system("omxplayer --no-keys -o local Noises/turnleft.wav &");
                 playing = 3;
             }
             break;
         case 'R':  //turn right on crossroad
             if(playing != 4) {
-                stopSound();
+                stopSound(playing);
                 system("omxplayer --no-keys -o local Noises/turnright.wav &");
                 playing = 4;
             }
             break;
         case 'S':  //drive straight over a crossroad
             if(playing != 5) {
-                stopSound();
+                stopSound(playing);
                 system("omxplayer --no-keys -o local Noises/drivestraight.wav &");
                 playing = 5;
             }
             break;
         case 'O':  //see object
             if(playing != 6) {
-                stopSound();
+                stopSound(playing);
                 system("omxplayer --no-keys -o local Noises/seeobject.wav &");
                 playing = 6;
             }
             break;
         case 'D':  //dodge object
             if(playing != 7) {
-                stopSound();
+                stopSound(playing);
                 system("omxplayer --no-keys -o local Noises/dodge.wav &");
                 playing = 7;
             }
             break;
         case 'C':  //crossroad
             if(playing != 8) {
-                stopSound();
+                stopSound(playing);
                 system("omxplayer --no-keys -o local Noises/crossroad.wav &");
                 playing = 8;
             }
             break;
         case 'X':  //plan X, playing megalovania while charging at the object
              if(playing != 9) {
-                 stopSound();
+                 stopSound(playing);
                  system("omxplayer --no-keys -o local Noises/megalovaniaRobotCharge.wav &");
                  playing = 9;
              }
@@ -86,8 +86,9 @@ void playSound(char selection, int & playing) {
 }
 
 //stopping the sound because the time to play can be different
-void stopSound() {
+void stopSound(int & playing) {
     system("killall omxplayer.bin");
+    playing = 0;
 }
 
 void megaCharge(int & playing, BrickPi3 & BP) {
