@@ -46,7 +46,7 @@ int main() {
     defineDifferenceToAverage(struct_line_values);
     setLcd('calibration', 'Done');    // wirting to the lcd Done
     sleep(1); //Waiting for sensors to see normally
-    ClrLcd();           // Clear the lcd
+    resetLcd();           // Clear the lcd
 	char modeselect;
 	/*-----Follow the line untill the ultrasonic sensor measures something withing X cm-----*/
     cout << "Select mode: (Line follow (L) / grid follow (G) / Free ride (F))" << endl;
