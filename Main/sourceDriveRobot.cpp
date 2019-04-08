@@ -101,6 +101,6 @@ void driveOnSpot(char turn_direction, BrickPi3 & BP){
         BP.set_motor_position_relative(motor_left,turn_90_degrees);
         BP.set_motor_position_relative(motor_right,(-1*turn_90_degrees));
     }
-    usleep(1000*800);
+    usleep(1000*400);
 }
 

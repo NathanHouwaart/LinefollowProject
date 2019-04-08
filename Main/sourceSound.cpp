@@ -86,6 +86,7 @@ void megaCharge(int & playing, BrickPi3 & BP) {
             drive(1, 100, 360, BP);
             sleep(11);
             drive(DIRECTION_STOP, 0, 360, BP);
+
             break;
         case 'D':
             driveAround(BP);
