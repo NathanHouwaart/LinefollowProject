@@ -11,12 +11,14 @@
 #define LinefollowProject_LINEFOLLOWER_H
 
 #include "BrickPi3.h" // for BrickPi3
+#include "BluetoothSocket.h"
 #include <iostream>      // for cout
 #include <unistd.h>     // for sleep
 #include <signal.h>     // for catching exit signals
 #include <iomanip>		// for setw and setprecision>
 #include <vector>
 #include <time.h>
+
 
 using namespace std;
 
@@ -56,6 +58,7 @@ void driveOnSpot(char turn_direction, BrickPi3 & BP);
 
 // sourceFreeRideLoop.cpp
 void freeRideLoop(BrickPi3 & BP);
+void selectDirection(const string & input, BrickPi3 & BP, float & steer);
 
 // sourceGridFollowLoop.cpp
 void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP);
