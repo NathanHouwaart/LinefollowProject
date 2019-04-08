@@ -22,3 +22,5 @@ CTestTestfile.cmake
 *.xml
 
 \.idea/
+
+*.iml

@@ -64,6 +64,8 @@ int main() {
             setLcd('Freeride', 'mode');
             freeRideLoop(BP);
             break;
+        case 'O':
+            objectDetect(UltraSonic1, BP, 10);
         default:
             setLcd('Error goodbye', 'Have a nice day');
             cout << "ERROR, wrong input" << endl;

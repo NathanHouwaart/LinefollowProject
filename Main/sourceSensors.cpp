@@ -21,7 +21,7 @@ int getUltraSValue(uint8_t port, sensor_ultrasonic_t & data_struct, BrickPi3 & B
 //    cout << "Afstand:   " << (data_struct.cm - 1) << " cm." << endl;  //Printing the current centimeter value in the struct.
     return static_cast<int>(data_struct.cm) - 1;
 }
-
+//need to make playing a parameter so it can be used and be the same in multiple functions
 void objectDetect(sensor_ultrasonic_t &data_struct, BrickPi3 & BP, int threshold) {
     //TODO: --> Word veranderd bij verandering in obstakel ontwijken.
     while (true) {
@@ -30,6 +30,7 @@ void objectDetect(sensor_ultrasonic_t &data_struct, BrickPi3 & BP, int threshold
         MotorController(motorSpeed, motorSpeed, BP);
 
         while (distance < (threshold +10)) {
+
             if(distance < threshold){
                 if(distance > (threshold -1)) {
                     motorSpeed = 0;
