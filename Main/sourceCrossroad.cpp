@@ -23,7 +23,7 @@ void crossLine(BrickPi3 & BP, int32_t forward_degrees){
 
 void driveLeft(BrickPi3 & BP, int & playing) {         //skip over line and turn left
 	crossLine(BP,240);
-    playSound('T', playing);
+    playSound('L', playing);
 	usleep(1000*400);
 	driveOnSpot('L',BP);
 	crossLine(BP, 40);
@@ -31,12 +31,12 @@ void driveLeft(BrickPi3 & BP, int & playing) {         //skip over line and turn
 
 void driveRight(BrickPi3 & BP, int & playing) {        //skip over line and turn right
 	crossLine(BP,90);
-	playSound('T', playing);
+	playSound('R', playing);
 	driveOnSpot('R',BP);
 }
 
 void driveForward(BrickPi3 & BP, int & playing) {      //skip over line
-    playSound('T', playing);	
+    playSound('S', playing);
     crossLine(BP,90);
    // playSound('T', playing);
 }
@@ -62,7 +62,7 @@ void crossroad(BrickPi3 & BP, int & playing) {
     }
 }
 
-void crossroad(BrickPi3 & BP, const char & direction_instruction, int & playing) {
+void crossroadGrid(BrickPi3 & BP, const char & direction_instruction, int & playing) {
     drive(DIRECTION_STOP, 0, 360, BP); //stop the car
     switch (direction_instruction) {
         case 'L':
