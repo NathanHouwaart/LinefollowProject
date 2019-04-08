@@ -36,8 +36,9 @@ void driveRight(BrickPi3 & BP, int & playing) {        //skip over line and turn
 }
 
 void driveForward(BrickPi3 & BP, int & playing) {      //skip over line
-	crossLine(BP,90);
-    playSound('T', playing);
+    playSound('T', playing);	
+    crossLine(BP,90);
+   // playSound('T', playing);
 }
 
 void crossroad(BrickPi3 & BP, int & playing) {

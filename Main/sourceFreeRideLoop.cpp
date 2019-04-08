@@ -33,24 +33,24 @@ void selectDirection(const string & input, BrickPi3 & BP, float & steer) {
 
     if (input == "UP") {
         steer = 1;
-        drive(1, 100, 360, BP);
+        drive(1, 100, 500, BP);
     } else if (input == "DOWN") {
         steer = 1;
-        drive(-2, 100, 360, BP);
+        drive(-2, 100, 500, BP);
     } else if (input == "FIRE") {
-        drive(-1, 100, 360, BP);
+        drive(-1, 100, 500, BP);
     } else if (input == "LEFT") {
         steer -= 0.2;
         if(steer <= 0){
             steer = 0;
         }
-        drive(steer, 100, 360, BP);
+        drive(steer, 100, 500, BP);
     } else if (input == "RIGHT") {
         steer += 0.2;
-        if(steer <= 2){
+        if(steer >= 2){
             steer = 2;
         }
-        drive(steer, 100, 360, BP);
+        drive(steer, 100, 500, BP);
     } else {
         int playing = 0;
         if (input == "A") {

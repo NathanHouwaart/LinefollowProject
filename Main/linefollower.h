@@ -26,7 +26,7 @@ using namespace std;
 #define DIRECTION_LEFT 0
 #define DIRECTION_FORWARD 1
 #define DIRECTION_RIGHT 2
-#define MAX_MOTOR_SPEED 400
+#define MAX_MOTOR_SPEED 800
 
 // This struct is used to save the data used in calculating the avarage
 struct CalculatingErrorData{
