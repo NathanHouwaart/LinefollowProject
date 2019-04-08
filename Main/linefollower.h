@@ -125,7 +125,7 @@ void typeFloat(float myFloat);
 void lcdLoc(int line);
 void typeln(const char *s);
 void typeChar(char val);
-void setLcd(const char& message1, const char& message2);
+void setLcd(const char message1, const char message2);
 void resetLcd();
 void lcdStart();
 
