@@ -189,7 +189,8 @@ void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1
 		}
 	}
 	// Line detected so turn to right to go on line again
-	driveRight(BP);
+	crossLine(BP,90);
+	driveOnSpot('R',BP);
 	turnUS(1, BP);
 }
 
