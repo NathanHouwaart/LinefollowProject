@@ -38,17 +38,21 @@ int main() {
     wiringPiValues val;
     val.fd = wiringPiI2CSetup(I2C_ADDR);
     lcdStart(); // setup LCD
-    setLcd('test', 'test');
-}
-
-
-void setLcd(const char message1, const char message2) {
     resetLcd();                           // clear lcd
     lcdLoc(LINE1);                      // set cursor on LINE1
-    typeChar(message1);              // Print Calibrating to the lcd
+    typeCharArray("teset");              // Print Calibrating to the lcd
     lcdLoc(LINE2);
-    typeChar(message2);
+    typeCharArray("test");
 }
+
+
+// void setLcd(const char message1, const char message2) {
+//     resetLcd();                           // clear lcd
+//     lcdLoc(LINE1);                      // set cursor on LINE1
+//     typeChar(message1);              // Print Calibrating to the lcd
+//     lcdLoc(LINE2);
+//     typeChar(message2);
+// }
 
 void typeFloat(float myFloat) {
 // float to string
