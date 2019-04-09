@@ -37,7 +37,11 @@ int main() {
     wiringPiValues val;
     val.fd = wiringPiI2CSetup(I2C_ADDR);
     lcdStart(); // setup LCD
-    setLcd('test', 'test');
+    resetLcd();                           // clear lcd
+    lcdLoc(LINE1);                      // set cursor on LINE1
+    typeChar('teset');              // Print Calibrating to the lcd
+    lcdLoc(LINE2);
+    typeChar('test');
 }
 
 
