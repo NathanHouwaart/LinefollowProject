@@ -33,7 +33,8 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
             playSound('F', playing);
             counter_object = 0;
             if (Color2.reflected_red < data_struct.avarage_min_max && main_sensor_measurment < data_struct.avarage_min_max) {
-                crossroad(BP, playing);
+                playSound('C', playing);
+		crossroad(BP, playing);
             } else {                                             // If no intersection was detected, follow the line
                 int error_to_avarage = defineError(data_struct.avarage_min_max, data_struct.difference_min_avarage, data_struct.difference_max_avarage, main_sensor_measurment);
                 pController(error_to_avarage, BP);
