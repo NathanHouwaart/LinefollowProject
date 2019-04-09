@@ -46,9 +46,12 @@ void crossroad(BrickPi3 & BP,  int & playing);
 void crossroad(BrickPi3 & BP, const char & direction_instruction, int & playing);
 
 // sourceDodgeObject.cpp
-void drive_straight(int32_t to_drive, BrickPi3 & BP);
-void driveCurved(int32_t to_drive, BrickPi3 & BP);
-void driveAround(BrickPi3 & BP);
+float vectorAvarage(const vector<float> & to_calculate);
+void turnUS (float values_wheels, BrickPi3 & BP);
+void steeringRobot(char to_steer, BrickPi3 & BP);
+void loopForObjectDodge(sensor_ultrasonic_t & UltraSonic, int target_distance , BrickPi3 & BP);
+void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sensor_color_t & Color2, int average_black_line, BrickPi3 & BP);
+
 
 // sourceDriveRobot.cpp
 void speedLimiter(int & right, int & left, const int & maximum_speed);
