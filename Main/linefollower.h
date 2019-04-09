@@ -49,6 +49,7 @@ void crossroad(BrickPi3 & BP, const char & direction_instruction, int & playing)
 float vectorAvarage(const vector<float> & to_calculate);
 void turnUS (float values_wheels, BrickPi3 & BP);
 void steeringRobot(char to_steer, BrickPi3 & BP);
+void timeForFlow(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sensor_color_t & Color2, int average_black_line, BrickPi3 & BP);
 void loopForObjectDodge(sensor_ultrasonic_t & UltraSonic, int target_distance , BrickPi3 & BP);
 void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sensor_color_t & Color2, int average_black_line, BrickPi3 & BP);
 

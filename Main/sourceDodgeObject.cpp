@@ -112,6 +112,59 @@ void loopForObjectDodge(sensor_ultrasonic_t & UltraSonic, int target_distance , 
 	steeringRobot('S', BP);
 }
 
+void timeForFlow(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sensor_color_t & Color2, int average_black_line, BrickPi3 & BP){
+
+	driveOnSpot('R',BP); // Turn robot to the right, on his axis.
+	usleep(1000*1500);
+	turnUS(0,BP); // Turns the US sensor, it makes sure it is turned 90 right-angled on the driving direction
+	usleep(1000*2000);
+
+	getUltraSValue(PORT_4, UltraSonic, BP);
+	int target_distance = UltraSonic.cm;
+	int current_distance = UltraSonic.cm;
+	BP.get_sensor(PORT_1, Color1);
+	BP.get_sensor(PORT_3, Color2);
+	cout << "target_distance: " << target_distance << endl;
+	//Go straight until one of the color sensors detects a black line.
+	while(Color1.reflected_red > average_black_line || Color2.reflected_red > average_black_line){
+		if(current_distance > target_distance*2){
+			steeringRobot('F', BP);
+		} else if(current_distance < target_distance){
+			// The object is closer than target, so steer to right (away from target)
+			steeringRobot('R', BP);
+		} else if(current_distance > target_distance){
+			// The object is furhter away than target, so steer to left (to target)
+			steeringRobot('L', BP);
+		} else{
+			// The object is the correct distance, so go straight on
+			steeringRobot('F', BP);
+		}
+		usleep(1000*3000);
+		getUltraSValue(PORT_4, UltraSonic, BP);
+		current_distance = UltraSonic.cm;
+		BP.get_sensor(PORT_1, Color1);
+		BP.get_sensor(PORT_3, Color2);
+	}
+	// The if makes sure both sensors are on the black line
+	if(Color1.reflected_red < average_black_line){
+		while(Color2.reflected_red > average_black_line){
+			BP.set_motor_position_relative(motor_right, 10);
+			usleep(1000*(1000));
+		}
+	} else{
+		while(Color1.reflected_red > average_black_line){
+			BP.set_motor_position_relative(motor_right, 10);
+			usleep(1000*(1000));
+		}
+	}
+	// Line detected so turn to right to go on line again
+	cout << "Last step!" << endl;
+	crossLine(BP,90);
+	driveOnSpot('R',BP);
+	turnUS(1, BP);
+}
+
+
 void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sensor_color_t & Color2, int average_black_line, BrickPi3 & BP){
 	/* This function is called in the Linefollowloop. It is called when te distance between the robot and the object is around 3 cm.
 	 * The functions expects all the structs of the 3 different sensors, the target value for the color sensor, the struct of the Pi
