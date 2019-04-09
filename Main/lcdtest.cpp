@@ -38,6 +38,7 @@ int main() {
     wiringPiValues val;
     val.fd = wiringPiI2CSetup(I2C_ADDR);
     lcdStart(); // setup LCD
+    setLcd('test', 'test');
 }
 
 
@@ -53,14 +54,14 @@ void typeFloat(float myFloat) {
 // float to string
     char buffer[20];
     sprintf(buffer, "%4.2f",  myFloat);
-    typeln(buffer);
+    typeCharArray(buffer);
 }
 
 void typeInt(int i) {
 // int to string
     char array1[20];
     sprintf(array1, "%d",  i);
-    typeln(array1);
+    typeCharArray(array1);
 }
 
 void resetLcd() {
@@ -74,7 +75,7 @@ void lcdLoc(int line) {
     lcd_byte(line, LCD_CMD);
 }
 
-void typeChar(char val) {
+void typeChar(const char val) {
 // Puts a char at the current posistion
     lcd_byte(val, LCD_CHR);
 }
