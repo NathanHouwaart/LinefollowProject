@@ -22,7 +22,7 @@ void playSound(char selection, int & playing) {
         case 'F':  //forward
             if(playing != 1) {
                 stopSound(playing);
-                system("omxplayer --loop --no-keys -o local Noises/forward.wav &");
+                system("omxplayer --loop --no-keys -o local Noises/forward2.wav &");
                 playing = 1;
             }
             break;
@@ -57,21 +57,21 @@ void playSound(char selection, int & playing) {
         case 'O':  //see object
             if(playing != 6) {
                 stopSound(playing);
-                system("omxplayer --no-keys -o local Noises/seeobject.wav &");
+                system("omxplayer --no-keys -o local Noises/seeobject2.wav &");
                 playing = 6;
             }
             break;
         case 'D':  //dodge object
             if(playing != 7) {
                 stopSound(playing);
-                system("omxplayer --no-keys -o local Noises/dodge.wav &");
+                system("omxplayer --no-keys -o local Noises/dodge2.wav &");
                 playing = 7;
             }
             break;
         case 'C':  //crossroad
             if(playing != 8) {
                 stopSound(playing);
-                system("omxplayer --no-keys -o local Noises/crossroad.wav &");
+                system("omxplayer --no-keys -o local Noises/crossroad2.wav &");
                 playing = 8;
             }
             break;
