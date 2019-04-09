@@ -36,6 +36,13 @@ struct CalculatingErrorData{
     int difference_min_avarage;
     int difference_max_avarage;
 };
+// This struct is used yo save the data used in sourceDriveRobot.cpp
+struct SharpCornerSettings{
+    float min_value_black = 0.36; //This value is the min. Value needed by direction_control to be a sharp corner(black)
+    float min_value_white = 1.74; //This value is the max. Value needed by direction_control to be a sharp corner(white)
+    float max_intensity_black = 0.8;
+    float max_intensity_white = 1.0;
+};
 
 // sourceCrossroad.cpp
 void crossLine(BrickPi3 & BP, int32_t forward_degrees);
@@ -55,6 +62,7 @@ void speedLimiter(int & right, int & left, const int & maximum_speed);
 void MotorController(int left, int right, BrickPi3 & BP);
 void drive(float direction_control, unsigned int speed_multiplier_percentage, unsigned int rotation_speed, BrickPi3 & BP);
 void driveOnSpot(char turn_direction, BrickPi3 & BP);
+void driveSharpCorner(float direction_control, unsigned int speed_multiplier_percentage, unsigned int rotation_speed, SharpCornerSettings & StructSharpCorner, BrickPi3 & BP);
 
 // sourceFreeRideLoop.cpp
 void freeRideLoop(BrickPi3 & BP);
@@ -78,8 +86,7 @@ void updateBarrier(vector<vector<char>> & grid, const size_t & x_coordinate, con
 bool lookLeft(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP);
 bool lookRight(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP);
 bool lookForward(sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP);
-void whereToLook(vector<vector<char>> & grid, const char & look_direction, const char & facing_direction,
-                 vector<size_t> position, sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP);
+void whereToLook(vector<vector<char>> & grid, const char & look_direction, const char & facing_direction, vector<size_t> position, sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP);
 
 // sourceLineFollowLoop.cpp
 void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP);
