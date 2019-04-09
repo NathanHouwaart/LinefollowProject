@@ -73,12 +73,12 @@ void steeringRobot(char to_steer, BrickPi3 & BP){
 		BP.set_motor_dps(motor_right, dps_motor);
 	} else if(to_steer == 'L'){
 		// Robot steers to left
-		BP.set_motor_dps(motor_left, dps_motor * 0,7);
+		BP.set_motor_dps(motor_left, dps_motor * 0.7);
 		BP.set_motor_dps(motor_right, dps_motor);
 	} else if(to_steer == 'R'){
 		// Robot steers to right
 		BP.set_motor_dps(motor_left, dps_motor);
-		BP.set_motor_dps(motor_right, dps_motor * 0,7);
+		BP.set_motor_dps(motor_right, dps_motor * 0.7);
 	} else{
 		BP.set_motor_dps(motor_left, dps_motor*0);
 	}
@@ -141,6 +141,9 @@ void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1
 	cout << "Turn 90 degrees to the left"<< endl;
 	BP.set_motor_position_relative(motor_right, 400);
 	usleep(1000*(3000));
+	BP.set_motor_position_relative(motor_left, 200);
+	BP.set_motor_position_relative(motor_right,200);
+	usleep(1000*2000);
 	// Drive furhter around the object
 	loopForObjectDodge(UltraSonic, target_distance_short, BP);
 	// skkrrrttt a robot length to the voren
