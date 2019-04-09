@@ -66,22 +66,21 @@ void steeringRobot(char to_steer, BrickPi3 & BP){
 	uint8_t motor_right = PORT_D;
 	int32_t motor_rotation = 400;
 	float steering_factor = 0.8; // The amount that the robot steers
-	int16_t dps_motor = 200;
-	int8_t power_motor = 90;
+	int16_t dps_motor = 100;
 	if(to_steer == 'F'){
 		// Robot goes straight
-		BP.set_motor_position_relative(motor_left, motor_rotation);
-		BP.set_motor_position_relative(motor_right, motor_rotation);
+		BP.set_motor_dps(motor_left, dps_motor);
+		BP.set_motor_dps(motor_right, dps_motor);
 	} else if(to_steer == 'L'){
 		// Robot steers to left
-		BP.set_motor_position_relative(motor_left, (motor_rotation*steering_factor));
-		BP.set_motor_position_relative(motor_right, (motor_rotation*(2-steering_factor)));
+		BP.set_motor_dps(motor_left, dps_motor * 0,7);
+		BP.set_motor_dps(motor_right, dps_motor);
 	} else if(to_steer == 'R'){
 		// Robot steers to right
-		BP.set_motor_position_relative(motor_left, (motor_rotation*(2-steering_factor)));
-		BP.set_motor_position_relative(motor_right, (motor_rotation*steering_factor));
+		BP.set_motor_dps(motor_left, dps_motor);
+		BP.set_motor_dps(motor_right, dps_motor * 0,7);
 	} else{
-		cout << "Wollah dat vind ik niet leuk" << endl;
+		BP.set_motor_dps(motor_left, dps_motor*0);
 	}
 }
 
@@ -110,6 +109,7 @@ void loopForObjectDodge(sensor_ultrasonic_t & UltraSonic, int target_distance , 
 		current_distance = UltraSonic.cm;
 		cout << "Current distance: " << current_distance << endl;
 	}
+	steeringRobot('S', BP);
 }
 
 void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sensor_color_t & Color2, int average_black_line, BrickPi3 & BP){
