@@ -16,10 +16,11 @@ using namespace std;
 #define ENABLE  0b00000100 // Enable bit to enable the lcd
 
 // This struct to save the wiringpi values for functions
-struct wiringPiValues {
-    int fd;
-};
+// struct wiringPiValues {
+//     int fd;
+// };
 
+int fd;
 
 
 
@@ -29,9 +30,9 @@ void enableLcd(int bits) {
     wiringPiValues val;
     // Toggle enable pin on LCD display
     delayMicroseconds(500);
-    wiringPiI2CReadReg8(val.fd, (bits | ENABLE));
+    wiringPiI2CReadReg8(fd, (bits | ENABLE));
     delayMicroseconds(500);
-    wiringPiI2CReadReg8(val.fd, (bits & ~ENABLE));
+    wiringPiI2CReadReg8(fd, (bits & ~ENABLE));
     delayMicroseconds(500);
 }
 
@@ -48,11 +49,11 @@ void lcd_byte(int bits, int mode)   {
     bits_low = mode | ((bits << 4) & 0xF0) | LCD_BACKLIGHT ;
 
     // High bits
-    wiringPiI2CReadReg8(val.fd, bits_high);
+    wiringPiI2CReadReg8(fd, bits_high);
     enableLcd(bits_high);
 
     // Low bits
-    wiringPiI2CReadReg8(val.fd, bits_low);
+    wiringPiI2CReadReg8(fd, bits_low);
     enableLcd(bits_low);
 }
 
@@ -84,7 +85,7 @@ void lcdStart() {
 int main() {
     wiringPiValues val;
     if (wiringPiSetup() == -1) exit (1);
-    val.fd = wiringPiI2CSetup(I2C_ADDR);
+    fd = wiringPiI2CSetup(I2C_ADDR);
     lcdStart();
     while (true) {
         resetLcd();
