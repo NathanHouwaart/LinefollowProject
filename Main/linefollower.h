@@ -56,7 +56,7 @@ void driveLeft(BrickPi3 & BP, int & playing);
 void driveRight(BrickPi3 & BP, int & playing);
 void driveForward(BrickPi3 & BP , int & playing);
 void crossroad(BrickPi3 & BP,  int & playing, int & fd);
-void crossroad(BrickPi3 & BP, const char & direction_instruction, int & playing, int & fd);
+void crossroadGrid(BrickPi3 & BP, const char & direction_instruction, int & playing, int & fd);
 
 // sourceDodgeObject.cpp
 void drive_straight(int32_t to_drive, BrickPi3 & BP);
