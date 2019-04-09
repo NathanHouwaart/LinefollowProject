@@ -25,7 +25,7 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
             float battery_percentage = (100/(12.6-10.8)*(battery-10.8));
             clearLcd(fd);   // clear the lcd
             cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
-            typeString("Linefollow", fd);   // print the text on the screen
+            typeString("Linefollow   PCT", fd);   // print the text on the screen
             cursorLocation(LINE2, fd);     // set the cursorlocation to line 2
             typeFloat(battery_percentage, fd);  // display the battery_percantage
             lcd_counter = 0;                    // reset the counter
