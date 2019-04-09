@@ -19,7 +19,7 @@
 #include <time.h>
 #include <wiringPiI2C.h>
 #include <wiringPi.h>
-#include <stdlib.h>
+// #include <stdlib.h>
 #include <stdio.h>
 using namespace std;
 
@@ -37,6 +37,7 @@ using namespace std;
 // LCD_BACKLIGHT = 0x00  # Off
 #define ENABLE  0b00000100 // Enable bit to enable the lcd
 
+// This struct to save the wiringpi values for functions
 struct wiringPiValues {
     int fd;
 };
@@ -126,7 +127,7 @@ void enableLcd(int bits);
 void typeInt(int i);
 void typeFloat(float myFloat);
 void lcdLoc(int line);
-void typeln(const char *s);
+void typeCharArray(const char *s);
 void typeChar(char val);
 void setLcd(const char message1, const char message2);
 void resetLcd();

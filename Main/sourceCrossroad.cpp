@@ -43,26 +43,26 @@ void driveForward(BrickPi3 & BP, int & playing) {      //skip over line
 void crossroad(BrickPi3 & BP, int & playing) {
     drive(DIRECTION_STOP, 0, 360, BP); //stop the car
     cout << "Crossroad detected: Do you want to go LEFT(L)/RIGHT(R)/FORWARD(F)" << endl;
-    setLcd('Which way', 'R, L, F');
+    setLcd("Which way", "R, L, F");
     char choice;
     cin >> choice;
     switch (choice) {
         case 'L':
             driveLeft(BP, playing);
-            setLcd('going left' , ' ');
+            setLcd("going left" , " ");
             break;
         case 'R':
             driveRight(BP, playing);
-            setLcd('going right' , ' ');
+            setLcd("going right" , " ");
             break;
         case 'F':
             driveForward(BP, playing);
-            setLcd('going forward' , ' ');
+            setLcd("going forward" , " ");
             break;
         default:
             cout << "Wrong input. Please try again";
-            setLcd('Wrong input' , 'try again');
-            delay(500);
+            setLcd("Wrong input" , "try again");
+            usleep(500);
             crossroad(BP, playing);
     }
 }
@@ -72,15 +72,20 @@ void crossroad(BrickPi3 & BP, const char & direction_instruction, int & playing)
     switch (direction_instruction) {
         case 'L':
             driveLeft(BP, playing);
+            setLcd("Going left" , " ");
             break;
         case 'R':
             driveRight(BP, playing);
+            setLcd("Going right" , " ");
             break;
         case 'F':
             driveForward(BP, playing);
+            setLcd("Going forward" , " ");
             break;
         default:
             cout << "Wrong input. Please try again";
+            setLcd("Wrong input" , "try again");
+            usleep(500);
             crossroad(BP, playing);
     }
 }

@@ -23,7 +23,7 @@ void typeInt(int i) {
     typeln(array1);
 }
 
-void resetLcd(void) {
+void resetLcd() {
 // Clr lcd and go to home
     lcd_byte(0x01, LCD_CMD);
     lcd_byte(0x02, LCD_CMD);
@@ -46,7 +46,7 @@ void typeCharArray(const char *s) {
 }
 
 void lcd_byte(int bits, int mode) {
-    wiringPiValues val;
+    wiringPiValues val;     // Form the struct to acces the fd values
     int bits_high;
     int bits_low;
     // uses the two half byte writes to LCD
@@ -64,12 +64,12 @@ void lcd_byte(int bits, int mode) {
 
 void enableLcd(int bits) {
     // Toggle enable pin on LCD display
-    wiringPiValues val;
-    delayMicroseconds(500);
+    wiringPiValues val;     // Form the struct to acces the fd values
+    usleep(500);
     wiringPiI2CReadReg8(val.fd, (bits | ENABLE));
-    delayMicroseconds(500);
+    usleep(500);
     wiringPiI2CReadReg8(val.fd, (bits & ~ENABLE));
-    delayMicroseconds(500);
+    usleep(500);
 }
 
 
@@ -81,5 +81,5 @@ void lcdStart() {
     lcd_byte(0x0C, LCD_CMD); // 0x0F On, Blink Off
     lcd_byte(0x28, LCD_CMD); // Data length, number of lines, font size
     lcd_byte(0x01, LCD_CMD); // Clear display
-    delayMicroseconds(500);
+    usleep(500);
 }
