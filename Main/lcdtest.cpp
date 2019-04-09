@@ -25,6 +25,15 @@ struct wiringPiValues {
 
 
 
+void enableLcd(int bits) {
+    wiringPiValues val;
+    // Toggle enable pin on LCD display
+    delayMicroseconds(500);
+    wiringPiI2CReadReg8(val.fd, (bits | ENABLE));
+    delayMicroseconds(500);
+    wiringPiI2CReadReg8(val.fd, (bits & ~ENABLE));
+    delayMicroseconds(500);
+}
 
 
 void lcd_byte(int bits, int mode)   {
@@ -40,11 +49,11 @@ void lcd_byte(int bits, int mode)   {
 
     // High bits
     wiringPiI2CReadReg8(val.fd, bits_high);
-    lcd_toggle_enable(bits_high);
+    enableLcd(bits_high);
 
     // Low bits
     wiringPiI2CReadReg8(val.fd, bits_low);
-    lcd_toggle_enable(bits_low);
+    enableLcd(bits_low);
 }
 
 void clearLcd() {
@@ -60,15 +69,6 @@ void typeString(const char *s) {
     while (*s) lcd_byte(*(s++), LCD_CHR);
 }
 
-void enableLcd(int bits) {
-    wiringPiValues val;
-    // Toggle enable pin on LCD display
-    delayMicroseconds(500);
-    wiringPiI2CReadReg8(val.fd, (bits | ENABLE));
-    delayMicroseconds(500);
-    wiringPiI2CReadReg8(val.fd, (bits & ~ENABLE));
-    delayMicroseconds(500);
-}
 
 void lcdStart() {
     // Initialise display
