@@ -30,8 +30,8 @@ void turnUS (float values_wheels, BrickPi3 & BP){
 	int target_degrees_us = 0;
 	int degrees_to_turn = 0;
 	uint8_t motor_middle = PORT_B; // Setting the motor to communicate
-
-	if(buffer_motor_values.size() < 300){
+	int buffersize = 0; //Moet 300 zijn
+	if(buffer_motor_values.size() < buffersize){
 		buffer_motor_values.push_back(values_wheels);
 	} else{
 		buffer_motor_values.push_back(values_wheels);
@@ -66,7 +66,8 @@ void steeringRobot(char to_steer, BrickPi3 & BP){
 	uint8_t motor_right = PORT_D;
 	int32_t motor_rotation = 400;
 	float steering_factor = 0.8; // The amount that the robot steers
-
+	int16_t dps_motor = 200;
+	int8_t power_motor = 90;
 	if(to_steer == 'F'){
 		// Robot goes straight
 		BP.set_motor_position_relative(motor_left, motor_rotation);
@@ -105,9 +106,9 @@ void loopForObjectDodge(sensor_ultrasonic_t & UltraSonic, int target_distance , 
 			// The object is the correct distance, so go straight on
 			steeringRobot('F', BP);
 		}
-		usleep(1000*600);
 		getUltraSValue(PORT_4, UltraSonic, BP);
 		current_distance = UltraSonic.cm;
+		cout << "Current distance: " << current_distance << endl;
 	}
 }
 
@@ -116,38 +117,47 @@ void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1
 	 * The functions expects all the structs of the 3 different sensors, the target value for the color sensor, the struct of the Pi
 	 *
 	 */
-
 	uint8_t motor_left = PORT_A;
 	uint8_t motor_right = PORT_D;
+	BP.set_motor_limits(motor_left,60,200);
+	BP.set_motor_limits(motor_right,60,200);
 	driveOnSpot('R',BP); // Turn robot to the right, on his axis.
+	usleep(1000*1500);
 	turnUS(0,BP); // Turns the US sensor, it makes sure it is turned 90 right-angled on the driving direction
+	usleep(1000*2000);
 	getUltraSValue(PORT_4, UltraSonic, BP); // reads out the latest data from the sensor
-
 	// Set target distance and start loop
 	int target_distance_short = UltraSonic.cm;
+	cout << "target_distance_short: " << target_distance_short << endl;
 	loopForObjectDodge(UltraSonic, target_distance_short, BP);
+	usleep(1000*3000);
 	// Skkrrrttt a little to the voren
+	cout << "short_skrt" << endl;
 	int32_t short_skrt = 200;
 	BP.set_motor_position_relative(motor_left, short_skrt);
 	BP.set_motor_position_relative(motor_right, short_skrt);
-	usleep(1000*(2*short_skrt));
+	usleep(1000*(6*short_skrt));
 	// Turn the robot 90 degrees to the left
-	BP.set_motor_position_relative(motor_right, 480);
-	usleep(1000*(2*480));
+	cout << "Turn 90 degrees to the left"<< endl;
+	BP.set_motor_position_relative(motor_right, 400);
+	usleep(1000*(3000));
 	// Drive furhter around the object
 	loopForObjectDodge(UltraSonic, target_distance_short, BP);
 	// skkrrrttt a robot length to the voren
-	int32_t long_skrt = 580;
+	cout << "Long_skrt" << endl;
+	int32_t long_skrt = 400;
 	BP.set_motor_position_relative(motor_left, long_skrt);
 	BP.set_motor_position_relative(motor_right, long_skrt);
 	usleep(1000*(2*long_skrt));
 	// Turn robot 90 degrees on spot
+	cout << "Turn 90 degrees on spot to left" << endl;
 	driveOnSpot('L', BP);
 	// Drive half a length to the voren
 	int32_t half_skrt = 290;
+	cout << "half_skrt" << endl;
 	BP.set_motor_position_relative(motor_left, half_skrt);
 	BP.set_motor_position_relative(motor_right, half_skrt);
-	usleep(1000*(2*half_skrt));
+	usleep(1000*(3000));
 
 	// Set new target distance and again start loop
 	getUltraSValue(PORT_4, UltraSonic, BP);
@@ -155,7 +165,7 @@ void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1
 	int current_distance = UltraSonic.cm;
 	BP.get_sensor(PORT_1, Color1);
 	BP.get_sensor(PORT_3, Color2);
-
+	cout << "target_distance: " << target_distance << endl;
 	//Go straight until one of the color sensors detects a black line.
 	while(Color1.reflected_red > average_black_line || Color2.reflected_red > average_black_line){
 		if(current_distance > target_distance*2){
@@ -170,7 +180,7 @@ void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1
 			// The object is the correct distance, so go straight on
 			steeringRobot('F', BP);
 		}
-		usleep(1000*600);
+		usleep(1000*3000);
 		getUltraSValue(PORT_4, UltraSonic, BP);
 		current_distance = UltraSonic.cm;
 		BP.get_sensor(PORT_1, Color1);
@@ -180,15 +190,16 @@ void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1
 	if(Color1.reflected_red < average_black_line){
 		while(Color2.reflected_red > average_black_line){
 			BP.set_motor_position_relative(motor_right, 10);
-			usleep(1000*(2*10));
+			usleep(1000*(1000));
 		}
 	} else{
 		while(Color1.reflected_red > average_black_line){
 			BP.set_motor_position_relative(motor_right, 10);
-			usleep(1000*(2*10));
+			usleep(1000*(1000));
 		}
 	}
 	// Line detected so turn to right to go on line again
+	cout << "Last step!" << endl;
 	crossLine(BP,90);
 	driveOnSpot('R',BP);
 	turnUS(1, BP);
