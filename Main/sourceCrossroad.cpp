@@ -40,7 +40,6 @@ void driveForward(BrickPi3 & BP, int & playing) {      //skip over line
     playSound('S', playing);
     usleep(1000*1000);      //delay so sound has enough time to play
     crossLine(BP,90);
-   // playSound('T', playing);
 }
 
 void crossroad(BrickPi3 & BP, int & playing, int & fd) {
