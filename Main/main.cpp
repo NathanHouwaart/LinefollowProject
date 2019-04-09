@@ -52,7 +52,7 @@ int main() {
     calibration(Color1, struct_line_values, BP);
     defineDifferenceToAverage(struct_line_values);
     sleep(1); //Waiting for sensors to see normally
-    clearLcd();           // Clear the lcd
+    clearLcd(fd);           // Clear the lcd
 	char modeselect;
 	/*-----Follow the line untill the ultrasonic sensor measures something withing X cm-----*/
     cout << "Select mode: (Line follow (L) / grid follow (G) / Free ride (F))" << endl;
@@ -89,11 +89,6 @@ void exit_signal_handler(int signo) {
     /*-----This code will run when exiting the program with ctr + c. Used to reset de BrickPi outputs-----*/
     if(signo == SIGINT){
         BP.reset_all();    // Reset everything so there are no run-away motors
-        clearLcd(fd);   // clear the lcd
-            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
-            typeString("You killed", fd);   // print the text on the screen
-            cursorLocation(LINE2, fd);
-            typeString("ME", fd);
         exit(-2);
     }
 }
