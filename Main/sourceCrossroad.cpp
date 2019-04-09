@@ -40,53 +40,89 @@ void driveForward(BrickPi3 & BP, int & playing) {      //skip over line
     playSound('T', playing);
 }
 
-void crossroad(BrickPi3 & BP, int & playing) {
+void crossroad(BrickPi3 & BP, int & playing, int & fd) {
     drive(DIRECTION_STOP, 0, 360, BP); //stop the car
     cout << "Crossroad detected: Do you want to go LEFT(L)/RIGHT(R)/FORWARD(F)" << endl;
-    setLcd('Which way', 'R, L, F');
+    clearLcd(fd);   // clear the lcd
+    cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+    typeString("Which way", fd);   // print the text on the screen
+    cursorLocation(LINE2, fd);
+    typeString("R, L, F", fd);
     char choice;
     cin >> choice;
     switch (choice) {
         case 'L':
             driveLeft(BP, playing);
-            setLcd('going left' , ' ');
+            clearLcd(fd);   // clear the lcd
+            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+            typeString("going left", fd);   // print the text on the screen
+            cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
+            typeString(" ", fd);            // print the text to the screen
             break;
         case 'R':
             driveRight(BP, playing);
-            setLcd('going right' , ' ');
+            clearLcd(fd);   // clear the lcd
+            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+            typeString("going right", fd);   // print the text on the screen
+            cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
+            typeString(" ", fd);            // print the text to the screen
             break;
         case 'F':
             driveForward(BP, playing);
-            setLcd('going forward' , ' ');
+            clearLcd(fd);   // clear the lcd
+            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+            typeString("going forward", fd);   // print the text on the screen
+            cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
+            typeString(" ", fd);            // print the text to the screen
             break;
         default:
             cout << "Wrong input. Please try again";
-            setLcd('Wrong input' , 'try again');
+            clearLcd(fd);   // clear the lcd
+            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+            typeString("wrong input", fd);   // print the text on the screen
+            cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
+            typeString("try again", fd);            // print the text to the screen
             usleep(500);
-            crossroad(BP, playing);
+            crossroad(BP, playing, fd);
     }
 }
 
-void crossroad(BrickPi3 & BP, const char & direction_instruction, int & playing) {
+void crossroad(BrickPi3 & BP, const char & direction_instruction, int & playing, int & fd) {
     drive(DIRECTION_STOP, 0, 360, BP); //stop the car
     switch (direction_instruction) {
         case 'L':
             driveLeft(BP, playing);
-            setLcd('Going left' , ' ');
+            clearLcd(fd);   // clear the lcd
+            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+            typeString("going left", fd);   // print the text on the screen
+            cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
+            typeString(" ", fd);            // print the text to the screen
             break;
         case 'R':
             driveRight(BP, playing);
-            setLcd('Going right' , ' ');
+            clearLcd(fd);   // clear the lcd
+            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+            typeString("going right", fd);   // print the text on the screen
+            cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
+            typeString(" ", fd);            // print the text to the screen
             break;
         case 'F':
             driveForward(BP, playing);
-            setLcd('Going forward' , ' ');
+            clearLcd(fd);   // clear the lcd
+            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+            typeString("going forward", fd);   // print the text on the screen
+            cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
+            typeString(" ", fd);            // print the text to the screen
             break;
         default:
             cout << "Wrong input. Please try again";
-            setLcd('Wrong input' , 'try again');
+            clearLcd(fd);   // clear the lcd
+            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+            typeString("wrong input", fd);   // print the text on the screen
+            cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
+            typeString("try again", fd);            // print the text to the screen
             usleep(500);
-            crossroad(BP, playing);
+            crossroad(BP, playing, fd);
     }
 }
 

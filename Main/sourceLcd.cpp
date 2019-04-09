@@ -1,52 +1,19 @@
 #include "linefollower.h"
 
-
-void setLcd(const char message1, const char message2) {
-    resetLcd();                           // clear lcd
-    lcdLoc(LINE1);                      // set cursor on LINE1
-    typeChar(message1);              // Print Calibrating to the lcd
-    lcdLoc(LINE2);
-    typeChar(message2);
-}
-
-void typeFloat(float myFloat) {
-// float to string
-    char buffer[20];
-    sprintf(buffer, "%4.2f",  myFloat);
-    typeCharArray(buffer);
-}
-
-void typeInt(int i) {
-// int to string
-    char array1[20];
-    sprintf(array1, "%d",  i);
-    typeCharArray(array1);
-}
-
-void resetLcd() {
-// Clr lcd and go to home
-    lcd_byte(0x01, LCD_CMD);
-    lcd_byte(0x02, LCD_CMD);
-}
-
-void lcdLoc(int line) {
-// Go to a location on the lcd, LINE1 or LINE2
-    lcd_byte(line, LCD_CMD);
-}
-
-void typeChar(const char val) {
-// Puts a char at the current posistion
-    lcd_byte(val, LCD_CHR);
+void enableLcd(int bits, int & fd) {
+    // Toggle enable pin on LCD display
+    usleep(500);
+    wiringPiI2CReadReg8(fd, (bits | ENABLE));
+    usleep(500);
+    wiringPiI2CReadReg8(fd, (bits & ~ENABLE));
+    usleep(500);
 }
 
 
-void typeCharArray(const char *s) {
-// this allows use of any size string
-    while (*s) lcd_byte(*(s++), LCD_CHR);
-}
-
-void lcd_byte(int bits, int mode) {
-    wiringPiValues val;     // Form the struct to acces the fd values
+void lcd_byte(int bits, int mode, int & fd)   {
+    //Send byte to data pins
+    // bits = the data
+    // mode = 1 for data, 0 for command
     int bits_high;
     int bits_low;
     // uses the two half byte writes to LCD
@@ -54,32 +21,35 @@ void lcd_byte(int bits, int mode) {
     bits_low = mode | ((bits << 4) & 0xF0) | LCD_BACKLIGHT ;
 
     // High bits
-    wiringPiI2CReadReg8(val.fd, bits_high);
-    enableLcd(bits_high);
+    wiringPiI2CReadReg8(fd, bits_high);
+    enableLcd(bits_high, fd);
 
     // Low bits
-    wiringPiI2CReadReg8(val.fd, bits_low);
-    enableLcd(bits_low);
+    wiringPiI2CReadReg8(fd, bits_low);
+    enableLcd(bits_low, fd);
 }
 
-void enableLcd(int bits) {
-    // Toggle enable pin on LCD display
-    wiringPiValues val;     // Form the struct to acces the fd values
-    usleep(500);
-    wiringPiI2CReadReg8(val.fd, (bits | ENABLE));
-    usleep(500);
-    wiringPiI2CReadReg8(val.fd, (bits & ~ENABLE));
-    usleep(500);
+void clearLcd(int & fd) {
+    lcd_byte(0x01, LCD_CMD, fd);
+    lcd_byte(0x02, LCD_CMD, fd);
+}
+
+void cursorLocation(int line, int & fd) {
+    lcd_byte(line, LCD_CMD, fd);
+}
+
+void typeString(const char *s, int & fd) {
+    while (*s) lcd_byte(*(s++), LCD_CHR, fd);
 }
 
 
-void lcdStart() {
+void lcdStart(int & fd) {
     // Initialise display
-    lcd_byte(0x33, LCD_CMD); // Initialise
-    lcd_byte(0x32, LCD_CMD); // Initialise
-    lcd_byte(0x06, LCD_CMD); // Cursor move direction
-    lcd_byte(0x0C, LCD_CMD); // 0x0F On, Blink Off
-    lcd_byte(0x28, LCD_CMD); // Data length, number of lines, font size
-    lcd_byte(0x01, LCD_CMD); // Clear display
+    lcd_byte(0x33, LCD_CMD, fd); // Initialise
+    lcd_byte(0x32, LCD_CMD, fd); // Initialise
+    lcd_byte(0x06, LCD_CMD, fd); // Cursor move direction
+    lcd_byte(0x0C, LCD_CMD, fd); // 0x0F On, Blink Off
+    lcd_byte(0x28, LCD_CMD, fd); // Data length, number of lines, font size
+    lcd_byte(0x01, LCD_CMD, fd); // Clear display
     usleep(500);
 }

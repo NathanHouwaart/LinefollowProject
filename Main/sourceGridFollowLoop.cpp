@@ -4,7 +4,7 @@ using namespace std;
 
 // TODO: --> Maak een loop voor het volgen van een grid. (Zie activity diagram)
 
-void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP){
+void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP, int & fd){
 
     unsigned int width;
     unsigned int height;
@@ -59,7 +59,7 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
                 updateRobotPosition(grid, fastest_route[direction_index], fastest_route, direction_index);
                 char robot_instruction = relativeDirection(facing_direction, fastest_route[direction_index]);
                 updateRobotOrientation(facing_direction, fastest_route[direction_index]);
-                crossroad(BP, robot_instruction, playing);
+                crossroad(BP, robot_instruction, playing, fd);
             }
         } else {                                             // If no intersection was detected, follow the line
             int error_to_average = defineError(data_struct.avarage_min_max, data_struct.difference_min_avarage, data_struct.difference_max_avarage,

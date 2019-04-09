@@ -29,10 +29,11 @@ int main() {
         cout << "wiringpisetup did not work" << endl << "return 1;" << endl;
         return 1;
     }
-    wiringPiValues val;
-    val.fd = wiringPiI2CSetup(I2C_ADDR);
-    lcdStart(); // setup LCD
-    setLcd('start lcd', 'start');
+    int fd = wiringPiI2CSetup(I2C_ADDR);
+    lcdStart(fd);   // setup LCD
+    clearLcd(fd);   // clear the lcd
+    cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+    typeString("Setting up", fd);   // print the text on the screen
 
     /*-----Set data structs-----*/
     sensor_color_t Color1;                                      // Initialise struct for data storage color sensor 1
@@ -43,32 +44,57 @@ int main() {
 
     /*-----Calibrate min and max reflection values and determine lightvalue the robot wants to follow-----*/
     CalculatingErrorData struct_line_values;
+
+    clearLcd(fd);   // clear the lcd
+    cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+    typeString("calibration", fd);   // print the text on the screen
+
     calibration(Color1, struct_line_values, BP);
     defineDifferenceToAverage(struct_line_values);
-    setLcd('calibration', 'Done');    // wirting to the lcd Done
     sleep(1); //Waiting for sensors to see normally
-    resetLcd();           // Clear the lcd
+    clearLcd();           // Clear the lcd
 	char modeselect;
 	/*-----Follow the line untill the ultrasonic sensor measures something withing X cm-----*/
     cout << "Select mode: (Line follow (L) / grid follow (G) / Free ride (F))" << endl;
+    clearLcd(fd);   // clear the lcd
+    cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+    typeString("Select mode", fd);   // print the text on the screen
+    cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
+    typeString("L G F", fd);            // print the text to the screen
     cin >> modeselect;
     switch (modeselect){
         case 'L':
-            setLcd('Linefollow', 'mode');
-            lineFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, BP);
+            clearLcd(fd);   // clear the lcd
+            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+            typeString("Linefollow", fd);   // print the text on the screen
+            cursorLocation(LINE2, fd);
+            typeString("mode", fd);
+            lineFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, BP, fd);
             break;
         case 'G':
-            setLcd('Gridfollow', 'mode');
-            gridFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, BP);
+            clearLcd(fd);   // clear the lcd
+            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+            typeString("Grid drive", fd);   // print the text on the screen
+            cursorLocation(LINE2, fd);
+            typeString("mode", fd);
+            gridFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, BP, fd);
             break;
         case 'F':
-            setLcd('Freeride', 'mode');
+            clearLcd(fd);   // clear the lcd
+            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+            typeString("Free ride", fd);   // print the text on the screen
+            cursorLocation(LINE2, fd);
+            typeString("mode", fd);
             freeRideLoop(BP);
             break;
         case 'O':
             objectDetect(UltraSonic1, BP, 10);
         default:
-            setLcd('Error goodbye', 'Have a nice day');
+            clearLcd(fd);   // clear the lcd
+            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+            typeString("Error", fd);   // print the text on the screen
+            cursorLocation(LINE2, fd);
+            typeString("Goodbye", fd);
             cout << "ERROR, wrong input" << endl;
             return -1;
    }
@@ -78,7 +104,11 @@ void exit_signal_handler(int signo) {
     /*-----This code will run when exiting the program with ctr + c. Used to reset de BrickPi outputs-----*/
     if(signo == SIGINT){
         BP.reset_all();    // Reset everything so there are no run-away motors
-        setLcd('You are' , 'killimg me');
+        clearLcd(fd);   // clear the lcd
+            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+            typeString("You killed", fd);   // print the text on the screen
+            cursorLocation(LINE2, fd);
+            typeString("ME", fd);
         exit(-2);
     }
 }
