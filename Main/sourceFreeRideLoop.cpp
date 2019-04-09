@@ -23,7 +23,7 @@ void freeRideLoop(BrickPi3 & BP){
             }
             cout << ".";
             cout.flush();
-            usleep(200000); // wacht 500 ms
+            usleep(200000); // wait 200 ms
         }
         clientsock->close();
     }
