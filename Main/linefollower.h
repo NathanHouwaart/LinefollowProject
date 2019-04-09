@@ -11,6 +11,7 @@
 #define LinefollowProject_LINEFOLLOWER_H
 
 #include "BrickPi3.h" // for BrickPi3
+#include "BluetoothSocket.h"
 #include <iostream>      // for cout
 #include <unistd.h>     // for sleep
 #include <signal.h>     // for catching exit signals
@@ -18,13 +19,14 @@
 #include <vector>
 #include <time.h>
 
+
 using namespace std;
 
 #define DIRECTION_STOP -1
 #define DIRECTION_LEFT 0
 #define DIRECTION_FORWARD 1
 #define DIRECTION_RIGHT 2
-#define MAX_MOTOR_SPEED 400
+#define MAX_MOTOR_SPEED 800
 
 // This struct is used to save the data used in calculating the avarage
 struct CalculatingErrorData{
@@ -39,8 +41,9 @@ struct CalculatingErrorData{
 void crossLine(BrickPi3 & BP, int32_t forward_degrees);
 void driveLeft(BrickPi3 & BP, int & playing);
 void driveRight(BrickPi3 & BP, int & playing);
-void driveForward(BrickPi3 & BP);
-void crossroad(BrickPi3 & BP, int & playing);
+void driveForward(BrickPi3 & BP , int & playing);
+void crossroad(BrickPi3 & BP,  int & playing);
+void crossroadGrid(BrickPi3 & BP, const char & direction_instruction, int & playing);
 
 // sourceDodgeObject.cpp
 void drive_straight(int32_t to_drive, BrickPi3 & BP);
@@ -55,9 +58,28 @@ void driveOnSpot(char turn_direction, BrickPi3 & BP);
 
 // sourceFreeRideLoop.cpp
 void freeRideLoop(BrickPi3 & BP);
+void selectDirection(const string & input, BrickPi3 & BP, float & steer, int & playing);
 
 // sourceGridFollowLoop.cpp
 void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP);
+
+// sourceGridFollowFunctions.cpp
+char relativeDirection(const char & current_robot_orientation, const char & absolute_direction);
+void updateRobotOrientation(char & current_robot_orientation, const char & absolute_direction);
+uint64_t factorial(uint64_t n);
+void updateRoute(vector<char> & fastest_route, const unsigned int & index, const char & new_direction, const bool & redirect);
+unsigned int possibleRoutes(const unsigned int & grid_height, const unsigned int & grid_width);
+vector<char> fastestRoute(const unsigned int & grid_height, const unsigned int & grid_width);
+vector<vector<char>> gridSetup(const unsigned int & grid_height, const unsigned int & grid_width);
+void printGrid(const vector<vector<char>> & grid);
+vector<size_t> getRobotPosition(const vector<vector<char>> & grid);
+void updateRobotPosition(vector<vector<char>> & grid, const char & robot_direction, vector<char> & fastest_route, const unsigned int & index);
+void updateBarrier(vector<vector<char>> & grid, const size_t & x_coordinate, const size_t & y_coordinate);
+bool lookLeft(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP);
+bool lookRight(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP);
+bool lookForward(sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP);
+void whereToLook(vector<vector<char>> & grid, const char & look_direction, const char & facing_direction,
+                 vector<size_t> position, sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP);
 
 // sourceLineFollowLoop.cpp
 void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP);
@@ -79,7 +101,7 @@ bool colorsensorBlackLineDetect(sensor_color_t & Color1, BrickPi3 & BP);
 //sourceSound.cpp
 void playSound(char selection, int & playing);
 void megaCharge(int & playing, BrickPi3 & BP);
-void stopSound();
+void stopSound(int & playing);
 
 //sourceGridObjectDetect.cpp
 bool lookLeft(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP);

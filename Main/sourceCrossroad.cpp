@@ -12,28 +12,34 @@
 using namespace std;
 
 void crossLine(BrickPi3 & BP, int32_t forward_degrees){
-//	cout << "Ik ben crossline" << endl;
 	uint8_t motor_right = PORT_D;
 	uint8_t motor_left = PORT_A;
+//	BP.set_motor_limits(PORT_D, 100, 90);
+//	BP.set_motor_limits(PORT_A, 100, 90);
 	BP.set_motor_position_relative(motor_left, forward_degrees);
 	BP.set_motor_position_relative(motor_right, forward_degrees);
 	usleep(1000*400);
 }
 
 void driveLeft(BrickPi3 & BP, int & playing) {         //skip over line and turn left
-	crossLine(BP,160);
-        playSound('T', playing);
+	crossLine(BP,240);
+        playSound('L', playing);
+	usleep(1000*400);       //delay so sound has enough time to play
 	driveOnSpot('L',BP);
+	crossLine(BP, 40);
 }
 
 void driveRight(BrickPi3 & BP, int & playing) {        //skip over line and turn right
 	crossLine(BP,90);
-	playSound('T', playing);
+	playSound('R', playing);
+	usleep(1000*1000);       //delay so sound has enough time to play
 	driveOnSpot('R',BP);
 }
 
-void driveForward(BrickPi3 & BP) {      //skip over line
-	crossLine(BP,90);
+void driveForward(BrickPi3 & BP, int & playing) {      //skip over line
+    playSound('S', playing);
+    usleep(1000*1000);      //delay so sound has enough time to play
+    crossLine(BP,90);
 }
 
 void crossroad(BrickPi3 & BP, int & playing) {
@@ -49,7 +55,25 @@ void crossroad(BrickPi3 & BP, int & playing) {
             driveRight(BP, playing);
             break;
         case 'F':
-            driveForward(BP);
+            driveForward(BP, playing);
+            break;
+        default:
+            cout << "Wrong input. Please try again";
+            crossroad(BP, playing);
+    }
+}
+
+void crossroadGrid(BrickPi3 & BP, const char & direction_instruction, int & playing) {
+    drive(DIRECTION_STOP, 0, 360, BP); //stop the car
+    switch (direction_instruction) {
+        case 'L':
+            driveLeft(BP, playing);
+            break;
+        case 'R':
+            driveRight(BP, playing);
+            break;
+        case 'F':
+            driveForward(BP, playing);
             break;
         default:
             cout << "Wrong input. Please try again";
