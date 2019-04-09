@@ -32,13 +32,13 @@ void driveLeft(BrickPi3 & BP, int & playing) {         //skip over line and turn
 void driveRight(BrickPi3 & BP, int & playing) {        //skip over line and turn right
 	crossLine(BP,90);
 	playSound('R', playing);
-	usleep(1000*400);
+	usleep(1000*500);
 	driveOnSpot('R',BP);
 }
 
 void driveForward(BrickPi3 & BP, int & playing) {      //skip over line
     playSound('S', playing);
-    usleep(1000*400);
+    usleep(1000*500);
     crossLine(BP,90);
    // playSound('T', playing);
 }
