@@ -2,6 +2,7 @@
 #include <wiringPi.h>
 // #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 using namespace std;
 
 #define I2C_ADDR   0x27 // I2C device address of the lcd

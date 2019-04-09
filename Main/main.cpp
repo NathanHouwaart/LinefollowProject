@@ -32,6 +32,7 @@ int main() {
     wiringPiValues val;
     val.fd = wiringPiI2CSetup(I2C_ADDR);
     lcdStart(); // setup LCD
+    setLcd('start lcd', 'start');
 
     /*-----Set data structs-----*/
     sensor_color_t Color1;                                      // Initialise struct for data storage color sensor 1
