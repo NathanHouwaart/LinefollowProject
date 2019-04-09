@@ -39,9 +39,8 @@ struct SharpCornerSettings{
     float min_value_black = 0.36; //This value is the min. value needed by direction_control to be a sharp corner(black)
     float min_value_white = 1.74;  //This value is the min. value needed by direction_control to be a sharp corner(white)
     float max_aggression_black = 0.8;
-    float max_aggression_white = 1;
+    float max_aggression_white = 1.0;
 };
-
 
 // sourceCrossroad.cpp
 void crossLine(BrickPi3 & BP, int32_t forward_degrees);

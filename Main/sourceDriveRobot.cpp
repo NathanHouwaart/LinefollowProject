@@ -6,6 +6,7 @@ project ----- -----Contributors: ----- -----Jochem van Weelde, Stijn van Wijk, W
 #include "linefollower.h"
 
 using namespace std;
+
 vector<float> buffer_amount_of_aggression ={};
 bool sharp_corner = false;
 float amount_of_aggression = 0;
