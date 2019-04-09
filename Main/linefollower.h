@@ -21,6 +21,7 @@
 #include <wiringPi.h>
 // #include <stdlib.h>
 #include <stdio.h>
+
 using namespace std;
 
 #define DIRECTION_STOP -1
@@ -124,6 +125,6 @@ void clearLcd(int & fd);
 void cursorLocation(int line, int & fd);
 void typeString(const char *s, int & fd);
 void lcdStart(int & fd);
-void typeFloat(float myFloat, int & fd)
+void typeFloat(float myFloat, int & fd);
 
 #endif //LinefollowProject_LINEFOLLOWER_H
