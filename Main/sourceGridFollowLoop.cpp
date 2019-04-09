@@ -59,7 +59,7 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
                 updateRobotPosition(grid, fastest_route[direction_index], fastest_route, direction_index);
                 char robot_instruction = relativeDirection(facing_direction, fastest_route[direction_index]);
                 updateRobotOrientation(facing_direction, fastest_route[direction_index]);
-                crossroad(BP, robot_instruction, playing);
+                crossroadGrid(BP, robot_instruction, playing);
             }
         } else {                                             // If no intersection was detected, follow the line
             int error_to_average = defineError(data_struct.avarage_min_max, data_struct.difference_min_avarage, data_struct.difference_max_avarage,

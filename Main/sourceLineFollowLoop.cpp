@@ -34,13 +34,13 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
             counter_object = 0;
             if (Color2.reflected_red < data_struct.avarage_min_max && main_sensor_measurment < data_struct.avarage_min_max) {
                 playSound('C', playing);
-                crossroad(BP, playing);
+		crossroad(BP, playing);
             } else {                                             // If no intersection was detected, follow the line
                 int error_to_avarage = defineError(data_struct.avarage_min_max, data_struct.difference_min_avarage, data_struct.difference_max_avarage, main_sensor_measurment);
                 pController(error_to_avarage, BP);
             }
         } else {                                                  // If an object was detected within X cm, execute this code
-            playSound('S', playing);
+            playSound('O', playing);
             drive(DIRECTION_STOP, 0, 360, BP); // Stop the car
             counter_object++;
             if (counter_object % 1000 == 0) { cout << "Joe 1000 iets" << counter_object << endl; }

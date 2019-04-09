@@ -43,7 +43,7 @@ void driveLeft(BrickPi3 & BP, int & playing);
 void driveRight(BrickPi3 & BP, int & playing);
 void driveForward(BrickPi3 & BP , int & playing);
 void crossroad(BrickPi3 & BP,  int & playing);
-void crossroad(BrickPi3 & BP, const char & direction_instruction, int & playing);
+void crossroadGrid(BrickPi3 & BP, const char & direction_instruction, int & playing);
 
 // sourceDodgeObject.cpp
 void drive_straight(int32_t to_drive, BrickPi3 & BP);
@@ -58,7 +58,7 @@ void driveOnSpot(char turn_direction, BrickPi3 & BP);
 
 // sourceFreeRideLoop.cpp
 void freeRideLoop(BrickPi3 & BP);
-void selectDirection(const string & input, BrickPi3 & BP, float & steer);
+void selectDirection(const string & input, BrickPi3 & BP, float & steer, int & playing);
 
 // sourceGridFollowLoop.cpp
 void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP);
@@ -101,7 +101,7 @@ bool colorsensorBlackLineDetect(sensor_color_t & Color1, BrickPi3 & BP);
 //sourceSound.cpp
 void playSound(char selection, int & playing);
 void megaCharge(int & playing, BrickPi3 & BP);
-void stopSound();
+void stopSound(int & playing);
 
 //sourceGridObjectDetect.cpp
 bool lookLeft(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP);
