@@ -30,8 +30,8 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
 
 
     while (true) {
-        float battery = BP.get_voltage_battery()
-        float battery_percetage = (100/(12.6-10.8)*(battery-10.8))
+        float battery = BP.get_voltage_battery();
+        float battery_percentage = (100/(12.6-10.8)*(battery-10.8));
         clearLcd(fd);   // clear the lcd
         cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
         typeString("Grid mode", fd);   // print the text on the screen
