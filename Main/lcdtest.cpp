@@ -22,21 +22,7 @@ struct wiringPiValues {
 
 
 
-int main() {
-    wiringPiValues val;
-    if (wiringPiSetup() == -1) exit (1);
-    val.fd = wiringPiI2CSetup(I2C_ADDR);
-    lcdStart();
-    while (true) {
-        resetLcd();
-        sleep(1);
-        cursorLocation(LINE1);
-        typeString("test");
-        cursorLocation(LINE2);
-        typeString("LOL");
-        sleep(1);
-    }
-}
+
 
 
 void clearLcd() {
@@ -91,4 +77,20 @@ void lcdStart() {
     lcd_byte(0x28, LCD_CMD); // Data length, number of lines, font size
     lcd_byte(0x01, LCD_CMD); // Clear display
     delayMicroseconds(500);
+}
+
+int main() {
+    wiringPiValues val;
+    if (wiringPiSetup() == -1) exit (1);
+    val.fd = wiringPiI2CSetup(I2C_ADDR);
+    lcdStart();
+    while (true) {
+        resetLcd();
+        sleep(1);
+        cursorLocation(LINE1);
+        typeString("test");
+        cursorLocation(LINE2);
+        typeString("LOL");
+        sleep(1);
+    }
 }
