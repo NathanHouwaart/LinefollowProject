@@ -11,6 +11,7 @@
 #define LinefollowProject_LINEFOLLOWER_H
 
 #include "BrickPi3.h" // for BrickPi3
+#include "BluetoothSocket.h"
 #include <iostream>      // for cout
 #include <unistd.h>     // for sleep
 #include <signal.h>     // for catching exit signals
@@ -22,13 +23,14 @@
 // #include <stdlib.h>
 #include <stdio.h>
 
+
 using namespace std;
 
 #define DIRECTION_STOP -1
 #define DIRECTION_LEFT 0
 #define DIRECTION_FORWARD 1
 #define DIRECTION_RIGHT 2
-#define MAX_MOTOR_SPEED 400
+#define MAX_MOTOR_SPEED 800
 #define I2C_ADDR   0x27 // I2C device address of the lcd
 #define LCD_CHR  1 // Mode - Sending data
 #define LCD_CMD  0 // Mode - Sending command
@@ -69,6 +71,7 @@ void driveOnSpot(char turn_direction, BrickPi3 & BP);
 
 // sourceFreeRideLoop.cpp
 void freeRideLoop(BrickPi3 & BP, int & fd);
+void selectDirection(const string & input, BrickPi3 & BP, float & steer, int & playing);
 
 // sourceGridFollowLoop.cpp
 void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP, int & fd);
@@ -111,7 +114,7 @@ bool colorsensorBlackLineDetect(sensor_color_t & Color1, BrickPi3 & BP);
 //sourceSound.cpp
 void playSound(char selection, int & playing);
 void megaCharge(int & playing, BrickPi3 & BP);
-void stopSound();
+void stopSound(int & playing);
 
 //sourceGridObjectDetect.cpp
 bool lookLeft(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP);
