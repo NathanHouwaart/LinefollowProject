@@ -113,7 +113,8 @@ void loopForObjectDodge(sensor_ultrasonic_t & UltraSonic, int target_distance , 
 }
 
 void timeForFlow(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sensor_color_t & Color2, int average_black_line, BrickPi3 & BP){
-
+	uint8_t motor_left = PORT_A;
+	uint8_t motor_right = PORT_D;
 	driveOnSpot('R',BP); // Turn robot to the right, on his axis.
 	usleep(1000*1500);
 	turnUS(0,BP); // Turns the US sensor, it makes sure it is turned 90 right-angled on the driving direction
@@ -127,6 +128,7 @@ void timeForFlow(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sens
 	cout << "target_distance: " << target_distance << endl;
 	//Go straight until one of the color sensors detects a black line.
 	while(Color1.reflected_red > average_black_line || Color2.reflected_red > average_black_line){
+		cout << "current_distance: " << current_distance << endl;
 		if(current_distance > target_distance*2){
 			steeringRobot('F', BP);
 		} else if(current_distance < target_distance){
@@ -139,7 +141,6 @@ void timeForFlow(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sens
 			// The object is the correct distance, so go straight on
 			steeringRobot('F', BP);
 		}
-		usleep(1000*3000);
 		getUltraSValue(PORT_4, UltraSonic, BP);
 		current_distance = UltraSonic.cm;
 		BP.get_sensor(PORT_1, Color1);
@@ -157,11 +158,18 @@ void timeForFlow(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sens
 			usleep(1000*(1000));
 		}
 	}
+
+	BP.set_motor_limits(motor_left,60,200);
+	BP.set_motor_limits(motor_right,60,200);
 	// Line detected so turn to right to go on line again
 	cout << "Last step!" << endl;
 	crossLine(BP,90);
+	usleep(1000*500);
 	driveOnSpot('R',BP);
+	usleep(1000*500);
 	turnUS(1, BP);
+	usleep(1000*1000);
+	cout << "Ik ben klaar" << endl;
 }
 
 
@@ -172,7 +180,6 @@ void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1
 	 */
 	uint8_t motor_left = PORT_A;
 	uint8_t motor_right = PORT_D;
-	BP.set_motor_limits(motor_left,60,200);
 	BP.set_motor_limits(motor_right,60,200);
 	driveOnSpot('R',BP); // Turn robot to the right, on his axis.
 	usleep(1000*1500);
