@@ -25,18 +25,7 @@ struct wiringPiValues {
 
 
 
-void clearLcd() {
-    lcd_byte(0x01, LCD_CMD);
-    lcd_byte(0x02, LCD_CMD);
-}
 
-void cursorLocation(int line) {
-    lcd_byte(line, LCD_CMD);
-}
-
-void typeString(const char *s) {
-    while (*s) lcd_byte(*(s++), LCD_CHR);
-}
 
 void lcd_byte(int bits, int mode)   {
     wiringPiValues val;
@@ -56,6 +45,19 @@ void lcd_byte(int bits, int mode)   {
     // Low bits
     wiringPiI2CReadReg8(val.fd, bits_low);
     lcd_toggle_enable(bits_low);
+}
+
+void clearLcd() {
+    lcd_byte(0x01, LCD_CMD);
+    lcd_byte(0x02, LCD_CMD);
+}
+
+void cursorLocation(int line) {
+    lcd_byte(line, LCD_CMD);
+}
+
+void typeString(const char *s) {
+    while (*s) lcd_byte(*(s++), LCD_CHR);
 }
 
 void enableLcd(int bits) {
