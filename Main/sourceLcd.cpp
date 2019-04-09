@@ -51,3 +51,9 @@ void lcdStart(int & fd) {
     lcd_byte(0x01, LCD_CMD, fd); // Clear display
     usleep(500);
 }
+
+void typeFloat(float myFloat, int & fd)   {
+  char buffer[20];
+  sprintf(buffer, "%4.2f",  myFloat);
+  typeString(buffer, fd);
+}

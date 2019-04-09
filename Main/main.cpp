@@ -64,28 +64,13 @@ int main() {
     cin >> modeselect;
     switch (modeselect){
         case 'L':
-            clearLcd(fd);   // clear the lcd
-            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
-            typeString("Linefollow", fd);   // print the text on the screen
-            cursorLocation(LINE2, fd);
-            typeString("mode", fd);
             lineFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, BP, fd);
             break;
         case 'G':
-            clearLcd(fd);   // clear the lcd
-            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
-            typeString("Grid drive", fd);   // print the text on the screen
-            cursorLocation(LINE2, fd);
-            typeString("mode", fd);
             gridFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, BP, fd);
             break;
         case 'F':
-            clearLcd(fd);   // clear the lcd
-            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
-            typeString("Free ride", fd);   // print the text on the screen
-            cursorLocation(LINE2, fd);
-            typeString("mode", fd);
-            freeRideLoop(BP);
+            freeRideLoop(BP, fd);
             break;
         case 'O':
             objectDetect(UltraSonic1, BP, 10);

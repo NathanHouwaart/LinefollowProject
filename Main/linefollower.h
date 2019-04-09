@@ -67,7 +67,7 @@ void drive(float direction_control, unsigned int speed_multiplier_percentage, un
 void driveOnSpot(char turn_direction, BrickPi3 & BP);
 
 // sourceFreeRideLoop.cpp
-void freeRideLoop(BrickPi3 & BP);
+void freeRideLoop(BrickPi3 & BP, int & fd);
 
 // sourceGridFollowLoop.cpp
 void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP, int & fd);
@@ -124,5 +124,6 @@ void clearLcd(int & fd);
 void cursorLocation(int line, int & fd);
 void typeString(const char *s, int & fd);
 void lcdStart(int & fd);
+void typeFloat(float myFloat, int & fd)
 
 #endif //LinefollowProject_LINEFOLLOWER_H

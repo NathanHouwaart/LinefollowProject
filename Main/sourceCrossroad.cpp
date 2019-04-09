@@ -53,27 +53,12 @@ void crossroad(BrickPi3 & BP, int & playing, int & fd) {
     switch (choice) {
         case 'L':
             driveLeft(BP, playing);
-            clearLcd(fd);   // clear the lcd
-            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
-            typeString("going left", fd);   // print the text on the screen
-            cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
-            typeString(" ", fd);            // print the text to the screen
             break;
         case 'R':
             driveRight(BP, playing);
-            clearLcd(fd);   // clear the lcd
-            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
-            typeString("going right", fd);   // print the text on the screen
-            cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
-            typeString(" ", fd);            // print the text to the screen
             break;
         case 'F':
             driveForward(BP, playing);
-            clearLcd(fd);   // clear the lcd
-            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
-            typeString("going forward", fd);   // print the text on the screen
-            cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
-            typeString(" ", fd);            // print the text to the screen
             break;
         default:
             cout << "Wrong input. Please try again";
@@ -82,7 +67,6 @@ void crossroad(BrickPi3 & BP, int & playing, int & fd) {
             typeString("wrong input", fd);   // print the text on the screen
             cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
             typeString("try again", fd);            // print the text to the screen
-            usleep(500);
             crossroad(BP, playing, fd);
     }
 }
@@ -92,27 +76,12 @@ void crossroad(BrickPi3 & BP, const char & direction_instruction, int & playing,
     switch (direction_instruction) {
         case 'L':
             driveLeft(BP, playing);
-            clearLcd(fd);   // clear the lcd
-            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
-            typeString("going left", fd);   // print the text on the screen
-            cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
-            typeString(" ", fd);            // print the text to the screen
             break;
         case 'R':
             driveRight(BP, playing);
-            clearLcd(fd);   // clear the lcd
-            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
-            typeString("going right", fd);   // print the text on the screen
-            cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
-            typeString(" ", fd);            // print the text to the screen
             break;
         case 'F':
             driveForward(BP, playing);
-            clearLcd(fd);   // clear the lcd
-            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
-            typeString("going forward", fd);   // print the text on the screen
-            cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
-            typeString(" ", fd);            // print the text to the screen
             break;
         default:
             cout << "Wrong input. Please try again";
