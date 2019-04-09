@@ -74,10 +74,10 @@ void steeringRobot(char to_steer, BrickPi3 & BP){
 	} else if(to_steer == 'L'){
 		// Robot steers to left
 		BP.set_motor_dps(motor_left, dps_motor * 0.7);
-		BP.set_motor_dps(motor_right, dps_motor);
+		BP.set_motor_dps(motor_right, dps_motor * 1.6);
 	} else if(to_steer == 'R'){
 		// Robot steers to right
-		BP.set_motor_dps(motor_left, dps_motor);
+		BP.set_motor_dps(motor_left, dps_motor * 1.6);
 		BP.set_motor_dps(motor_right, dps_motor * 0.7);
 	} else{
 		BP.set_motor_dps(motor_left, dps_motor*0);
@@ -115,8 +115,13 @@ void loopForObjectDodge(sensor_ultrasonic_t & UltraSonic, int target_distance , 
 void timeForFlow(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sensor_color_t & Color2, int average_black_line, BrickPi3 & BP){
 	uint8_t motor_left = PORT_A;
 	uint8_t motor_right = PORT_D;
+	BP.set_motor_limits(motor_left,60,200);
+	BP.set_motor_limits(motor_right,60,200);
+
+	cout << "Turn on spot" << endl;
 	driveOnSpot('R',BP); // Turn robot to the right, on his axis.
 	usleep(1000*1500);
+	cout << "turn us head" << endl;
 	turnUS(0,BP); // Turns the US sensor, it makes sure it is turned 90 right-angled on the driving direction
 	usleep(1000*2000);
 
@@ -159,8 +164,6 @@ void timeForFlow(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sens
 		}
 	}
 
-	BP.set_motor_limits(motor_left,60,200);
-	BP.set_motor_limits(motor_right,60,200);
 	// Line detected so turn to right to go on line again
 	cout << "Last step!" << endl;
 	crossLine(BP,90);
