@@ -16,8 +16,20 @@ using namespace std;
 
 int counter_object = 0;
 int playing = 0;        //telling the program that no sound is currently playing
-void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP){
+int lcd_counter = 10000;    // to keep the lcd form updating every loop and than noging shows and start a 10000 to start the lcd
+void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP, int & fd){
     while (true) {
+        lcd_counter++;                  // add one to the counter for every loop
+        if (lcd_counter >= 5000) {      // after 5000 loops update hij het schermpje
+            float battery = BP.get_voltage_battery();
+            float battery_percentage = (100/(12.6-10.8)*(battery-10.8));
+            clearLcd(fd);   // clear the lcd
+            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+            typeFloat(battery_percentage, fd);  // display the battery_percantage
+            cursorLocation(LINE2, fd);     // set the cursorlocation to line 2
+            typeString("PCT   Linefollow", fd);   // print the text on the screen
+            lcd_counter = 0;                    // reset the counter
+        }
         BP.get_sensor(PORT_1, Color1);                          // Read colorsensor1 and put data in struct Color1
         BP.get_sensor(PORT_3, Color2);
         int main_sensor_measurment = Color1.reflected_red;
@@ -34,7 +46,8 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
             counter_object = 0;
             if (Color2.reflected_red < data_struct.avarage_min_max && main_sensor_measurment < data_struct.avarage_min_max) {
                 playSound('C', playing);
-                crossroad(BP, playing);
+                crossroad(BP, playing, fd);
+                lcd_counter = 100000;       // to restart the lcd and give the battery percantage
             } else {                                             // If no intersection was detected, follow the line
                 int error_to_avarage = defineError(data_struct.avarage_min_max, data_struct.difference_min_avarage, data_struct.difference_max_avarage, main_sensor_measurment);
                 pController(error_to_avarage, BP);

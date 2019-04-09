@@ -4,7 +4,7 @@ using namespace std;
 
 // TODO: --> Maak een loop voor het volgen van een grid. (Zie activity diagram)
 
-void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP){
+void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP, int & fd){
 
     unsigned int width;
     unsigned int height;
@@ -27,9 +27,20 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
 
     vector<vector<char>> grid = gridSetup(height, width);
     vector<char> fastest_route = fastestRoute(height, width);
-
+    int lcd_counter = 100000;        // to keep the lcd form updating every loop and starts at 10000 to start the lcd configuration
 
     while (true) {
+        lcd_counter++;          // add one to the counter
+        if (lcd_counter >= 5000) {      // after every 5000 loops updates the lcd screen
+            float battery = BP.get_voltage_battery();
+            float battery_percentage = (100/(12.6-10.8)*(battery-10.8));
+            clearLcd(fd);   // clear the lcd
+            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+            typeFloat(battery_percentage, fd);  // display the battery_percantage
+            cursorLocation(LINE2, fd);     // set the cursorlocation to line 2
+            typeString("PCT   Grid mode", fd);   // print the text on the screen
+            lcd_counter = 0;        // rest the counter
+        }
         int playing = 0;
         BP.get_sensor(PORT_1, Color1);                          // Read colorsensor1 and put data in struct Color1
         BP.get_sensor(PORT_3, Color2);
@@ -59,7 +70,8 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
                 updateRobotPosition(grid, fastest_route[direction_index], fastest_route, direction_index);
                 char robot_instruction = relativeDirection(facing_direction, fastest_route[direction_index]);
                 updateRobotOrientation(facing_direction, fastest_route[direction_index]);
-                crossroad(BP, robot_instruction, playing);
+                crossroad(BP, robot_instruction, playing, fd);
+                lcd_counter = 10000;        // to get the lcd screen back to the main version
             }
         } else {                                             // If no intersection was detected, follow the line
             int error_to_average = defineError(data_struct.avarage_min_max, data_struct.difference_min_avarage, data_struct.difference_max_avarage,

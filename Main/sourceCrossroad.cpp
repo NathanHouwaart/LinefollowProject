@@ -40,9 +40,14 @@ void driveForward(BrickPi3 & BP, int & playing) {      //skip over line
     playSound('T', playing);
 }
 
-void crossroad(BrickPi3 & BP, int & playing) {
+void crossroad(BrickPi3 & BP, int & playing, int & fd) {
     drive(DIRECTION_STOP, 0, 360, BP); //stop the car
     cout << "Crossroad detected: Do you want to go LEFT(L)/RIGHT(R)/FORWARD(F)" << endl;
+    clearLcd(fd);   // clear the lcd
+    cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+    typeString("Which way", fd);   // print the text on the screen
+    cursorLocation(LINE2, fd);
+    typeString("R, L, F", fd);
     char choice;
     cin >> choice;
     switch (choice) {
@@ -57,11 +62,16 @@ void crossroad(BrickPi3 & BP, int & playing) {
             break;
         default:
             cout << "Wrong input. Please try again";
-            crossroad(BP, playing);
+            clearLcd(fd);   // clear the lcd
+            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+            typeString("wrong input", fd);   // print the text on the screen
+            cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
+            typeString("try again", fd);            // print the text to the screen
+            crossroad(BP, playing, fd);
     }
 }
 
-void crossroad(BrickPi3 & BP, const char & direction_instruction, int & playing) {
+void crossroad(BrickPi3 & BP, const char & direction_instruction, int & playing, int & fd) {
     drive(DIRECTION_STOP, 0, 360, BP); //stop the car
     switch (direction_instruction) {
         case 'L':
@@ -75,7 +85,13 @@ void crossroad(BrickPi3 & BP, const char & direction_instruction, int & playing)
             break;
         default:
             cout << "Wrong input. Please try again";
-            crossroad(BP, playing);
+            clearLcd(fd);   // clear the lcd
+            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+            typeString("wrong input", fd);   // print the text on the screen
+            cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
+            typeString("try again", fd);            // print the text to the screen
+            usleep(500);
+            crossroad(BP, playing, fd);
     }
 }
 

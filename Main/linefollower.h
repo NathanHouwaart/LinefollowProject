@@ -17,6 +17,10 @@
 #include <iomanip>		// for setw and setprecision>
 #include <vector>
 #include <time.h>
+#include <wiringPiI2C.h>
+#include <wiringPi.h>
+// #include <stdlib.h>
+#include <stdio.h>
 
 using namespace std;
 
@@ -25,6 +29,15 @@ using namespace std;
 #define DIRECTION_FORWARD 1
 #define DIRECTION_RIGHT 2
 #define MAX_MOTOR_SPEED 400
+#define I2C_ADDR   0x27 // I2C device address of the lcd
+#define LCD_CHR  1 // Mode - Sending data
+#define LCD_CMD  0 // Mode - Sending command
+#define LINE1  0x80 // 1st line of lcd
+#define LINE2  0xC0 // 2nd line of lcd
+#define LCD_BACKLIGHT   0x08  // On
+// LCD_BACKLIGHT = 0x00  # Off
+#define ENABLE  0b00000100 // Enable bit to enable the lcd
+
 
 // This struct is used to save the data used in calculating the avarage
 struct CalculatingErrorData{
@@ -40,8 +53,8 @@ void crossLine(BrickPi3 & BP, int32_t forward_degrees);
 void driveLeft(BrickPi3 & BP, int & playing);
 void driveRight(BrickPi3 & BP, int & playing);
 void driveForward(BrickPi3 & BP , int & playing);
-void crossroad(BrickPi3 & BP,  int & playing);
-void crossroad(BrickPi3 & BP, const char & direction_instruction, int & playing);
+void crossroad(BrickPi3 & BP,  int & playing, int & fd);
+void crossroad(BrickPi3 & BP, const char & direction_instruction, int & playing, int & fd);
 
 // sourceDodgeObject.cpp
 void drive_straight(int32_t to_drive, BrickPi3 & BP);
@@ -55,10 +68,10 @@ void drive(float direction_control, unsigned int speed_multiplier_percentage, un
 void driveOnSpot(char turn_direction, BrickPi3 & BP);
 
 // sourceFreeRideLoop.cpp
-void freeRideLoop(BrickPi3 & BP);
+void freeRideLoop(BrickPi3 & BP, int & fd);
 
 // sourceGridFollowLoop.cpp
-void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP);
+void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP, int & fd);
 
 // sourceGridFollowFunctions.cpp
 char relativeDirection(const char & current_robot_orientation, const char & absolute_direction);
@@ -79,7 +92,7 @@ void whereToLook(vector<vector<char>> & grid, const char & look_direction, const
                  vector<size_t> position, sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP);
 
 // sourceLineFollowLoop.cpp
-void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP);
+void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP, int & fd);
 
 // sourceMainFunctions.cpp
 void calibration(sensor_color_t & Color1, CalculatingErrorData & data_struct,  BrickPi3 & BP);
@@ -104,5 +117,14 @@ void stopSound();
 bool lookLeft(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP);
 bool lookRight(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP);
 bool lookForward(sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP);
+
+//sourceLcd.cpp
+void enableLcd(int bits, int & fd);
+void lcd_byte(int bits, int mode, int & fd);
+void clearLcd(int & fd);
+void cursorLocation(int line, int & fd);
+void typeString(const char *s, int & fd);
+void lcdStart(int & fd);
+void typeFloat(float myFloat, int & fd);
 
 #endif //LinefollowProject_LINEFOLLOWER_H
