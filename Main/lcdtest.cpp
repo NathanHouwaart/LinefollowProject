@@ -1,8 +1,9 @@
 #include <wiringPiI2C.h>
 #include <wiringPi.h>
-// #include <stdlib.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <iostream>
 using namespace std;
 
 #define I2C_ADDR   0x27 // I2C device address of the lcd
@@ -43,6 +44,7 @@ int main() {
     typeCharArray("teset");              // Print Calibrating to the lcd
     lcdLoc(LINE2);
     typeCharArray("test");
+    sleep(10);
 }
 
 
