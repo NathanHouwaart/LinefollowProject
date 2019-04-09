@@ -3,14 +3,132 @@
 //
 
 #include "linefollower.h"
+#include <vector>
 
 using namespace std;
+
+char relativeDirection(const char & current_robot_orientation, const char & absolute_direction){
+    /* This function translates the absolute directions given to relative directions the robot can follow */
+
+    if(current_robot_orientation == absolute_direction){                //  If the facing direction is the same as the direction the robot needs to drive in:
+        return 'F';                                                     // Forward
+    }else{
+        switch (current_robot_orientation){
+            case 'D':                                                   // If robot is oriented DOWN:
+                if(absolute_direction =='R'){                               // If robot needs to go to the right:
+                    return 'L';                                                 // Robot needs to turn left
+                }else if(absolute_direction == 'U'){                        // If robot needs to go up
+                    return 'B';                                                 // Robot needs to turn around and go backwards
+                }else if(absolute_direction == 'L') {                       // If robot needs to go to the left
+                    return 'R';                                                 // Robot needs to turn right
+                }
+                break;
+            case 'R':                                                   // If robot is orientated RIGHT
+                if(absolute_direction =='U'){                               // If robot needs to go up
+                    return 'L';                                                 // Robot needs to turn left
+                }else if(absolute_direction == 'L'){                        // If robot needs to go to the Left
+                    return 'B';                                                 // Robot needs to turn around and go backwards
+                }else if(absolute_direction == 'D') {                       // If robot needs to go down
+                    return 'R';                                                 // Robot needs to turn right
+                }
+                break;
+            case 'U':                                                   // If robot is oriented UP
+                if(absolute_direction =='L'){                               // If robot needs to go to the Left
+                    return 'L';                                                 // Robot needs to turn left
+                }else if(absolute_direction == 'R'){                        // If robot needs to go to the right:
+                    return 'R';                                                 // Robot needs to turn right
+                }else if(absolute_direction == 'D') {                       // If robot needs to go down
+                    return 'B';                                                 // Robot needs to turn around and go backwards
+                }
+                break;
+            case 'L':                                                   // If robot is oriented LEFT
+                if(absolute_direction =='U'){                               // If robot needs to go up
+                    return 'R';                                                 // Robot needs to turn right
+                }else if(absolute_direction == 'R'){                        // If robot needs to go to the right:
+                    return 'B';                                                 // Robot needs to turn around and go backwards
+                }else if(absolute_direction == 'D') {                       // If robot needs to go down
+                    return 'L';                                                 // Robot needs to turn left
+                }
+                break;
+        }
+    }
+}
+
+void updateRobotOrientation(char & current_robot_orientation, const char & absolute_direction){
+    /* This function translates the absolute directions given to relative directions the robot can follow */
+
+    if(current_robot_orientation == absolute_direction){                //  If the facing direction is the same as the direction the robot needs to drive in:
+        return;
+    }else{
+        switch (current_robot_orientation){
+            case 'D':                                                   // If robot is oriented DOWN:
+                if(absolute_direction =='R'){                               // If robot needs to go to the right:
+                    current_robot_orientation = absolute_direction;             // Orientation changes to right
+                }else if(absolute_direction == 'U'){                        // If robot needs to go up
+                    current_robot_orientation = absolute_direction;             // Orientation changes to up
+                }else if(absolute_direction == 'L') {                       // If robot needs to go to the left
+                    current_robot_orientation = absolute_direction;             // Orientation changes to left
+                }
+                break;
+            case 'R':                                                   // If robot is orientated RIGHT
+                if(absolute_direction =='U'){                               // If robot needs to go up
+                    current_robot_orientation = absolute_direction;             // Orientation changes to up
+                }else if(absolute_direction == 'L'){                        // If robot needs to go to the Left
+                    current_robot_orientation = absolute_direction;             // Orientation changes to left
+                }else if(absolute_direction == 'D') {                       // If robot needs to go down
+                    current_robot_orientation = absolute_direction;             // Orientation changes to down
+                }
+                break;
+            case 'U':                                                   // If robot is oriented UP
+                if(absolute_direction =='L'){                               // If robot needs to go to the Left
+                    current_robot_orientation = absolute_direction;             // Orientation changes to left
+                }else if(absolute_direction == 'R'){                        // If robot needs to go to the right:
+                    current_robot_orientation = absolute_direction;             // Orientation changes to right
+                }else if(absolute_direction == 'D') {                       // If robot needs to go down
+                    current_robot_orientation = absolute_direction;             // Orientation changes to down
+                }
+                break;
+            case 'L':                                                   // If robot is oriented LEFT
+                if(absolute_direction =='U'){                               // If robot needs to go up
+                    current_robot_orientation = absolute_direction;             // Orientation changes to up
+                }else if(absolute_direction == 'R'){                        // If robot needs to go to the right:
+                    current_robot_orientation = absolute_direction;             // Orientation changes to right
+                }else if(absolute_direction == 'D') {                       // If robot needs to go down
+                    current_robot_orientation = absolute_direction;             // Orientation changes to down
+                }
+                break;
+        }
+    }
+}
 
 uint64_t factorial(uint64_t n){
     /* Recursive function to calculate the factorial of n */
     if (n == 0)
         return 1;
     return n * factorial(n - 1);
+}
+
+void updateRoute(vector<char> & fastest_route, const unsigned int & index, const char & new_direction, const bool & redirect){
+    /* Function updates the absolute route the robot needs to take in order to avoid objects.
+     * This is done by inserting extra steps if the robot comes by a barrier. */
+    auto itPos = fastest_route.begin() + index;             // Insert position is defined
+    fastest_route.insert(itPos, new_direction);             // New direction is inserted into vector
+    if(new_direction == 'U' && redirect){                               // Special exeption if the robot needs to go around an object
+        vector<char> redirection = {'R', 'R','D'};
+        fastest_route.insert(fastest_route.begin() + index+1, redirection.begin(), redirection.end());  // new directions are also inserted in vector
+        fastest_route.pop_back();                           // Last value is pop-ed because new values are added
+    }else if(new_direction == 'L' && redirect){
+        vector<char> redirection = {'U', 'U','R', 'R', 'D','D'};
+        fastest_route.insert(fastest_route.begin() + index+1, redirection.begin(), redirection.end());  // new directions are also inserted in vector
+    }
+    fastest_route.pop_back();                               // Last value is pop-ed because new values are added
+
+    cout << "updated route: ";
+    for (int j = index+1; j < fastest_route.size() ; ++j) {
+        cout << fastest_route[j] << " ";
+    }
+
+    cout << endl;
 }
 
 unsigned int possibleRoutes(const unsigned int & grid_height, const unsigned int & grid_width){
@@ -24,32 +142,21 @@ unsigned int possibleRoutes(const unsigned int & grid_height, const unsigned int
     uint64_t n_factorial = factorial(n);
     uint64_t r_factorial = factorial(r);
     uint64_t n_min_r_factorial = factorial(n-r);
-
+    vector<int> i = {4,5};
     total_routes = n_factorial / (r_factorial * n_min_r_factorial);
     return total_routes;
 }
 
-vector<char> fastestRoute(const unsigned int & grid_height, const unsigned int & grid_width, char & current_facing_position, BrickPi3 & BP){
+vector<char> fastestRoute(const unsigned int & grid_height, const unsigned int & grid_width){
     /* Function to define the fastest route on a grid. In our case this is (assuming the robot is placed in the
      * upper right position of the grid and facing down) all the way down and then all the way to the right.
      * function returns a vector<char<> with robot instructions. */
-    if(current_facing_position == 'R'){
-        driveOnSpot('R',BP);
-
-    }else if(current_facing_position == 'U'){
-        driveOnSpot('L',BP);
-        driveOnSpot('L',BP);
-    }else if(current_facing_position == 'L'){
-        driveOnSpot('L',BP);
-    }
-    current_facing_position = 'D';
     vector<char> fastest_route = {};                            // Initialise data struct
     for(unsigned int i = 0; i < grid_height; i++){
-        fastest_route.push_back('F');                           // Go all the way down on the grid
+        fastest_route.push_back('D');                           // Go all the way down on the grid
     }
-    fastest_route.push_back('R');
-    for(unsigned int i = 1; i < grid_width; i++){
-        fastest_route.push_back('F');                           // If robot is all the way down, go all the way to the right
+    for(unsigned int i = 0; i < grid_width; i++){
+        fastest_route.push_back('R');                           // If robot is all the way down, go all the way to the right
     }
     return fastest_route;                                       // Return fastest route
 }
@@ -107,15 +214,8 @@ void printGrid(const vector<vector<char>> & grid){
     cout << endl;
 }
 
-char updateRobotPosition(vector<vector<char>> & grid, const char & driven_robot_direction, const char & current_facing_direction) {
-    /* Updates the grid vector accordingly to the movement of the robot. Expects three parameters:
-     * 1. The grid
-     * 2. The direction the robot has driven
-     * 3. the current facing direction of the robot. */
-
+vector<size_t> getRobotPosition(const vector<vector<char>> & grid){
     size_t x_coordinate = 0, y_coordinate = 0;
-    char new_facing_direction = 'D';
-
     for (size_t i = 0; i < grid.size(); i++) {
         for (size_t j = 0; j < grid[i].size(); ++j) {
             if (grid[i][j] == 'R') {
@@ -125,89 +225,186 @@ char updateRobotPosition(vector<vector<char>> & grid, const char & driven_robot_
         }
     }
 
-    switch (current_facing_direction) {
-        case 'D':                                   // Facing down
-            if (driven_robot_direction == 'F') {          // If the robot has driven forward, it went down
-                grid[y_coordinate][x_coordinate] = 'X';
-                grid[y_coordinate + 2][x_coordinate]= 'R';
-                new_facing_direction = 'D';
-            } else if (driven_robot_direction == 'B') {   // if the robot has driven backwards, it went up, turning in direction to up
-                grid[y_coordinate][x_coordinate] = 'X';
-                grid[y_coordinate - 2][x_coordinate ] = 'R';
-                new_facing_direction = 'U';
-            } else if (driven_robot_direction == 'R') {   // If the robot has driven to the right, it went right. turning in direction to the right
-                grid[y_coordinate][x_coordinate] = 'X';
-                grid[y_coordinate][x_coordinate + 2] = 'R';
-                new_facing_direction = 'R';
-            } else if (driven_robot_direction == 'L') {   // If the robot has driven to the left, it went left, turning in direction to the left
-                grid[y_coordinate][x_coordinate] = 'X';
-                grid[y_coordinate ][x_coordinate - 2] = 'R';
-                new_facing_direction = 'L';
-            }
-            break;
-        case 'U': // Facing up
-            if (driven_robot_direction == 'F') {          // If the robot has driven forward, it went up
-                grid[y_coordinate][x_coordinate] = 'X';
-                grid[y_coordinate - 2][x_coordinate] = 'R';
-                new_facing_direction = 'U';
-            } else if (driven_robot_direction == 'B') {   // if the robot has driven backwards, it went down, turning in direction to down
-                grid[y_coordinate][x_coordinate] = 'X';
+    return {x_coordinate, y_coordinate};
+}
+
+void updateRobotPosition(vector<vector<char>> & grid, const char & robot_direction, vector<char> & fastest_route, const unsigned int & index) {
+    /* Updates the grid vector accordingly to the movement of the robot. Expects three parameters:
+     * 1. The grid
+     * 2. The direction the robot has driven
+     * 3. the current facing direction of the robot. */
+    vector<size_t> robot_position = getRobotPosition(grid);
+    size_t y_coordinate = robot_position[1];
+    size_t x_coordinate = robot_position[0];
+
+    switch (robot_direction){
+        case 'D':
+            if(grid[y_coordinate + 2][x_coordinate] == '+'){
+                if(grid[y_coordinate][x_coordinate+2] == '+'){
+                    if(grid[y_coordinate-2][x_coordinate] == '+'){
+                        grid[y_coordinate][x_coordinate-2] = 'R';
+                        updateRoute(fastest_route, index, 'L', true);
+                    }else{
+                        grid[y_coordinate-2][x_coordinate] = 'R';
+                        updateRoute(fastest_route, index, 'U', true);
+                    }
+                }else{
+                    grid[y_coordinate][x_coordinate+2] = 'R';
+                    updateRoute(fastest_route, index, 'R', false);
+                }
+            }else{
                 grid[y_coordinate + 2][x_coordinate] = 'R';
-                new_facing_direction = 'D';
-            } else if (driven_robot_direction == 'R') {   // If the robot has driven to the right, it went right. turning in direction to the right
-                grid[y_coordinate][x_coordinate] = 'X';
-                grid[y_coordinate][x_coordinate + 2] = 'R';
-                new_facing_direction = 'R';
-            } else if (driven_robot_direction == 'L') {   // If the robot has driven to the left, it went left, turning in direction to the left
-                grid[y_coordinate][x_coordinate] = 'X';
-                grid[y_coordinate][x_coordinate - 2] = 'R';
-                new_facing_direction = 'L';
+                // position is still down
+            }
+            grid[y_coordinate][x_coordinate] = 'X';
+            break;
+        case 'U':
+            grid[y_coordinate][x_coordinate] = 'X';
+            grid[y_coordinate -2][x_coordinate] = 'R';
+            break;
+        case 'R':
+            grid[y_coordinate][x_coordinate] = 'X';
+            grid[y_coordinate][x_coordinate+2] = 'R';
+            break;
+        case 'L':
+            grid[y_coordinate][x_coordinate] = 'X';
+            grid[y_coordinate ][x_coordinate-2] = 'R';
+            break;
+    }
+}
+
+
+void updateBarrier(vector<vector<char>> & grid, const size_t & x_coordinate, const size_t & y_coordinate){
+    /* Function to add a barrier to a grid. This is used so the robot can calculate whether or not it can pass through a point */
+    grid[y_coordinate][x_coordinate] = '+';
+}
+
+bool lookRight(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP){
+    uint8_t motor_middle = PORT_B; //Setting the motor to communicate
+    int32_t draai = 95; // The degrees needed to turn the USsensor with gears
+    BP.set_motor_limits(PORT_B, 100, 90); // Limit the motor so the gears can keep up
+    BP.set_motor_position_relative(motor_middle, draai*-1); // Turn  the motor -draai- degrees
+    sleep(1);
+    lookForward(UltraSonic, BP);
+    sleep(1);
+    BP.set_motor_position_relative(motor_middle, draai+10); // Turn the motor back to original position
+    sleep(1);
+}
+
+bool lookLeft(sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP){
+    uint8_t motor_middle = PORT_B; // Setting the motor to communicate
+    int32_t draai = 95; // The degrees needed to turn the motor Right
+    BP.set_motor_limits(PORT_B, 100, 90); // Limit the motor so the gears can keep up
+    BP.set_motor_position_relative(motor_middle, draai);// Turn the motor -draai- degrees Right
+    sleep(1);
+    lookForward(UltraSonic, BP);
+    sleep(1);
+    BP.set_motor_position_relative(motor_middle, draai*-1-10);// Turn the motor back to original position
+    sleep(1);
+}
+
+bool lookForward(sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP){
+    usleep(1000*400);    
+    getUltraSValue(PORT_4, UltraSonic, BP); //Get value of USsensor and put it in a struct
+    float afstand_in_centimeter = UltraSonic.cm; //Get the last struct value
+    cout << "Waarde is: " << afstand_in_centimeter << endl; //Print the last struct value (last measurement)
+}
+
+void whereToLook(vector<vector<char>> & grid, const char & look_direction, const char & facing_direction,
+        vector<size_t> position, sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP){
+
+    switch (facing_direction){
+        case 'D':
+            if(look_direction == 'F') {
+                lookForward(UltraSonic, BP);
+                if (UltraSonic.cm < 30) {
+                    updateBarrier(grid, position[0], position[1] + 2);
+                    printGrid(grid);
+                    lookLeft(UltraSonic, BP);
+                    if (UltraSonic.cm < 20) {
+                        updateBarrier(grid, position[0] + 2, position[1]);
+                    }
+                }
+            }else if(look_direction == 'L') {
+                lookLeft(UltraSonic, BP);
+                if (UltraSonic.cm < 20) {
+                    updateBarrier(grid, position[0] + 2, position[1]);
+                    printGrid(grid);
+                }
+            }else if(look_direction == 'R'){
+                lookRight(UltraSonic, BP);
+                if(UltraSonic.cm < 20){
+                    updateBarrier(grid, position[0]-2, position[1]);
+                    printGrid(grid);
+                }
             }
             break;
-        case 'R': // Facing right
-            if (driven_robot_direction == 'F') {          // If the robot has driven forward, it went right, facing right
-                grid[y_coordinate][x_coordinate] = 'X';
-                grid[y_coordinate][x_coordinate + 2] = 'R';
-                new_facing_direction = 'R';
-            } else if (driven_robot_direction == 'B') {   // if the robot has driven backwards, it went left, turning in direction to left
-                grid[y_coordinate][x_coordinate] = 'X';
-                grid[y_coordinate ][x_coordinate - 2] = 'R';
-                new_facing_direction = 'L';
-            } else if (driven_robot_direction == 'R') {   // If the robot has driven to the right, it went down. turning in direction to down
-                grid[y_coordinate][x_coordinate] = 'X';
-                grid[y_coordinate + 2][x_coordinate ] = 'R';
-                new_facing_direction = 'D';
-            } else if (driven_robot_direction == 'L') {   // If the robot has driven to the left, it went up, turning in direction to the up
-                grid[y_coordinate][x_coordinate] = 'X';
-                grid[y_coordinate - 2][x_coordinate ] = 'R';
-                new_facing_direction = 'U';
+        case 'R':
+            if(look_direction == 'R'){
+                lookRight(UltraSonic, BP);
+                if(UltraSonic.cm < 30){
+                    updateBarrier(grid, position[0], position[1]+2);
+                    printGrid(grid);
+                }
+                lookForward(UltraSonic, BP);
+                if(UltraSonic.cm < 20){
+                    updateBarrier(grid, position[0]+2, position[1]);
+                }
+            }else if(look_direction == 'F'){
+                lookForward(UltraSonic, BP);
+                if(UltraSonic.cm < 20){
+                    updateBarrier(grid, position[0]+2, position[1]);
+                    printGrid(grid);
+                }
+            }else if(look_direction == 'L'){
+                lookLeft(UltraSonic, BP);
+                if(UltraSonic.cm < 30){
+                    updateBarrier(grid, position[0], position[1]-2);
+                    printGrid(grid);
+                }
             }
-            break;
-        case 'L': // Facing left
-            if (driven_robot_direction == 'F') {          // If the robot has driven forward, it went right, facing left
-                grid[y_coordinate][x_coordinate] = 'X';
-                grid[y_coordinate ][x_coordinate - 2] = 'R';
-                new_facing_direction = 'L';
-            } else if (driven_robot_direction == 'B') {   // if the robot has driven backwards, it went right, turning in direction to right
-                grid[y_coordinate][x_coordinate] = 'X';
-                grid[y_coordinate ][x_coordinate + 2] = 'R';
-                new_facing_direction = 'R';
-            } else if (driven_robot_direction == 'R') {   // If the robot has driven to the right, it went up. turning in direction to up
-                grid[y_coordinate][x_coordinate] = 'X';
-                grid[y_coordinate - 2][x_coordinate ] = 'R';
-                new_facing_direction = 'U';
-            } else if (driven_robot_direction == 'L') {   // If the robot has driven to the left, it went down, turning in direction to the down
-                grid[y_coordinate][x_coordinate] = 'X';
-                grid[y_coordinate + 2][x_coordinate] = 'R';
-                new_facing_direction = 'L';
+	    break;
+        case 'L':
+            if(look_direction == 'L'){
+                lookLeft(UltraSonic, BP);
+                if(UltraSonic.cm < 30){
+                    updateBarrier(grid, position[0], position[1]+2);
+                    printGrid(grid);
+                }
+            }else if(look_direction == 'F'){
+                lookForward(UltraSonic, BP);
+                if(UltraSonic.cm < 20){
+                    updateBarrier(grid, position[0]-2, position[1]);
+                    printGrid(grid);
+                }
+            }else if(look_direction == 'R'){
+                lookRight(UltraSonic, BP);
+                if(UltraSonic.cm < 30){
+                    updateBarrier(grid, position[0], position[1]-2);
+                    printGrid(grid);
+                }
+            }
+	        break;
+        case 'U':
+            if(look_direction == 'L'){
+                lookLeft(UltraSonic, BP);
+                if(UltraSonic.cm < 20){
+                    updateBarrier(grid, position[0]-2, position[1]);
+                    printGrid(grid);
+                }
+            }else if(look_direction == 'F'){
+                lookForward(UltraSonic, BP);
+                if(UltraSonic.cm < 30){
+                    updateBarrier(grid, position[0], position[1]+2);
+                    printGrid(grid);
+                }
+            }else if(look_direction == 'R'){
+                lookRight(UltraSonic, BP);
+                if(UltraSonic.cm < 20){
+                    updateBarrier(grid, position[0]+2, position[1]);
+                    printGrid(grid);
+                }
             }
             break;
     }
-    return new_facing_direction;
-}
-
-void updateBarrier(vector<vector<char>> & grid, vector<int> barrier_coordinates){
-    /* Function to add a barrier to a grid. This is used so the robot can calculate whether or not it can pass through a point */
-    grid[barrier_coordinates[1]][barrier_coordinates[0]] = '+';
-    printGrid(grid);
 }

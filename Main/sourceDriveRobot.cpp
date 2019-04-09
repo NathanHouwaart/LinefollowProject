@@ -19,17 +19,17 @@ void speedLimiter(int & right, int & left, const int & maximum_speed) {
      * We decided to use 2 ifs because then we are sure that none of the motors are going faster.
      */
     if (right > maximum_speed) {
-        int verschil_rechts = right - maximum_speed;    //Calculates difference
-        right -= verschil_rechts;                       //subtracs the difference from both motors.
-        left -= verschil_rechts;
+        int difference_right = right - maximum_speed;    //Calculates difference
+        right -= difference_right;                       //subtracs the difference from both motors.
+        left -= difference_right;
         if(left < 0){                                   //makes sure that the other motor doesn't go 0.
             left = 0;
         }
     }
     if (left > maximum_speed) {
-        int verschil_links = left - maximum_speed;      //The same principles apply here as seen above.
-        right -= verschil_links;
-        left -= verschil_links;
+        int difference_left = left - maximum_speed;      //The same principles apply here as seen above.
+        right -= difference_left;
+        left -= difference_left;
         if(right < 0){
             right = 0;
         }
@@ -101,6 +101,6 @@ void driveOnSpot(char turn_direction, BrickPi3 & BP){
         BP.set_motor_position_relative(motor_left,turn_90_degrees);
         BP.set_motor_position_relative(motor_right,(-1*turn_90_degrees));
     }
-    usleep(1000*800);
+    usleep(1000*400);
 }
 

@@ -12,7 +12,6 @@
 using namespace std;
 
 void exit_signal_handler(int signo);
-
 BrickPi3 BP;
 
 int main() {
@@ -25,38 +24,65 @@ int main() {
     BP.set_sensor_type(PORT_3, SENSOR_TYPE_NXT_COLOR_RED);      // Set port 3 to be read as a color sensor
     BP.set_sensor_type(PORT_4, SENSOR_TYPE_NXT_ULTRASONIC);     // Set port 4 to be read as a ultrasonic sensor
 
+    /*-----Set the lcd pins and the start the lcd------*/
+    if (wiringPiSetup () == -1) {
+        cout << "wiringpisetup did not work" << endl << "return 1;" << endl;
+        return 1;
+    }
+    int fd = wiringPiI2CSetup(I2C_ADDR);
+    lcdStart(fd);   // setup LCD
+    clearLcd(fd);   // clear the lcd
+    cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+    typeString("Setting up", fd);   // print the text on the screen
+
     /*-----Set data structs-----*/
     sensor_color_t Color1;                                      // Initialise struct for data storage color sensor 1
     sensor_color_t Color2;                                      // Initialise struct for data storage color sensor 2
     sensor_ultrasonic_t UltraSonic1;
 
-     if(!checkVoltage(BP)) return 0;                          // Checks whether battery has enough power
+     if(!checkVoltage(BP)) return 0;                    // Checks whether battery has enough power
 
     /*-----Calibrate min and max reflection values and determine lightvalue the robot wants to follow-----*/
-    vector<int> min_max_reflection_value = calibration(Color1, BP);
-    vector<int> default_values = defineDifferenceToAverage((min_max_reflection_value[0]), (min_max_reflection_value[1]));
+    CalculatingErrorData struct_line_values;
+
+    clearLcd(fd);   // clear the lcd
+    cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+    typeString("calibration", fd);   // print the text on the screen
+
+    calibration(Color1, struct_line_values, BP);
+    defineDifferenceToAverage(struct_line_values);
     sleep(1); //Waiting for sensors to see normally
+    clearLcd(fd);           // Clear the lcd
 	char modeselect;
 	/*-----Follow the line untill the ultrasonic sensor measures something withing X cm-----*/
-    // TODO: --> Fuctie maken die een keuze aanbied aan de gebruiker. (LINE/GRID/FREE) (char terug L/G/F)
-    // TODO: --> Modus selecteren (3 soorten while loops)
     cout << "Select mode: (Line follow (L) / grid follow (G) / Free ride (F))" << endl;
+    clearLcd(fd);   // clear the lcd
+    cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+    typeString("Select mode", fd);   // print the text on the screen
+    cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
+    typeString("L G F", fd);            // print the text to the screen
     cin >> modeselect;
     switch (modeselect){
         case 'L':
-            lineFollowLoop(Color1, Color2, UltraSonic1, min_max_reflection_value, default_values, BP);
+            lineFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, BP, fd);
             break;
         case 'G':
-            gridFollowLoop(Color1, Color2, UltraSonic1, min_max_reflection_value, default_values, BP);
+            gridFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, BP, fd);
             break;
         case 'F':
-            freeRideLoop(BP);
+            freeRideLoop(BP, fd);
             break;
+        case 'O':
+            objectDetect(UltraSonic1, BP, 10);
         default:
+            clearLcd(fd);   // clear the lcd
+            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+            typeString("Error", fd);   // print the text on the screen
+            cursorLocation(LINE2, fd);
+            typeString("Goodbye", fd);
             cout << "ERROR, wrong input" << endl;
             return -1;
-
-    }
+   }
 }
 
 void exit_signal_handler(int signo) {
