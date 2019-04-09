@@ -27,16 +27,20 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
 
     vector<vector<char>> grid = gridSetup(height, width);
     vector<char> fastest_route = fastestRoute(height, width);
-
+    int lcd_counter = 0;        // to keep the lcd form updating every loop
 
     while (true) {
-        float battery = BP.get_voltage_battery();
-        float battery_percentage = (100/(12.6-10.8)*(battery-10.8));
-        clearLcd(fd);   // clear the lcd
-        cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
-        typeString("Grid mode", fd);   // print the text on the screen
-        cursorLocation(LINE2, fd);     // set the cursorlocation to line 2
-        typeFloat(battery_percentage, fd);  // display the battery_percantage
+        lcd_counter++;          // add one to the counter
+        if (lcd_counter >= 5000) {      // after every 5000 loops updates the lcd screen
+            float battery = BP.get_voltage_battery();
+            float battery_percentage = (100/(12.6-10.8)*(battery-10.8));
+            clearLcd(fd);   // clear the lcd
+            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+            typeString("Grid mode", fd);   // print the text on the screen
+            cursorLocation(LINE2, fd);     // set the cursorlocation to line 2
+            typeFloat(battery_percentage, fd);  // display the battery_percantage
+            lcd_counter = 0;        // rest the counter
+        }
         int playing = 0;
         BP.get_sensor(PORT_1, Color1);                          // Read colorsensor1 and put data in struct Color1
         BP.get_sensor(PORT_3, Color2);
@@ -67,6 +71,7 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
                 char robot_instruction = relativeDirection(facing_direction, fastest_route[direction_index]);
                 updateRobotOrientation(facing_direction, fastest_route[direction_index]);
                 crossroad(BP, robot_instruction, playing, fd);
+                lcd_counter = 10000;        // to get the lcd screen back to the main version
             }
         } else {                                             // If no intersection was detected, follow the line
             int error_to_average = defineError(data_struct.avarage_min_max, data_struct.difference_min_avarage, data_struct.difference_max_avarage,
