@@ -39,19 +39,19 @@ int main() {
     lcdStart(); // setup LCD
     resetLcd();                           // clear lcd
     lcdLoc(LINE1);                      // set cursor on LINE1
-    typeChar('teset');              // Print Calibrating to the lcd
+    typeCharArray("teset");              // Print Calibrating to the lcd
     lcdLoc(LINE2);
-    typeChar('test');
+    typeCharArray("test");
 }
 
 
-void setLcd(const char message1, const char message2) {
-    resetLcd();                           // clear lcd
-    lcdLoc(LINE1);                      // set cursor on LINE1
-    typeChar(message1);              // Print Calibrating to the lcd
-    lcdLoc(LINE2);
-    typeChar(message2);
-}
+// void setLcd(const char message1, const char message2) {
+//     resetLcd();                           // clear lcd
+//     lcdLoc(LINE1);                      // set cursor on LINE1
+//     typeChar(message1);              // Print Calibrating to the lcd
+//     lcdLoc(LINE2);
+//     typeChar(message2);
+// }
 
 void typeFloat(float myFloat) {
 // float to string
