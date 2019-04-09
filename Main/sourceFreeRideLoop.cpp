@@ -13,9 +13,9 @@ void freeRideLoop(BrickPi3 & BP, int & fd){
             float battery_percentage = (100/(12.6-10.8)*(battery-10.8));
             clearLcd(fd);   // clear the lcd
             cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
-            typeString("Freeride   PCT", fd);   // print the text on the screen
-            cursorLocation(LINE2, fd);     // set the cursorlocation to line 2
             typeFloat(battery_percentage, fd);  // display the battery_percantage
+            cursorLocation(LINE2, fd);     // set the cursorlocation to line 2
+            typeString("PCT   Freeride", fd);   // print the text on the screen
             lcd_counter = 0;                    // reset the counter
         }
     }
