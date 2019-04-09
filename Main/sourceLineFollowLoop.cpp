@@ -16,7 +16,7 @@ using namespace std;
 
 int counter_object = 0;
 int playing = 0;        //telling the program that no sound is currently playing
-int lcd_counter = 0;    // to keep the lcd form updating every loop and than noging shows
+int lcd_counter = 10000;    // to keep the lcd form updating every loop and than noging shows and start a 10000 to start the lcd
 void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP, int & fd){
     while (true) {
         lcd_counter++;                  // add one to the counter for every loop

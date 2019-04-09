@@ -27,7 +27,7 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
 
     vector<vector<char>> grid = gridSetup(height, width);
     vector<char> fastest_route = fastestRoute(height, width);
-    int lcd_counter = 0;        // to keep the lcd form updating every loop
+    int lcd_counter = 100000;        // to keep the lcd form updating every loop and starts at 10000 to start the lcd configuration
 
     while (true) {
         lcd_counter++;          // add one to the counter

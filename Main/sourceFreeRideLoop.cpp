@@ -5,7 +5,7 @@ using namespace std;
 // TODO: --> Maak loop van de modus freeRideLoop() (Zie activity diagram)
 
 void freeRideLoop(BrickPi3 & BP, int & fd){
-    int lcd_counter = 0;
+    int lcd_counter = 10000;            // to keep the lcd form updateing every loop and starts at 10000 to start with a lcd configruation
     while (true) {
         lcd_counter++;                      // every loop add 1 one to the counter
         if (lcd_counter >= 5000) {          // after 5000 loops its updates the screen
