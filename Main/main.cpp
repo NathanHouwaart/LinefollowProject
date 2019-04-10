@@ -64,7 +64,7 @@ int main() {
         cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
         typeString("L G F", fd);        // print the text to the screen
         cin >> mode_select;
-        switch (mode_select){
+        switch (mode_select) {
             case 'L':
                 cout << "Entering the line follow-mode." << endl;
                 lineFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, fd, BP);
@@ -80,6 +80,7 @@ int main() {
             default:
                 cout << "ERROR, wrong input" << endl;
                 break;
+        }
    }
 }
 
