@@ -27,7 +27,8 @@ void PController(sensor_color_t & Color1, BrickPi3 & BP, CalculatingErrorData & 
 
         int error = light_value - offset;                   // Calculate error
         int derivative = error - lastError;
-        int turn = kpv * error + kd * derivative;                              // Convert error value to turn value
+        int integral = integral + error;
+        int turn = kp * error + kd * derivative + ki * integral;                              // Convert error value to turn value
         int speedA = tp + turn;                             // Set new speed of motor A
         int speedD = tp - turn;                             // Set new speed of motor B
         MotorControllerPower(speedD, speedA, BP);                // Update motor speed
