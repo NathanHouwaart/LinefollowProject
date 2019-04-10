@@ -3,8 +3,9 @@
 using namespace std;
 
 void PController(sensor_color_t & Color1, BrickPi3 & BP, CalculatingErrorData & data_struct) {
-    int tp = 25;                                           // Constant value to determine maximum motor dps
-    float kp = 0.13;                                       // Constant value to determine the sharpness of the turns the robot takes
+    float tp = 50;                                           // Constant value to determine maximum motor dps
+    float kp = 0.25;                                       // Constant value to determine the sharpness of the turns the robot takes
+    float kpv = (0 - tp)/(0 - data_struct.difference_min_avarage);
     float kd = 1.3;
     int lastError = 0;
 
@@ -17,14 +18,16 @@ void PController(sensor_color_t & Color1, BrickPi3 & BP, CalculatingErrorData & 
         if(light_value < data_struct.lowest_measurment){    // Checks whether the lowest measured value needs to be updated
             data_struct.lowest_measurment = light_value;
             defineDifferenceToAverage(data_struct);
+            kpv = (0 - tp)/(0 - data_struct.difference_min_avarage);
         } else if(light_value > data_struct.highest_measurment){ // Checks whether the hightest measured light value needs to be updated
             data_struct.highest_measurment = light_value;
             defineDifferenceToAverage(data_struct);         // Recalculate data
+            kpv = (0 - tp)/(0 - data_struct.difference_min_avarage);
         }
 
         int error = light_value - offset;                   // Calculate error
         int derivative = error - lastError;
-        int turn = kp * error + kd * derivative;                              // Convert error value to turn value
+        int turn = kpv * error + kd * derivative;                              // Convert error value to turn value
         int speedA = tp + turn;                             // Set new speed of motor A
         int speedD = tp - turn;                             // Set new speed of motor B
         MotorControllerPower(speedD, speedA, BP);                // Update motor speed

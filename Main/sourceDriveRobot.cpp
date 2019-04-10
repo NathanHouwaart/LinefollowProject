@@ -58,11 +58,12 @@ void MotorControllerPower(int left, int right, BrickPi3 & BP) {
     //speedLimiter(right, left, MAX_MOTOR_SPEED);         // The values of the right and left motor are send to the limiter
     int right_power = right * 127 / 100;
     int left_power = left * 127 / 100;
-//    cout << "LEFT POWER: " << left_power << endl;
-//    cout << "RIGHT POWER: " << right_power << endl;
+    cout << "LEFT POWER: " << left_power << endl;
+    cout << "RIGHT POWER: " << right_power << endl;
+    sleep(1);
 
-    BP.set_motor_power(motor_right, right_power);
-    BP.set_motor_power(motor_left, left_power);
+//    BP.set_motor_power(motor_right, right_power);
+//    BP.set_motor_power(motor_left, left_power);
 }
 
 void drive(float direction_control, unsigned int speed_multiplier_percentage, unsigned int rotation_speed, BrickPi3 & BP){
