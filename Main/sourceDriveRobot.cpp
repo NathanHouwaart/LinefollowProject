@@ -53,17 +53,20 @@ void MotorControllerPower(int left, int right, BrickPi3 & BP) {
      * First it sends the given motor speed setting through the limiter
      * After that it sets the motor to the given speed.
      */
-    uint8_t motor_right = PORT_D;                       // Here we define the motor ports so we can talk to them
-    uint8_t motor_left = PORT_A;
+    uint8_t motor_right = PORT_A;                       // Here we define the motor ports so we can talk to them
+    uint8_t motor_left = PORT_D;
     //speedLimiter(right, left, MAX_MOTOR_SPEED);         // The values of the right and left motor are send to the limiter
     int right_power = right * 127 / 100;
     int left_power = left * 127 / 100;
-    cout << "LEFT POWER: " << left_power << endl;
-    cout << "RIGHT POWER: " << right_power << endl;
-    sleep(1);
+    if(right_power > 127) right_power = 127;
+    else if (right_power < -127) right_power = -127;
+    if(left_power > 127) left_power = 127;
+    else if (left_power < -127) left_power = -127; 
+//    cout << "LEFT POWER: " << left_power << endl;
+//    cout << "RIGHT POWER: " << right_power << endl;
 
-//    BP.set_motor_power(motor_right, right_power);
-//    BP.set_motor_power(motor_left, left_power);
+    BP.set_motor_power(motor_right, right_power);
+    BP.set_motor_power(motor_left, left_power);
 }
 
 void drive(float direction_control, unsigned int speed_multiplier_percentage, unsigned int rotation_speed, BrickPi3 & BP){

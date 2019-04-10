@@ -3,10 +3,10 @@
 using namespace std;
 
 void PController(sensor_color_t & Color1, BrickPi3 & BP, CalculatingErrorData & data_struct) {
-    float tp = 50;                                           // Constant value to determine maximum motor dps
+    float tp = 31;                                           // Constant value to determine maximum motor dps
     float kp = 0.25;                                       // Constant value to determine the sharpness of the turns the robot takes
     float kpv = (0 - tp)/(0 - data_struct.difference_min_avarage);
-    float kd = 1.3;
+    float kd = 10*kpv;
     int lastError = 0;
 
     while (true) {
@@ -19,10 +19,14 @@ void PController(sensor_color_t & Color1, BrickPi3 & BP, CalculatingErrorData & 
             data_struct.lowest_measurment = light_value;
             defineDifferenceToAverage(data_struct);
             kpv = (0 - tp)/(0 - data_struct.difference_min_avarage);
+	    cout << "New kp value: " << kpv << endl;
+	    kd = 10*kpv;
         } else if(light_value > data_struct.highest_measurment){ // Checks whether the hightest measured light value needs to be updated
             data_struct.highest_measurment = light_value;
             defineDifferenceToAverage(data_struct);         // Recalculate data
             kpv = (0 - tp)/(0 - data_struct.difference_min_avarage);
+	    cout << "New kp value: " << kpv << endl;
+   	    kd = 10 * kpv;
         }
 
         int error = light_value - offset;                   // Calculate error
