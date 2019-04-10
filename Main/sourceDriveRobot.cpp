@@ -91,7 +91,7 @@ void driveOnSpot(char turn_direction, BrickPi3 & BP){
     */
     uint8_t motor_right = PORT_D;
     uint8_t motor_left = PORT_A;
-    int32_t turn_90_degrees = 250;
+    int32_t turn_90_degrees = 225;
     if(turn_direction != 'L' && turn_direction != 'R'){
         cout << "Nee ik wil een L of een R!" << endl;
     }else if(turn_direction == 'L'){

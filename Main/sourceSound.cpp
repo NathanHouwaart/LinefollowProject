@@ -94,23 +94,9 @@ void stopSound(int & playing) {
 
 void megaCharge(int & playing, BrickPi3 & BP) {
     drive(DIRECTION_STOP, 0, 360, BP); //stop the car
-    cout << "Object detected: What do you want to do, type: D(dodge) or X(Plan X)" << endl;
-    char choice;
-    cin >> choice; //asking what the robot has to do
-    switch (choice) {
-        case 'X':
-            playSound('X', playing);  //playing megalovania whilst initiating plan x
-            usleep(4500 *1000);
-            drive(1, 100, 360, BP);
-            sleep(11);
-            drive(DIRECTION_STOP, 0, 360, BP);
-
-            break;
-        case 'D':
-            driveAround(BP);  //driving around the obstacle
-            break;
-        default:
-            cout << "Wrong input. Please try again";
-            megaCharge(playing, BP);  //asking again if a wrong input has been given
-    }
+    playSound('X', playing);
+    usleep(4500 *1000);
+    drive(1, 100, 360, BP);
+    sleep(5);
+    drive(DIRECTION_STOP, 0, 360, BP);
 }
