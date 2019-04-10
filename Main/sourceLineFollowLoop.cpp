@@ -18,6 +18,7 @@ char choice_dodge_object;
 int counter_obstacle_detect = 0;
 int playing = 0;        //telling the program that no sound is currently playing
 int lcd_counter = 5000;    // to keep the lcd form updating every loop and than noging shows and start a 10000 to start the lcd
+
 void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct, int & fd, BrickPi3 & BP){
     while (true) {
         lcd_counter++;                  // add one to the counter for every loop
@@ -80,6 +81,7 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
                         default:
                             cout << "Wrong input. Please try again";
                             break;
+                    }
                 }
             }
         }
