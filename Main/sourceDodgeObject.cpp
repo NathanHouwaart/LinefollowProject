@@ -81,6 +81,15 @@ void steeringRobot(char to_steer, BrickPi3 & BP){
 }
 
 void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sensor_color_t & Color2, int average_black_line, BrickPi3 & BP){
+	/*
+	 * The function is called when the robot needs to drive around the object
+	 * It turns the robot, calculates the target distance between the obstacle and US
+	 * It goes in a loop where we determine if the robot needs to go left, forward or right
+	 * We stay in the while if both color sensors see above the average(white)
+	 *
+	 * After the first loop, we have a loop that makes sure that both sensors see the line.
+	 * if both sensors are ion the line we let the robot cross the line and turn it to right.
+	 */
 	uint8_t motor_left = PORT_A;
 	uint8_t motor_right = PORT_D;
 	BP.set_motor_limits(motor_left,60,200);
@@ -97,6 +106,7 @@ void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1
 	int current_distance = UltraSonic.cm;
 	BP.get_sensor(PORT_1, Color1);
 	BP.get_sensor(PORT_3, Color2);
+	// Makes sure if the US sensor, reflects bad it has a reasonable target_distance
 	if(target_distance > 100){
 		target_distance = 15;
 	}
@@ -124,10 +134,11 @@ void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1
 		BP.get_sensor(PORT_1, Color1);
 		BP.get_sensor(PORT_3, Color2);
 	}
+	// settings for both sensors to see the line
 	float dps_setting = 150;
 	float factor_backwards = -1;
 	cout << "YEEBUGING: Ben bij dps_setting " << endl;
-
+	// This while loop makes sure both sensors are seeing the line
 	while (Color1.reflected_red > average_black_line || Color2.reflected_red > average_black_line){
 //		cout << "IN THE WHILE-LOOP" << endl;
 		BP.get_sensor(PORT_1, Color1);
@@ -148,4 +159,6 @@ void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1
 	usleep(1000*500);
 	turnUS(1,BP);
 	usleep(1000*200);
+	BP.set_motor_limits(motor_left,60,200);
+	BP.set_motor_limits(motor_right,60,200);
 }
