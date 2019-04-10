@@ -56,7 +56,7 @@ void turnUS (float values_wheels, BrickPi3 & BP){
 void steeringRobot(char to_steer, BrickPi3 & BP){
 	/*
 	 * This function is called when the robot is driving around the object
-	 * The robot looks at the object en follows the circumference
+	 * The function reacts on the given input, this is either going straight on, steer left or right.
 	 */
 	uint8_t motor_left = PORT_A;
 	uint8_t motor_right = PORT_D;
@@ -80,44 +80,15 @@ void steeringRobot(char to_steer, BrickPi3 & BP){
 	}
 }
 
-void loopForObjectDodge(sensor_ultrasonic_t & UltraSonic, int target_distance , BrickPi3 & BP){
-	/* This function is called when driving around the object
-	 * It tries to keep the robot/ Ultrasonic sensor add a given distance (target_distance)
-	 * This distance is variabele. The current_distance
-	 * The loop will stop if the current distance of the
-	 */
-	getUltraSValue(PORT_4, UltraSonic, BP);
-	int current_distance = UltraSonic.cm;
-	int factor_difference = 3;
-
-	while(current_distance <= target_distance*factor_difference){
-		if(current_distance < target_distance){
-			// The object is closer than target, so steer to right (away from target)
-			steeringRobot('R', BP);
-		} else if(current_distance > target_distance){
-			// The object is furhter away than target, so steer to left (to target)
-			steeringRobot('L', BP);
-		} else{
-			// The object is the correct distance, so go straight on
-			steeringRobot('F', BP);
-		}
-		getUltraSValue(PORT_4, UltraSonic, BP);
-		current_distance = UltraSonic.cm;
-		cout << "Current distance: " << current_distance << endl;
-	}
-	steeringRobot('S', BP);
-}
-
-void timeForFlow(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sensor_color_t & Color2, int average_black_line, BrickPi3 & BP){
+void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sensor_color_t & Color2, int average_black_line, BrickPi3 & BP){
 	uint8_t motor_left = PORT_A;
 	uint8_t motor_right = PORT_D;
 	BP.set_motor_limits(motor_left,60,200);
 	BP.set_motor_limits(motor_right,60,200);
 
-	cout << "Turn on spot" << endl;
+	cout << "YEEBUG: turn robot on spot." << endl;
 	driveOnSpot('R',BP); // Turn robot to the right, on his axis.
 	usleep(1000*1500);
-	cout << "turn us head" << endl;
 	turnUS(0,BP); // Turns the US sensor, it makes sure it is turned 90 right-angled on the driving direction
 	usleep(1000*2000);
 
@@ -129,15 +100,15 @@ void timeForFlow(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sens
 	if(target_distance > 100){
 		target_distance = 15;
 	}
-	cout << "target_distance: " << target_distance << endl;
+	cout << "YEEBUG: target_distance: " << target_distance << endl;
 	//Go straight until one of the color sensors detects a black line.
 	while(Color1.reflected_red > average_black_line && Color2.reflected_red > average_black_line){
-		cout << "current_distance: " << current_distance << endl;
+//		cout << "current_distance: " << current_distance << endl;
 		if(current_distance > 200){
 			current_distance = 200;
-			cout << "Ik ben in de if: " << current_distance << endl;
+//			cout << "Ik ben in de if: " << current_distance << endl;
 		}
-		cout << "target_distance: " << target_distance << endl;
+//		cout << "target_distance: " << target_distance << endl;
 
 		if(current_distance < target_distance){
 			// The object is closer than target, so steer to right (away from target)
@@ -159,20 +130,18 @@ void timeForFlow(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sens
 	cout << "YEEBUGING: Ben bij dps_setting " << endl;
 
 	while (Color1.reflected_red > average_black_line || Color2.reflected_red > average_black_line){
-		cout << "IN THE WHILE-LOOP" << endl;
+//		cout << "IN THE WHILE-LOOP" << endl;
 		BP.get_sensor(PORT_1, Color1);
 		BP.get_sensor(PORT_3, Color2);
 	    if(Color1.reflected_red < average_black_line && Color2.reflected_red > average_black_line){
-		cout << "IF 1" << endl;
 	        BP.set_motor_dps(motor_left, (factor_backwards*dps_setting));
 	        BP.set_motor_dps(motor_right,dps_setting);
 	    } else if(Color1.reflected_red > average_black_line && Color2.reflected_red < average_black_line){
-		cout << "IF 2" << endl;
             	BP.set_motor_dps(motor_left, dps_setting);
             	BP.set_motor_dps(motor_right,(factor_backwards*dps_setting));
 	    }
 	}
-
+	// The following function-calls make the robot cross the line and make it turn
 	cout << "Out of while-loop" << endl;
 	crossLine(BP, 90);
 	usleep(1000*500);

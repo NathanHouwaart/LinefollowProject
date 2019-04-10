@@ -61,7 +61,7 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
                             correct_answer = true;
                             break;
                         case 'D':           // Starts dodging the object
-                            timeForFlow(UltraSonic, Color1, Color2, data_struct.avarage_min_max, BP);
+                            driveAroundObject(UltraSonic, Color1, Color2, data_struct.avarage_min_max, BP);
                             correct_answer = true;
                             break;
                         default:
