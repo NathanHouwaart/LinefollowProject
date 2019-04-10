@@ -7,6 +7,7 @@ void PController(sensor_color_t & Color1, BrickPi3 & BP, CalculatingErrorData & 
     float kp = 0.25;                                       // Constant value to determine the sharpness of the turns the robot takes
     float kpv = (0 - tp)/(0 - data_struct.difference_min_avarage);
     float kd = 1.3;
+    float ki = 100;
     int lastError = 0;
 
     while (true) {
