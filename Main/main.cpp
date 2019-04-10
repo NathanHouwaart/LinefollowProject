@@ -75,7 +75,7 @@ int main() {
                 break;
             case 'F':
                 cout << "Entering the freeride-mode." << endl;
-                freeRideLoop(BP);
+                freeRideLoop(fd, BP);
                 break;
             default:
                 cout << "ERROR, wrong input" << endl;

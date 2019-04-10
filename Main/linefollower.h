@@ -72,7 +72,7 @@ void drive(float direction_control, unsigned int speed_multiplier_percentage, un
 void driveOnSpot(char turn_direction, BrickPi3 & BP);
 
 // sourceFreeRideLoop.cpp
-void freeRideLoop(BrickPi3 & BP, int & fd);
+void freeRideLoop(int & fd, BrickPi3 & BP);
 void selectDirection(const string & input, BrickPi3 & BP, float & steer, int & playing);
 
 // sourceGridFollowLoop.cpp
