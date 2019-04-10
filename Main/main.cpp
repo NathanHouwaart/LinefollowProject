@@ -50,27 +50,28 @@ int main() {
 
     clearLcd(fd);   // clear the lcd
     cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
-    typeString("calibration", fd);   // print the text on the screen
+    typeString("Calibrating", fd);   // print the text on the screen
 
     calibration(Color1, struct_line_values, BP);
     defineDifferenceToAverage(struct_line_values);
     sleep(1); //Waiting for sensors to see normally
     clearLcd(fd);           // Clear the lcd
+
     while(!correct_answer){
         cout << "Select mode: Line follow (L) / grid follow (G) / Free ride (F)" << endl;
         cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
-        typeString("Select mode", fd);  // print the text on the screen
+        typeString("Select mode:", fd);  // print the text on the screen
         cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
         typeString("L G F", fd);        // print the text to the screen
         cin >> mode_select;
         switch (mode_select){
             case 'L':
                 cout << "Entering the line follow-mode." << endl;
-                lineFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, BP);
+                lineFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, fd, BP);
                 break;
             case 'G':
                 cout << "Entering the grid navigate-mode." << endl;
-                gridFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, BP);
+                gridFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, fd, BP);
                 break;
             case 'F':
                 cout << "Entering the freeride-mode." << endl;
