@@ -107,7 +107,6 @@ void loopForObjectDodge(sensor_ultrasonic_t & UltraSonic, int target_distance , 
 void timeForFlow(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sensor_color_t & Color2, int average_black_line, BrickPi3 & BP){
 	uint8_t motor_left = PORT_A;
 	uint8_t motor_right = PORT_D;
-	/*
 	BP.set_motor_limits(motor_left,60,200);
 	BP.set_motor_limits(motor_right,60,200);
 
@@ -131,14 +130,12 @@ void timeForFlow(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sens
 	while(Color1.reflected_red > average_black_line && Color2.reflected_red > average_black_line){
 		cout << "current_distance: " << current_distance << endl;
 		if(current_distance > 200){
-			current_distance = 100;
+			current_distance = 200;
 			cout << "Ik ben in de if: " << current_distance << endl;
 		}
 		cout << "target_distance: " << target_distance << endl;
 
-		if(current_distance > target_distance*2){
-			steeringRobot('F', BP);
-		} else if(current_distance < target_distance){
+		if(current_distance < target_distance){
 			// The object is closer than target, so steer to right (away from target)
 			steeringRobot('R', BP);
 		} else if(current_distance > target_distance){
@@ -153,19 +150,25 @@ void timeForFlow(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sens
 		BP.get_sensor(PORT_1, Color1);
 		BP.get_sensor(PORT_3, Color2);
 	}
-    */
-	float dps_setting = 100;
+	float dps_setting = 150;
+	float factor_backwards = -1;
+	cout << "YEEBUGING: Ben bij dps_setting " << endl;
 
-	while (Color1.reflected_red < average_black_line || Color2.reflected_red < average_black_line){
+	while (Color1.reflected_red > average_black_line || Color2.reflected_red > average_black_line){
+		cout << "IN THE WHILE-LOOP" << endl;
+		BP.get_sensor(PORT_1, Color1);
+		BP.get_sensor(PORT_3, Color2);
 	    if(Color1.reflected_red < average_black_line && Color2.reflected_red > average_black_line){
-	        BP.set_motor_dps(motor_left, (-0.1*dps_setting));
+		cout << "IF 1" << endl;
+	        BP.set_motor_dps(motor_left, (factor_backwards*dps_setting));
 	        BP.set_motor_dps(motor_right,dps_setting);
 	    } else if(Color1.reflected_red > average_black_line && Color2.reflected_red < average_black_line){
-            BP.set_motor_dps(motor_left, dps_setting);
-            BP.set_motor_dps(motor_right,(-0.1*dps_setting));
+		cout << "IF 2" << endl;
+            	BP.set_motor_dps(motor_left, dps_setting);
+            	BP.set_motor_dps(motor_right,(factor_backwards*dps_setting));
 	    }
 	}
-    /*
+
 	cout << "Out of while-loop" << endl;
 	crossLine(BP, 90);
 	usleep(1000*500);
@@ -173,5 +176,4 @@ void timeForFlow(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sens
 	usleep(1000*500);
 	turnUS(1,BP);
 	usleep(1000*200);
-     */
 }
