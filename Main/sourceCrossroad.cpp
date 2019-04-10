@@ -1,5 +1,5 @@
 /*
----------------------------------------------------------------------------------------------
+or: too few arguments to function ‘void d---------------------------------------------------------------------------------------------
 -----Created by TICT-1C groep 1                                                         -----
 -----Lego mindstorms linefollower robot project                                         -----
 -----Contributors:                                                                      -----
@@ -96,22 +96,3 @@ void crossroadGrid(BrickPi3 & BP, const char & direction_instruction, int & play
             crossroad(BP, playing, fd);
     }
 }
-
-void crossroad(BrickPi3 & BP, const char & direction_instruction) {
-    drive(DIRECTION_STOP, 0, 360, BP); //stop the car
-    switch (direction_instruction) {
-        case 'L':
-            driveLeft(BP);
-            break;
-        case 'R':
-            driveRight(BP);
-            break;
-        case 'F':
-            driveForward(BP);
-            break;
-        default:
-            cout << "Wrong input. Please try again";
-            crossroad(BP);
-    }
-}
-
