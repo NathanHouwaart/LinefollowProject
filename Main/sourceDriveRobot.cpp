@@ -48,6 +48,20 @@ void MotorController(int left, int right, BrickPi3 & BP) {
     BP.set_motor_dps(motor_left, left);
 }
 
+void MotorControllerPower(int left, int right, BrickPi3 & BP) {
+    /* This function controls the motors.
+     * First it sends the given motor speed setting through the limiter
+     * After that it sets the motor to the given speed.
+     */
+    uint8_t motor_right = PORT_D;                       // Here we define the motor ports so we can talk to them
+    uint8_t motor_left = PORT_A;
+    //speedLimiter(right, left, MAX_MOTOR_SPEED);         // The values of the right and left motor are send to the limiter
+    int right_power = right * 127 / 100;
+    int left_power = left * 127 / 100;
+    BP.set_motor_power(motor_right, right_power);
+    BP.set_motor_power(motor_left, left_power);
+}
+
 void drive(float direction_control, unsigned int speed_multiplier_percentage, unsigned int rotation_speed, BrickPi3 & BP){
     /*
      * Direction control is either -2, -1 or a value between 0 and 2.
