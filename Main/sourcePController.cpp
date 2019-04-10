@@ -4,7 +4,7 @@ using namespace std;
 
 void PController(sensor_color_t & Color1, BrickPi3 & BP) {
     int tp = 360;
-    float kp = -0.847;
+    float kp = -1.00;
     int offset = 425;
     while (true) {
         BP.get_sensor(PORT_1, Color1);
@@ -13,7 +13,7 @@ void PController(sensor_color_t & Color1, BrickPi3 & BP) {
         int turn = kp * error;
         int speedA = tp + turn;
         int speedD = tp - turn;
-        MotorContoller(speedA, speedD, BP);
+        MotorController(speedD, speedA, BP);
         cout << speedA << " " << speedD << endl;
     }
 }
