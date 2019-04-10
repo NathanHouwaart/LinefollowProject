@@ -48,7 +48,6 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
                 cout << "Counter is groot genoeg" << endl;
                 //playSound('D', playing);
                 timeForFlow(UltraSonic, Color1, Color2, data_struct.avarage_min_max, BP);
-                driveAroundObject(UltraSonic, Color1, Color2, data_struct.avarage_min_max, BP);
                 //megaCharge(playing, BP);
             }//Start driving around milk
         }

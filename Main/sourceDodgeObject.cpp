@@ -66,7 +66,7 @@ void steeringRobot(char to_steer, BrickPi3 & BP){
 	uint8_t motor_right = PORT_D;
 	int32_t motor_rotation = 400;
 	float steering_factor = 0.8; // The amount that the robot steers
-	int16_t dps_motor = 100;
+	int16_t dps_motor = 200;
 	if(to_steer == 'F'){
 		// Robot goes straight
 		BP.set_motor_dps(motor_left, dps_motor);
@@ -130,10 +130,19 @@ void timeForFlow(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sens
 	int current_distance = UltraSonic.cm;
 	BP.get_sensor(PORT_1, Color1);
 	BP.get_sensor(PORT_3, Color2);
+	if(target_distance > 100){
+		target_distance = 15;
+	}
 	cout << "target_distance: " << target_distance << endl;
 	//Go straight until one of the color sensors detects a black line.
-	while(Color1.reflected_red > average_black_line || Color2.reflected_red > average_black_line){
+	while(Color1.reflected_red > average_black_line && Color2.reflected_red > average_black_line){
 		cout << "current_distance: " << current_distance << endl;
+		if(current_distance > 200){
+			current_distance = 100;
+			cout << "Ik ben in de if: " << current_distance << endl;
+		}
+		cout << "target_distance: " << target_distance << endl;
+
 		if(current_distance > target_distance*2){
 			steeringRobot('F', BP);
 		} else if(current_distance < target_distance){
@@ -150,29 +159,18 @@ void timeForFlow(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sens
 		current_distance = UltraSonic.cm;
 		BP.get_sensor(PORT_1, Color1);
 		BP.get_sensor(PORT_3, Color2);
+//		cout << "Bool left sensor:  " << (Color1.reflected_red > average_black_line) << endl;
+//		cout << "Bool right sensor: " << (Color1.reflected_red > average_black_line) << endl;
 	}
-	// The if makes sure both sensors are on the black line
-	if(Color1.reflected_red < average_black_line){
-		while(Color2.reflected_red > average_black_line){
-			BP.set_motor_position_relative(motor_right, 10);
-			usleep(1000*(1000));
-		}
-	} else{
-		while(Color1.reflected_red > average_black_line){
-			BP.set_motor_position_relative(motor_right, 10);
-			usleep(1000*(1000));
-		}
-	}
-
-	// Line detected so turn to right to go on line again
-	cout << "Last step!" << endl;
-	crossLine(BP,90);
-	usleep(1000*500);
-	driveOnSpot('R',BP);
-	usleep(1000*500);
-	turnUS(1, BP);
+	cout << "Out of while-loop" << endl;
+	turnUS(1,BP);
+	// TODO: --> Sharp corners!
+	crossLine(BP, 90);
 	usleep(1000*1000);
-	cout << "Ik ben klaar" << endl;
+	driveOnSpot('R', BP);
+	usleep(2000*1000);
+	turnUS(1,BP);
+	usleep(1000*1000);
 }
 
 
