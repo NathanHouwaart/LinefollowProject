@@ -37,42 +37,42 @@ void playSound(char selection, int & playing) {
         case 'L':  //turn left on crossroad
             if(playing != 3) {
                 stopSound(playing);
-                system("omxplayer_silent --no-keys -o local Noises/turnleft.wav &");
+                system("omxplayer_silent --no-keys -o local Noises/turnleft2.wav &");
                 playing = 3;
             }
             break;
         case 'R':  //turn right on crossroad
             if(playing != 4) {
                 stopSound(playing);
-                system("omxplayer_silent --no-keys -o local Noises/turnright.wav &");
+                system("omxplayer_silent --no-keys -o local Noises/turnright2.wav &");
                 playing = 4;
             }
             break;
         case 'S':  //drive straight over a crossroad
             if(playing != 5) {
                 stopSound(playing);
-                system("omxplayer_silent --no-keys -o local Noises/drivestraight.wav &");
+                system("omxplayer_silent --no-keys -o local Noises/drivestraight2.wav &");
                 playing = 5;
             }
             break;
         case 'O':  //see object
             if(playing != 6) {
                 stopSound(playing);
-                system("omxplayer_silent --no-keys -o local Noises/seeobject2.wav &");
+                system("omxplayer_silent --no-keys -o local Noises/seeobject3.wav &");
                 playing = 6;
             }
             break;
         case 'D':  //dodge object
             if(playing != 7) {
                 stopSound(playing);
-                system("omxplayer_silent --no-keys -o local Noises/dodge2.wav &");
+                system("omxplayer_silent --no-keys -o local Noises/dodge3.wav &");
                 playing = 7;
             }
             break;
         case 'C':  //crossroad
             if(playing != 8) {
                 stopSound(playing);
-                system("omxplayer_silent --no-keys -o local Noises/crossroad2.wav &");
+                system("omxplayer_silent --no-keys -o local Noises/crossroad3.wav &");
                 playing = 8;
             }
             break;
