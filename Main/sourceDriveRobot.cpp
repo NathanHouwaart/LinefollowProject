@@ -62,8 +62,8 @@ void MotorControllerPower(int left, int right, BrickPi3 & BP) {
     else if (right_power < -127) right_power = -127;
     if(left_power > 127) left_power = 127;
     else if (left_power < -127) left_power = -127; 
-//    cout << "LEFT POWER: " << left_power << endl;
-//    cout << "RIGHT POWER: " << right_power << endl;
+    cout << "LEFT POWER: " << left_power << endl;
+    cout << "RIGHT POWER: " << right_power << endl;
 
     BP.set_motor_power(motor_right, right_power);
     BP.set_motor_power(motor_left, left_power);
