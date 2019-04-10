@@ -51,16 +51,23 @@ void crossroad(BrickPi3 & BP, int & playing, int & fd) {
     typeString("Which way", fd);   // print the text on the screen
     cursorLocation(LINE2, fd);
     typeString("R, L, F", fd);
-    char choice;
-    cin >> choice;
-    switch (choice) {
-        case 'L':
+
+    string input = mb.readMessage();  //blokkeert niet
+    if(input != "") {
+        cout << endl << input << endl;
+        selectDirection(input, BP, steer, playing);
+    }
+    cout << ".";
+    cout.flush();
+
+    switch (input) {
+        case "LEFT":
             driveLeft(BP, playing);
             break;
-        case 'R':
+        case "RIGHT":
             driveRight(BP, playing);
             break;
-        case 'F':
+        case "UP":
             driveForward(BP, playing);
             break;
         default:
