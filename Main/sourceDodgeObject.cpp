@@ -106,7 +106,6 @@ void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1
 //		cout << "current_distance: " << current_distance << endl;
 		if(current_distance > 200){
 			current_distance = 200;
-//			cout << "Ik ben in de if: " << current_distance << endl;
 		}
 //		cout << "target_distance: " << target_distance << endl;
 
