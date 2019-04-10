@@ -4,8 +4,8 @@ using namespace std;
 
 void PController(sensor_color_t & Color1, BrickPi3 & BP, CalculatingErrorData & data_struct) {
     int tp = 25;                                           // Constant value to determine maximum motor dps
-    float kp = 10;                                       // Constant value to determine the sharpness of the turns the robot takes
-    float kd = 0.0;
+    float kp = 0.13;                                       // Constant value to determine the sharpness of the turns the robot takes
+    float kd = 1.3;
     int lastError = 0;
 
     while (true) {
