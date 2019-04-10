@@ -130,4 +130,7 @@ void typeString(const char *s, int & fd);
 void lcdStart(int & fd);
 void typeFloat(float myFloat, int & fd);
 
+//sourcePController.cpp
+void PController(sensor_color_t & Color1, BrickPi3 & BP);
+
 #endif //LinefollowProject_LINEFOLLOWER_H

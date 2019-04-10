@@ -55,7 +55,7 @@ int main() {
     clearLcd(fd);           // Clear the lcd
 	char modeselect;
 	/*-----Follow the line untill the ultrasonic sensor measures something withing X cm-----*/
-    cout << "Select mode: (Line follow (L) / grid follow (G) / Free ride (F))" << endl;
+    cout << "Select mode: (Line follow (L) / grid follow (G) / Free ride (F) / PController (P))" << endl;
     clearLcd(fd);   // clear the lcd
     cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
     typeString("Select mode", fd);   // print the text on the screen
@@ -74,6 +74,10 @@ int main() {
             break;
         case 'O':
             objectDetect(UltraSonic1, BP, 10);
+            break;
+        case 'P':
+            PController(Color1, BP);
+            break;
         default:
             clearLcd(fd);   // clear the lcd
             cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
