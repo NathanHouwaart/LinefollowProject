@@ -131,6 +131,6 @@ void lcdStart(int & fd);
 void typeFloat(float myFloat, int & fd);
 
 //sourcePController.cpp
-void PController(sensor_color_t & Color1, BrickPi3 & BP);
+void PController(sensor_color_t & Color1, BrickPi3 & BP, CalculatingErrorData & data_struct);
 
 #endif //LinefollowProject_LINEFOLLOWER_H

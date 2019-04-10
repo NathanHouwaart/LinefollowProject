@@ -76,7 +76,7 @@ int main() {
             objectDetect(UltraSonic1, BP, 10);
             break;
         case 'P':
-            PController(Color1, BP);
+            PController(Color1, BP, struct_line_values);
             break;
         default:
             clearLcd(fd);   // clear the lcd
