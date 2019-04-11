@@ -20,6 +20,8 @@
 #include <time.h>
 #include <wiringPiI2C.h>
 #include <wiringPi.h>
+#include <cstdio>       // for clock
+#include <ctime>        // for clock
 // #include <stdlib.h>
 #include <stdio.h>
 
@@ -55,7 +57,7 @@ void crossLine(BrickPi3 & BP, int32_t forward_degrees);
 void driveLeft(BrickPi3 & BP, int & playing);
 void driveRight(BrickPi3 & BP, int & playing);
 void driveForward(BrickPi3 & BP , int & playing);
-void crossroad(BrickPi3 & BP,  int & playing, int & fd);
+void crossroad(BrickPi3 & BP,  int & playing, int & fd, BluetoothSocket* clientsock);
 void crossroadGrid(BrickPi3 & BP, const char & direction_instruction, int & playing, int & fd);
 
 // sourceDodgeObject.cpp
@@ -68,8 +70,11 @@ void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1
 // sourceDriveRobot.cpp
 void speedLimiter(int & right, int & left, const int & maximum_speed);
 void MotorController(int left, int right, BrickPi3 & BP);
+void MotorControllerPower(int left, int right, BrickPi3 & BP);
 void drive(float direction_control, unsigned int speed_multiplier_percentage, unsigned int rotation_speed, BrickPi3 & BP);
 void driveOnSpot(char turn_direction, BrickPi3 & BP);
+void MotorControllerTurn(const int & turn, const int & target_power, const float & turn_modifier, BrickPi3 & BP);
+vector<int> convertPowerValues(const int & speedA, const int & speedD);
 
 // sourceFreeRideLoop.cpp
 void freeRideLoop(int & fd, BrickPi3 & BP);
@@ -131,5 +136,15 @@ void cursorLocation(int line, int & fd);
 void typeString(const char *s, int & fd);
 void lcdStart(int & fd);
 void typeFloat(float myFloat, int & fd);
+
+//sourcePController.cpp
+void PController(sensor_color_t & Color1, BrickPi3 & BP, CalculatingErrorData & data_struct, float & target_power, float & kp, float & kd, float & ki, int & lastError, int & integral, int & offset, float turn_modifier);
+void stopMotor(BrickPi3 & BP);
+
+//sourcePIDLoop.cpp
+void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP, int & fd);
+
+//sourceGridFollowLoopPID.cpp
+void gridFollowLoopPID(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct, int & fd, BrickPi3 & BP);
 
 #endif //LinefollowProject_LINEFOLLOWER_H

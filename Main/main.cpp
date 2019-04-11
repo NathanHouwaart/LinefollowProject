@@ -14,7 +14,7 @@ using namespace std;
 void exit_signal_handler(int signo);
 BrickPi3 BP;
 
-int main() {
+int main () {
     char mode_select; //variable to save the answer of the user
     bool correct_answer = false;
 
@@ -56,31 +56,42 @@ int main() {
     defineDifferenceToAverage(struct_line_values);
     sleep(1); //Waiting for sensors to see normally
     clearLcd(fd);           // Clear the lcd
-
-    while(!correct_answer){
-        cout << "Select mode: Line follow (L) / grid follow (G) / Free ride (F)" << endl;
-        cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
-        typeString("Select mode:", fd);  // print the text on the screen
-        cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
-        typeString("L G F", fd);        // print the text to the screen
-        cin >> mode_select;
-        switch (mode_select) {
-            case 'L':
-                cout << "Entering the line follow-mode." << endl;
-                lineFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, fd, BP);
-                break;
-            case 'G':
-                cout << "Entering the grid navigate-mode." << endl;
-                gridFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, fd, BP);
-                break;
-            case 'F':
-                cout << "Entering the freeride-mode." << endl;
-                freeRideLoop(fd, BP);
-                break;
-            default:
-                cout << "ERROR, wrong input" << endl;
-                break;
-        }
+	char modeselect;
+	/*-----Follow the line untill the ultrasonic sensor measures something withing X cm-----*/
+    cout << "Select mode: (Line follow (L) / grid follow (G) / Free ride (F) / PController (P)/ Grid P (A))" << endl;
+    clearLcd(fd);   // clear the lcd
+    cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+    typeString("Select mode", fd);   // print the text on the screen
+    cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
+    typeString("L G F P A", fd);            // print the text to the screen
+    cin >> modeselect;
+    switch (modeselect){
+        case 'L':
+            lineFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, fd, BP);
+            break;
+        case 'G':
+            gridFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, fd, BP);
+            break;
+        case 'F':
+            freeRideLoop(fd, BP);
+            break;
+        case 'O':
+            objectDetect(UltraSonic1, BP, 10);
+            break;
+        case 'P':
+            PIDlineFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, BP, fd);
+            break;
+        case 'A':
+            gridFollowLoopPID(Color1, Color2, UltraSonic1, struct_line_values, fd, BP);
+            break;
+        default:
+            clearLcd(fd);   // clear the lcd
+            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
+            typeString("Error", fd);   // print the text on the screen
+            cursorLocation(LINE2, fd);
+            typeString("Goodbye", fd);
+            cout << "ERROR, wrong input" << endl;
+            return -1;
    }
 }
 
