@@ -81,6 +81,8 @@ int main() {
         case 'P':
             PIDlineFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, BP, fd);
             break;
+        case 'A':
+            gridFollowLoopPID(Color1, Color2, UltraSonic1, struct_line_values, fd, BP);
         default:
             clearLcd(fd);   // clear the lcd
             cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
