@@ -21,7 +21,7 @@ using namespace std;
 
 
 void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP, int & fd) {
-    int counter_object = 0;
+    int counter_obstacle_detect = 0;
     int playing = 0;        //telling the program that no sound is currently playing
     int lcd_counter = 10000;    // to keep the lcd form updating every loop and than noging shows and start a 10000 te start the lcd
     BluetoothServerSocket serversock(2, 1); //the channel number is 2
@@ -79,15 +79,32 @@ void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
                 PController(Color1, BP, data_struct, target_power, kp, kd, ki, lastError, integral, offset, turn_modifier);
             }
         } else {                                                  // If an object was detected within X cm, execute this code
-            playSound('O', playing);
-            stopMotor(BP); // Stop the car
-            counter_object++;
-            if (counter_object % 1000 == 0) { cout << "Joe 1000 iets" << counter_object << endl; }
-            if (counter_object >= 1500) {
-                cout << "Counter is groot genoeg" << endl;
-                //playSound('D', playing);
-                //driveAround(BP);
-                megaCharge(playing, BP);
+            playSound('S', playing);
+            stopMotor();      // Stop the robot
+            counter_obstacle_detect++;
+            if (counter_obstacle_detect >= 500) {   // after 500 consecutive readings the robot enters this code
+                cout << "YEEBUG: I am in the obstacle detect." << endl;
+                counter_obstacle_detect = 0; // Makes sure we detect the next object correctly with the buffer
+                playSound('D', playing);
+                bool correct_answer = false; // Makes it able to loop the question if the answer is incorrect
+
+                while(!correct_answer){
+                    cout << "Object detected: What do you want to do, type: D(dodge) or X(Plan X)" << endl;
+                    cin >> choice_dodge_object;
+                    switch (choice_dodge_object) {
+                        case 'X':           // Starts plan X, charging add the robot.
+                            megaCharge(playing, BP);
+                            correct_answer = true;
+                            break;
+                        case 'D':           // Starts dodging the object
+                            driveAroundObject(UltraSonic, Color1, Color2, data_struct.avarage_min_max, BP);
+                            correct_answer = true;
+                            break;
+                        default:
+                            cout << "Wrong input. Please try again";
+                            break;
+                    }
+                }
             }//Start driving around milk
         }
     }
