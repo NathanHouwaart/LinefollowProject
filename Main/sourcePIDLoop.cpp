@@ -32,9 +32,9 @@ void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
     cout << "accepted from " << clientsock->getForeignAddress().getAddress() << endl;
 
     float target_power = 40;                                // Constant value to determine maximum motor dps
-    float kp = 0.819; //100.0/data_struct.difference_min_avarage *0.6;                                        // 100/ (((200+680)/2) - 200)     W 0,434 Z 0,819
+    float kp = 0.80;//100.0/data_struct.difference_min_avarage *0.8;                                        // 100/ (((200+680)/2) - 200)     W 0,434 Z 0,819
 
-    float kd = (kp*0.1)/(20*0.00001);
+    float kd = (kp*0.1)/(8*0.00001);
 
     float ki = 0;
 
@@ -68,7 +68,7 @@ void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
             defineDifferenceToAverage(data_struct);
         }
 
-        if (getUltraSValue(PORT_4, UltraSonic, BP) > 10) {       // If the measured US distance is bigger than 10:
+        if (getUltraSValue(PORT_4, UltraSonic, BP) > 20) {       // If the measured US distance is bigger than 10:
             playSound('F', playing);
             counter_object = 0;
             cout << "hier ben ik" << endl;
