@@ -52,22 +52,42 @@ void crossroad(BrickPi3 & BP, int & playing, int & fd) {
     cursorLocation(LINE2, fd);
     typeString("R, L, F", fd);
 
-    string input = mb.readMessage();  //blokkeert niet
-    if(input != "") {
-        cout << endl << input << endl;
-        selectDirection(input, BP, steer, playing);
-    }
-    cout << ".";
-    cout.flush();
+    BluetoothSocket* clientsock = serversock.accept();
+    cout << "accepted from " << clientsock->getForeignAddress().getAddress() << endl;
+    MessageBox& mb = clientsock->getMessageBox();
 
-    switch (input) {
-        case "LEFT":
+    string input;
+    char inputC;
+
+    while(mb.isRunning()) {
+        input = mb.readMessage();  //blokkeert niet
+        if(input == "LEFT") {
+            cout << input << endl;
+            inputC = 'L';
+            break;
+        } else if (input == "RIGHT") {
+            cout << input << endl;
+            inputC = 'R';
+            break;
+        } else if (input == "UP") {
+            cout << input << endl;
+            inputC = 'F';
+            break;
+        }
+        cout << ".";
+        cout.flush();
+    }
+
+    clientsock->close();
+
+    switch (inputC) {
+        case 'L':
             driveLeft(BP, playing);
             break;
-        case "RIGHT":
+        case 'R':
             driveRight(BP, playing);
             break;
-        case "UP":
+        case 'F':
             driveForward(BP, playing);
             break;
         default:

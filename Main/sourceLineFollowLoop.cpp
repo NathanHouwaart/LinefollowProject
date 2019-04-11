@@ -17,8 +17,9 @@ using namespace std;
 int counter_object = 0;
 int playing = 0;        //telling the program that no sound is currently playing
 int lcd_counter = 10000;    // to keep the lcd form updating every loop and than noging shows and start a 10000 to start the lcd
-BluetoothServerSocket serversock(2, 1);  //2 is het channel-number
+
 void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP, int & fd){
+    BluetoothServerSocket serversock(2, 1);  //2 is het channel-number
     while (true) {
         lcd_counter++;                  // add one to the counter for every loop
         if (lcd_counter >= 5000) {      // after 5000 loops update hij het schermpje
@@ -31,9 +32,6 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
             typeString("PCT   Linefollow", fd);   // print the text on the screen
             lcd_counter = 0;                    // reset the counter
         }
-        BluetoothSocket* clientsock = serversock.accept();
-        cout << "accepted from " << clientsock->getForeignAddress().getAddress() << endl;
-        MessageBox& mb = clientsock->getMessageBox();
         BP.get_sensor(PORT_1, Color1);                          // Read colorsensor1 and put data in struct Color1
         BP.get_sensor(PORT_3, Color2);
         int main_sensor_measurment = Color1.reflected_red;
