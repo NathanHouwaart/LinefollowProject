@@ -24,16 +24,10 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
      * CTRL + C will stop this loop.
      */
     while (true) {
-        lcd_counter++;                                          // add one to the counter for every loop
-        if (lcd_counter >= 5000) {                              // after 5000 loops the screen will be updated
-            float battery = BP.get_voltage_battery();
-            float battery_percentage = (100/(12.6-10.8)*(battery-10.8));
-            clearLcd(fd);                                       // clear the lcd
-            cursorLocation(LINE1, fd);                          // set the cursorlocation to line 1
-            typeFloat(battery_percentage, fd);                  // display the battery_percentage
-            cursorLocation(LINE2, fd);                          // set the cursorlocation to line 2
-            typeString("PCT   Linefollow", fd);                 // print the text on the screen
-            lcd_counter = 0;                                    // reset the counter
+        lcd_counter++;                  // add one to the counter for every loop
+        if (lcd_counter >= 5000) {      // after 5000 loops update hij het schermpje
+            printPercentage(fd,'L',BP);
+            lcd_counter = 0;                    // reset the counter
         }
         BP.get_sensor(PORT_1, Color1);                          // Read colorsensor1 and put data in struct Color1
         BP.get_sensor(PORT_3, Color2);

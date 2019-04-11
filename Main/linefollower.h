@@ -134,5 +134,6 @@ void cursorLocation(int line, int & fd);
 void typeString(const char *s, int & fd);
 void lcdStart(int & fd);
 void typeFloat(float myFloat, int & fd);
+void printPercentage(int & address_lcd, char current_mode, BrickPi3 & BP)
 
 #endif //LinefollowProject_LINEFOLLOWER_H

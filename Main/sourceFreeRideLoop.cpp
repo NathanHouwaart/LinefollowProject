@@ -11,22 +11,21 @@
 
 using namespace std;
 
-void freeRideLoop(int & fd, BrickPi3 & BP){
+void freeRideLoop(int & address_lcd, BrickPi3 & BP){
+    /* This is the main loop that we use to drive the robot with remote control.
+     * The remote control is over bluetooth, you connected with an android-phone were the correct app is installed.
+     *
+     */
     int playing = 0;
-    BluetoothServerSocket serversock(2, 1);  //2 is het channel-number
+    BluetoothServerSocket serversock(2, 1);                 //2 is het channel-number
     cout << "listening" << endl;
-    int lcd_counter = 10000;		// The counter to keet the lcd fomr opdating every loop and starts at 10000 to get a dislpay
+    int lcd_counter = 5000;		                            // The counter to keet the lcd fomr opdating every loop and starts at 10000 to get a dislpay
     while(true) {
-        lcd_counter++;                      // every loop add 1 one to the counter
-        if (lcd_counter >= 5000) {          // after 5000 loops its updates the screen
-            float battery = BP.get_voltage_battery();
-            float battery_percentage = (100/(12.6-10.8)*(battery-10.8));
-            clearLcd(fd);   // clear the lcd
-            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
-            typeFloat(battery_percentage, fd);  // display the battery_percantage
-            cursorLocation(LINE2, fd);     // set the cursorlocation to line 2
-            typeString("PCT   Freeride", fd);   // print the text on the screen
-            lcd_counter = 0;                    // reset the counter
+        lcd_counter++;                                      // every loop add 1 one to the counter
+        if (lcd_counter >= 5000) {
+            // after 5000 loops the screen is updated
+            printPercentage(address_lcd,'F',BP);            // Print the new battery percentage
+            lcd_counter = 0;                                // reset the counter
         }
         BluetoothSocket* clientsock = serversock.accept();
         cout << "accepted from " << clientsock->getForeignAddress().getAddress() << endl;

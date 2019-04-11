@@ -26,19 +26,13 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
 
     vector<vector<char>> grid = gridSetup(height, width);
     vector<char> fastest_route = fastestRoute(height, width);
-    int lcd_counter = 100000;                           // To keep the lcd form updating every loop and starts at 10000 to start the lcd configuration
+    int lcd_counter = 5000;                             // to keep the lcd form updating every loop (updated every 5000 loops)
 
     while (true) {
-        lcd_counter++;                                  // Add one to the counter
-        if (lcd_counter >= 5000) {                      // After every 5000 loops updates the lcd screen
-            float battery = BP.get_voltage_battery();
-            float battery_percentage = (100/(12.6-10.8)*(battery-10.8));
-            clearLcd(fd);                               // Clear the lcd
-            cursorLocation(LINE1, fd);                  // Set the cursorlocation to line 1
-            typeFloat(battery_percentage, fd);          // Display the battery_percantage
-            cursorLocation(LINE2, fd);                  // Set the cursorlocation to line 2
-            typeString("PCT   Grid mode", fd);          // Print the text on the screen
-            lcd_counter = 0;                            // Rest the counter
+        lcd_counter++;                                  // add one to the counter
+        if (lcd_counter >= 5000) {                      // after every 5000 loops updates the lcd screen
+            printPercentage(fd,'G',BP);
+            lcd_counter = 0;                            // rest the counter
         }
         int playing = 0;
         BP.get_sensor(PORT_1, Color1);                  // Read colorsensor1 and put data in struct Color1

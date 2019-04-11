@@ -71,3 +71,30 @@ void typeFloat(float myFloat, int & fd) {
     sprintf(buffer, "%4.2f",  myFloat);
     typeString(buffer, fd);
 }
+
+void printPercentage(int & address_lcd, char current_mode, BrickPi3 & BP) {
+    /* The function prints the battery percentage on the LCD screen.
+     * It also shows the current mode where the robot is in.
+     * The function expects a char which represents the current mode L (line), G (grid), F (free)
+     */
+    float battery = BP.get_voltage_battery();
+    float battery_percentage = (100/(12.6-10.8)*(battery-10.8));
+    clearLcd(address_lcd);                                          // clear the lcd
+    cursorLocation(LINE1, address_lcd);                             // set the cursorlocation to line 1
+    typeFloat(battery_percentage, address_lcd);                     // display the battery_percantage
+    cursorLocation(LINE2, address_lcd);                             // set the cursorlocation to line 2
+    switch (current_mode){
+        case 'L':
+            typeString("PCT   Freeride", address_lcd);
+            break;
+        case 'G':
+            typeString("PCT   Grid navigate", address_lcd);
+            break;
+        case 'F':
+            typeString("PCT   Linefollow", address_lcd);
+            break;
+        default:
+            cout << "ERROR, incorrect input in printPercentage" << endl;
+    }
+    typeString("PCT   Freeride", address_lcd);                      // print the text on the screen
+}
