@@ -25,16 +25,6 @@ void PController(sensor_color_t & Color1, BrickPi3 & BP, CalculatingErrorData & 
 //	cin >> light_value;
 	cout << "LIGHT VALUE: " << light_value << endl;
 
-        if (light_value < data_struct.lowest_measurment) {    // Checks whether the lowest measured value needs to be updated
-            data_struct.lowest_measurment = light_value;
-            defineDifferenceToAverage(data_struct);
-            offset = data_struct.avarage_min_max;
-        } else if (light_value > data_struct.highest_measurment) { // Checks whether the hightest measured light value needs to be updated
-            data_struct.highest_measurment = light_value;
-            defineDifferenceToAverage(data_struct);         // Recalculate data
-            offset = data_struct.avarage_min_max;
-        }
-
         int error = light_value - offset;                   // Calculate error
         int derivative = error - lastError;
         integral += error;
