@@ -10,41 +10,41 @@
 #ifndef LinefollowProject_LINEFOLLOWER_H
 #define LinefollowProject_LINEFOLLOWER_H
 
-#include "BrickPi3.h" // for BrickPi3
-#include "BluetoothSocket.h"
-#include <iostream>      // for cout
-#include <unistd.h>     // for sleep
-#include <signal.h>     // for catching exit signals
-#include <iomanip>		// for setw and setprecision>
-#include <vector>
-#include <time.h>
-#include <wiringPiI2C.h>
-#include <wiringPi.h>
-#include <cstdio>       // for clock
-#include <ctime>        // for clock
-// #include <stdlib.h>
-#include <stdio.h>
+#include "BrickPi3.h"           // For BrickPi3
+#include "BluetoothSocket.h"    // For the bluetooth functionality
+#include <iostream>             // For cout and cin
+#include <unistd.h>             // For usleep
+#include <signal.h>             // For catching exit signals
+#include <iomanip>              // For setw and setprecision
+#include <vector>               // For the vector
+#include <time.h>               // For ?
+#include <wiringPiI2C.h>        // For controlling the LCD screen with I2C
+#include <wiringPi.h>           // For the LCD screen
+// #include <stdlib.h>          // Can we delete this one?
+#include <stdio.h>              // For size_t
 
 
 using namespace std;
 
-#define DIRECTION_STOP -1
-#define DIRECTION_LEFT 0
-#define DIRECTION_FORWARD 1
-#define DIRECTION_RIGHT 2
-#define MAX_MOTOR_SPEED 800
-#define I2C_ADDR   0x27 // I2C device address of the lcd
-#define LCD_CHR  1 // Mode - Sending data
-#define LCD_CMD  0 // Mode - Sending command
-#define LINE1  0x80 // 1st line of lcd
-#define LINE2  0xC0 // 2nd line of lcd
-#define LCD_BACKLIGHT   0x08  // On
-// LCD_BACKLIGHT = 0x00  # Off
-#define ENABLE  0b00000100 // Enable bit to enable the lcd
+#define DIRECTION_STOP -1       // To make reading of code clearer, used by calling the drive function
+#define DIRECTION_LEFT 0        // To make reading of code clearer, used by calling the drive function
+#define DIRECTION_FORWARD 1     // To make reading of code clearer, used by calling the drive function
+#define DIRECTION_RIGHT 2       // To make reading of code clearer, used by calling the drive function
+#define MAX_MOTOR_SPEED 800     // Set the max dps of the motors, is used in motor limiter
+#define I2C_ADDR   0x27         // I2C device address of the LCD
+#define LCD_CHR  1              // Mode - Sending data to LCD
+#define LCD_CMD  0              // Mode - Sending command to LCD
+#define LINE1  0x80             // 1st line of lcd
+#define LINE2  0xC0             // 2nd line of lcd
+#define LCD_BACKLIGHT   0x08    // Turn on the backlight of LCD
+#define ENABLE  0b00000100      // Enable bit to enable the LCD
 
 
-// This struct is used to save the data used in calculating the avarage
-struct CalculatingErrorData{
+/* The struct is used to save the lowest and highest color value we got with the calibration.
+ * It also saves the average of the line, (this is the target to follow). The last 2 variables save the difference
+ * between the average and lowest and highest reading.
+ */
+struct CalculatingErrorData{                //TODO: Change name?
     int lowest_measurment;
     int highest_measurment;
     int avarage_min_max;
@@ -52,6 +52,7 @@ struct CalculatingErrorData{
     int difference_max_avarage;
 };
 
+// The rest of the header-files contains all the declarations of functions. The declarations are sorted by source-file
 // sourceCrossroad.cpp
 void crossLine(BrickPi3 & BP, int32_t forward_degrees);
 void driveLeft(BrickPi3 & BP, int & playing);
@@ -78,7 +79,8 @@ vector<int> convertPowerValues(const int & speedA, const int & speedD);
 
 // sourceFreeRideLoop.cpp
 void freeRideLoop(int & fd, BrickPi3 & BP);
-void selectDirection(const string & input, BrickPi3 & BP, float & steer, int & playing);
+void selectDirection(const string & input, float & steer, int & playing, BrickPi3 & BP);
+void soundSelection(string & input, int & playing);
 
 // sourceGridFollowLoop.cpp
 void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct, int & fd, BrickPi3 & BP);
@@ -136,6 +138,7 @@ void cursorLocation(int line, int & fd);
 void typeString(const char *s, int & fd);
 void lcdStart(int & fd);
 void typeFloat(float myFloat, int & fd);
+void printPercentage(int & address_lcd, char current_mode, BrickPi3 & BP);
 
 //sourcePController.cpp
 void PController(sensor_color_t & Color1, BrickPi3 & BP, CalculatingErrorData & data_struct, float & target_power, float & kp, float & kd, float & ki, int & lastError, int & integral, int & offset, float turn_modifier);
