@@ -16,29 +16,26 @@ void PController(sensor_color_t & Color1, BrickPi3 & BP, CalculatingErrorData & 
     cout << "OFFSET: " << offset << endl;
     float turn_modifier = -2.0 * target_power / 100;
     cout << "TURN MODIFIER: " << turn_modifier << endl;
-    sleep(2);
-    while (true) {
-        clock_t start = clock();
+    clock_t start = clock();
 
-        BP.get_sensor(PORT_1, Color1);                      // Get sensor data
-        int light_value = Color1.reflected_red;             // Get sensor data
-//	cin >> light_value;
-	cout << "LIGHT VALUE: " << light_value << endl;
+    BP.get_sensor(PORT_1, Color1);                      // Get sensor data
+    int light_value = Color1.reflected_red;             // Get sensor data
+    //	cin >> light_value;
+    cout << "LIGHT VALUE: " << light_value << endl;
 
-        int error = light_value - offset;                   // Calculate error
-        int derivative = error - lastError;
-        integral += error;
-        int turn = kp * error + kd * derivative + ki * integral;    // Convert error value to turn value
+    int error = light_value - offset;                   // Calculate error
+    int derivative = error - lastError;
+    integral += error;
+    int turn = kp * error + kd * derivative + ki * integral;    // Convert error value to turn value
 
-        cout << "INTEGRAL: " << integral << endl;
-        cout << "TURN: " << turn << endl;
+    cout << "INTEGRAL: " << integral << endl;
+    cout << "TURN: " << turn << endl;
 
-        MotorControllerTurn(turn, target_power, turn_modifier, BP);
-        lastError = error;
-        printf("Time elapsed: %f\n", ((double) clock() - start) / CLOCKS_PER_SEC);
-//        sleep(1);
-        cout << endl;
-    }
+    MotorControllerTurn(turn, target_power, turn_modifier, BP);
+    lastError = error;
+    printf("Time elapsed: %f\n", ((double) clock() - start) / CLOCKS_PER_SEC);
+    cout << endl;
+    
 }
 
 /*  float kpv = (0 - target_power) / (0 - data_struct.difference_min_avarage);
