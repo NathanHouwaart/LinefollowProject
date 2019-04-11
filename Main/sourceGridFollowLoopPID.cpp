@@ -62,7 +62,7 @@ void gridFollowLoopPID(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
         if(main_sensor_measurment < data_struct.lowest_measurement){
             data_struct.lowest_measurement = main_sensor_measurment;
             defineDifferenceToAverage(data_struct);
-        } else if(main_sensor_measurment > data_struct.highest_measurment){
+        } else if(main_sensor_measurment > data_struct.highest_measurement){
             data_struct.highest_measurement = main_sensor_measurment;
             defineDifferenceToAverage(data_struct);
         }
