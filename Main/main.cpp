@@ -70,10 +70,15 @@ int main() {
         typeString("Select mode:", fd);  // print the text on the screen
         cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
         typeString("L G F", fd);        // print the text to the screen
+        MessageBox& mb = clientsock->getMessageBox();
 
         while(mb.isRunning()) {
-            input = mb.readMessage();  //blokkeert niet
-            if(input == "A") {
+            input = mb.readMessage();  //Putting bluetooth input into a variable
+            if (input == "STOP") {
+                cout << input << endl;
+                inputC = "E";
+                break;
+            } else if(input == "A") {
                 cout << input << endl;
                 inputC = 'L';
                 break;
@@ -104,6 +109,9 @@ int main() {
                 cout << "Entering the freeride-mode." << endl;
                 freeRideLoop(fd, clientsock, BP);
                 break;
+            case 'E':
+                cout << "Stopping robot." << endl;
+                return 0;
             default:
                 cout << "ERROR, wrong input" << endl;
                 break;

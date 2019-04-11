@@ -14,7 +14,8 @@ using namespace std;
 // TODO: --> Mogelijke aanpassing door verandering object ontwijken.
 // TODO: --> Meting lager of hoger dan min of max meting (calibratie) Waarde laag en hoog aanpassen.
 
-char choice_dodge_object;
+string btInput;
+char btInputC;
 int counter_obstacle_detect = 0;
 int playing = 0;        //telling the program that no sound is currently playing
 int lcd_counter = 5000;    // to keep the lcd form updating every loop and than noging shows and start a 10000 to start the lcd
@@ -67,8 +68,25 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
 
                 while(!correct_answer){
                     cout << "Object detected: What do you want to do, type: D(dodge) or X(Plan X)" << endl;
-                    cin >> choice_dodge_object;
-                    switch (choice_dodge_object) {
+                    MessageBox& mbDodge = clientsock->getMessageBox();
+
+                    while(mbDodge.isRunning()) {
+                        btInput = mbDodge.readMessage();  //Putting bluetooth input into a variable
+                        if(btInput == "STOP") {
+                            cout << input << endl;
+                            btInputC = 'D';
+                            break;
+                        } else if (input == "UP") {
+                            cout << input << endl;
+                            btInputC = 'X';
+                            break;
+                        }
+                        cout << ".";
+                        cout.flush();
+                        usleep(200*1000);
+                    }
+
+                    switch (btInputC) {
                         case 'X':           // Starts plan X, charging add the robot.
                             megaCharge(playing, BP);
                             correct_answer = true;

@@ -52,13 +52,13 @@ void crossroad(BrickPi3 & BP, int & playing, int & fd, BluetoothSocket* clientso
     cursorLocation(LINE2, fd);
     typeString("R, L, F", fd);
 
-    MessageBox& mb = clientsock->getMessageBox();
+    MessageBox& mbCross = clientsock->getMessageBox();
 
     string input;
     char inputC;
 
-    while(mb.isRunning()) {
-        input = mb.readMessage();  //blokkeert niet
+    while(mbCross.isRunning()) {
+        input = mbCross.readMessage();  //Putting bluetooth input into a variable
         if(input == "LEFT") {
             cout << input << endl;
             inputC = 'L';

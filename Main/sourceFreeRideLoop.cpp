@@ -24,9 +24,12 @@ void freeRideLoop(int & fd, BluetoothSocket* clientsock, BrickPi3 & BP){
         float steer = 1;
         string input;
         while(mb.isRunning()) {
-            input = mb.readMessage();  //blokkeert niet
+            input = mb.readMessage();  //Putting bluetooth input into a variable
             if(input != "") {
                 cout << endl << input << endl;
+                if (input == "C") {
+                    return 0;
+                }
                 selectDirection(input, BP, steer, playing);
             }
             cout << ".";
