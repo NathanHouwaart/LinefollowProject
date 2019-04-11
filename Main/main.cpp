@@ -15,6 +15,9 @@ void exit_signal_handler(int signo);
 BrickPi3 BP;
 
 int main() {
+    char mode_select; //variable to save the answer of the user
+    bool correct_answer = false;
+
     /*-----Setup exit handler and detect BrickPi-----*/
     signal(SIGINT, exit_signal_handler);                        // Register the exit function for Ctrl+C & cleanup
     BP.detect();                                                // Make sure that the BrickPi3 is communicating and that the firmware is compatible with the drivers.
@@ -47,7 +50,7 @@ int main() {
 
     clearLcd(fd);   // clear the lcd
     cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
-    typeString("calibration", fd);   // print the text on the screen
+    typeString("Calibrating", fd);   // print the text on the screen
 
     calibration(Color1, struct_line_values, BP);
     defineDifferenceToAverage(struct_line_values);
@@ -60,7 +63,7 @@ int main() {
     cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
     typeString("Select mode", fd);   // print the text on the screen
     cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
-    typeString("L G F", fd);            // print the text to the screen
+    typeString("L G F P", fd);            // print the text to the screen
     cin >> modeselect;
     switch (modeselect){
         case 'L':

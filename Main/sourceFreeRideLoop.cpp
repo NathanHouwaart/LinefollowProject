@@ -4,7 +4,7 @@ using namespace std;
 
 // TODO: --> Maak loop van de modus freeRideLoop() (Zie activity diagram)
 
-void freeRideLoop(BrickPi3 & BP, int & fd){
+void freeRideLoop(int & fd, BrickPi3 & BP){
     int playing = 0;
     BluetoothServerSocket serversock(2, 1);  //2 is het channel-number
     cout << "listening" << endl;

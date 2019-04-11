@@ -57,13 +57,15 @@ void crossLine(BrickPi3 & BP, int32_t forward_degrees);
 void driveLeft(BrickPi3 & BP, int & playing);
 void driveRight(BrickPi3 & BP, int & playing);
 void driveForward(BrickPi3 & BP , int & playing);
-void crossroad(BrickPi3 & BP,  int & playing, int & fd);
+void crossroad(BrickPi3 & BP,  int & playing, int & fd, BluetoothSocket* clientsock);
 void crossroadGrid(BrickPi3 & BP, const char & direction_instruction, int & playing, int & fd);
 
 // sourceDodgeObject.cpp
-void drive_straight(int32_t to_drive, BrickPi3 & BP);
-void driveCurved(int32_t to_drive, BrickPi3 & BP);
-void driveAround(BrickPi3 & BP);
+float vectorAvarage(const vector<float> & to_calculate);
+void turnUS (float values_wheels, BrickPi3 & BP);
+void steeringRobot(char to_steer, BrickPi3 & BP);
+void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sensor_color_t & Color2, int average_black_line, BrickPi3 & BP);
+
 
 // sourceDriveRobot.cpp
 void speedLimiter(int & right, int & left, const int & maximum_speed);
@@ -75,11 +77,11 @@ void MotorControllerTurn(const int & turn, const int & target_power, const float
 vector<int> convertPowerValues(const int & speedA, const int & speedD);
 
 // sourceFreeRideLoop.cpp
-void freeRideLoop(BrickPi3 & BP, int & fd);
+void freeRideLoop(int & fd, BrickPi3 & BP);
 void selectDirection(const string & input, BrickPi3 & BP, float & steer, int & playing);
 
 // sourceGridFollowLoop.cpp
-void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP, int & fd);
+void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct, int & fd, BrickPi3 & BP);
 
 // sourceGridFollowFunctions.cpp
 char relativeDirection(const char & current_robot_orientation, const char & absolute_direction);
@@ -100,7 +102,7 @@ void whereToLook(vector<vector<char>> & grid, const char & look_direction, const
                  vector<size_t> position, sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP);
 
 // sourceLineFollowLoop.cpp
-void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP, int & fd);
+void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct, int & fd, BrickPi3 & BP);
 
 // sourceMainFunctions.cpp
 void calibration(sensor_color_t & Color1, CalculatingErrorData & data_struct,  BrickPi3 & BP);
