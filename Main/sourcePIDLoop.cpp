@@ -28,6 +28,21 @@ void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
     cout << "listening" << endl;
     BluetoothSocket* clientsock = serversock.accept();
     cout << "accepted from " << clientsock->getForeignAddress().getAddress() << endl;
+
+    float target_power = 40;                                // Constant value to determine maximum motor dps
+    float kp = 100.0/data_struct.difference_min_avarage *0.8;                                        // 100/ (((200+680)/2) - 200)     W 0,434 Z 0,819
+
+    float kd = (kp*0.1)/(20*0.0001);
+
+    float ki = 0;
+
+    int lastError = 0;
+    int integral = 0;
+    int offset = data_struct.avarage_min_max;           // Target ligh value for the robot to follow
+
+    float turn_modifier = -2.0 * target_power / 100;
+
+
     while (true) {
         lcd_counter++;                  // add one to the counter for every loop
         if (lcd_counter >= 5000) {      // after 5000 loops update hij het schermpje
@@ -59,7 +74,7 @@ void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
                 crossroad(BP, playing, fd, clientsock);
                 lcd_counter = 100000;       // to restart the lcd and give the battery percantage
             } else {                                             // If no intersection was detected, follow the line
-                PController(Color1, BP, data_struct);
+                PController(Color1, BP, data_struct, target_power, kp, kd, ki, lastError, integral, offset, turn_modifier);
             }
         } else {                                                  // If an object was detected within X cm, execute this code
             playSound('O', playing);
