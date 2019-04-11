@@ -24,7 +24,7 @@ void crossLine(BrickPi3 & BP, int32_t forward_degrees){
 
 void driveLeft(BrickPi3 & BP, int & playing) {         //skip over line and turn left
 	crossLine(BP,240);
-        playSound('L', playing);
+	playSound('L', playing);
 	usleep(1000*400);       //delay so sound has enough time to play
 	driveOnSpot('L',BP);
 	crossLine(BP, 40);

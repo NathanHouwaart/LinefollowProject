@@ -11,8 +11,9 @@
 
 using namespace std;
 
-int current_position_us= 0;
-vector<float> buffer_motor_values = {};
+/*-----Declaration of global variables-----*/
+int current_position_us= 0;						// Saves the orientation of the ultrasonic sensor
+vector<float> buffer_motor_values = {};		// The buffer for turning the ultrasonic sensor
 
 float vectorAvarage(const vector<float> & to_calculate){
 	/* This function calculates the average of the given vector.
@@ -27,7 +28,7 @@ float vectorAvarage(const vector<float> & to_calculate){
 	return sum/total;
 }
 
-//TODO Isn't used add the moment
+//WARNING THIS FUNCTION IS NOT USED
 void turnUS (float values_wheels, BrickPi3 & BP){
 	/* The motor turns the Ultrasonic sensor.
 	 * This function gets a value(float) between 0 en 2. (0: 90 degrees left, 1: 0 degrees(forward) 2: 90 degrees right)
@@ -52,9 +53,11 @@ void turnUS (float values_wheels, BrickPi3 & BP){
 		buffer_motor_values.push_back(values_wheels);
 		float avarage_of_vector = vectorAvarage(buffer_motor_values); 			// Calculate the average of buffer
 		buffer_motor_values = {}; 												// Clears buffer
-		if(avarage_of_vector > 1){ 												// Orientation of US sensor is to right
+		if(avarage_of_vector > 1){
+			// Orientation of US sensor is to right
 			target_degrees_us = (min_degrees_turned * (avarage_of_vector-1)); //calculate how far the US needs to turn right
-		} else if(avarage_of_vector < 1){										// Orientation of US sensor is to left
+		} else if(avarage_of_vector < 1){
+			// Orientation of US sensor is to left
 			target_degrees_us = max_degrees_turned * (1-avarage_of_vector); 	//calculate how far the US needs to turn left
 		}
 
@@ -101,12 +104,12 @@ void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1
 	 * We stay in the while if both color sensors see above the average(white)
 	 *
 	 * After the first loop, we have a loop that makes sure that both sensors see the line.
-	 * if both sensors are ion the line we let the robot cross the line and turn it to right.
+	 * if both sensors are on the line we let the robot cross the line and turn it to right.
 	 */
 
-	uint8_t sensor_us = PORT_4;
-	uint8_t sensor_color1 = PORT_1;
-	uint8_t sensor_color2 = PORT_3;
+	uint8_t sensor_us = PORT_4;							// Setting the sensor port to communicate with ultrasonic sensor
+	uint8_t sensor_color1 = PORT_1;						// Setting the sensor port to communicate with color sensor
+	uint8_t sensor_color2 = PORT_3;						// Setting the sensor port to communicate with color sensor
 	uint8_t motor_left = PORT_A;						// Setting the motor port to communicate with motor
 	uint8_t motor_right = PORT_D;						// Setting the motor port to communicate with motor
 	BP.set_motor_limits(motor_left,60,200);			// Setting the motor limit when using set_motor_position_relative
@@ -117,23 +120,23 @@ void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1
 	turnUS(0,BP); 										// Turns the US sensor, it makes sure it is turned 90 degrees to the left on the driving direction
 	usleep(1000*1000);									// Makes sure the US sensor is turned correct before measuring
 
-	getUltraSValue(sensor_us, UltraSonic, BP);			// Updates the data struct of ultrasonic sensor
-	BP.get_sensor(sensor_color1, Color1);				// Updates the data struct of color sensor 1
-	BP.get_sensor(sensor_color2, Color2);				// Updates the data struct of color sensor 2
+	getUltraSValue(sensor_us, UltraSonic, BP);			// Update the data struct of ultrasonic sensor
+	BP.get_sensor(sensor_color1, Color1);				// Update the data struct of color sensor 1
+	BP.get_sensor(sensor_color2, Color2);				// Update the data struct of color sensor 2
 
 	int target_distance = UltraSonic.cm;				// Sets the target_distance between object and US sensor/ robot
 	int current_distance = UltraSonic.cm;				// Sets the current distance between object and US sensor/ robot
 
-	// Makes sure if the US sensor has a wrong measurment it has a reasonable target_distance
 	if(target_distance > 50){
+		// Makes sure if the US sensor has a wrong measurement it has a reasonable target_distance
 		target_distance = 15;
 	}
 
 	cout << "YEEBUG: target_distance: " << target_distance << endl;
 	/*-----While keeps going until either color1 or color2 detects a black line-----*/
 	while(Color1.reflected_red > average_black_line && Color2.reflected_red > average_black_line){
-		
 		if(current_distance > 200){
+			// If the distance is 255 the code doesn't work so set current_distance to a value that works
 			current_distance = 200;
 		}
 
@@ -147,36 +150,40 @@ void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1
 			// The object is the correct distance, so go straight on
 			steeringRobot('F', BP);
 		}
-		getUltraSValue(PORT_4, UltraSonic, BP);
-		current_distance = UltraSonic.cm;
-		BP.get_sensor(PORT_1, Color1);
-		BP.get_sensor(PORT_3, Color2);
+
+		getUltraSValue(PORT_4, UltraSonic, BP); 		// Update the data struct of ultrasonic sensor
+		current_distance = UltraSonic.cm;				// Update the current_distance
+		BP.get_sensor(PORT_1, Color1);					// Update the data struct of color sensor 1
+		BP.get_sensor(PORT_3, Color2);					// Update the data struct of color sensor 2
 	}
-	// settings for both sensors to see the line
-	float dps_setting = 150;
-	float factor_backwards = -1;
-	cout << "YEEBUGING: Ben bij dps_setting " << endl;
-	// This while loop makes sure both sensors are seeing the line
+
+	float dps_basespeed = 150;							// Base dps rotation for motors
+	float factor_backwards = -1;						//
+	cout << "YEEBUGING: Ben bij dps_basespeed " << endl;
+	/*------The while is true if one of the 2 color sensors, see white (greater than average)
+	 * The while loops tries to line-up both sensors with the line*/
 	while (Color1.reflected_red > average_black_line || Color2.reflected_red > average_black_line){
-//		cout << "IN THE WHILE-LOOP" << endl;
-		BP.get_sensor(PORT_1, Color1);
-		BP.get_sensor(PORT_3, Color2);
+		BP.get_sensor(PORT_1, Color1);					// Update the data struct of color sensor 1
+		BP.get_sensor(PORT_3, Color2);					// Update the data struct of color sensor 2
+
 	    if(Color1.reflected_red < average_black_line && Color2.reflected_red > average_black_line){
-	        BP.set_motor_dps(motor_left, (factor_backwards*dps_setting));
-	        BP.set_motor_dps(motor_right,dps_setting);
+	    	// Turns the robot to the right on axis, so color2 also sees the line
+	        BP.set_motor_dps(motor_left, (factor_backwards*dps_basespeed));
+	        BP.set_motor_dps(motor_right,dps_basespeed);
 	    } else if(Color1.reflected_red > average_black_line && Color2.reflected_red < average_black_line){
-            	BP.set_motor_dps(motor_left, dps_setting);
-            	BP.set_motor_dps(motor_right,(factor_backwards*dps_setting));
+			// Turns the robot to the left on axis, so color1 also sees the line
+			BP.set_motor_dps(motor_left, dps_basespeed);
+            BP.set_motor_dps(motor_right,(factor_backwards*dps_basespeed));
 	    }
 	}
+
 	// The following function-calls make the robot cross the line and make it turn
-	cout << "Out of while-loop" << endl;
-	crossLine(BP, 90);
-	usleep(1000*500);
-	driveOnSpot('R', BP);
-	usleep(1000*500);
-	turnUS(1,BP);
-	usleep(1000*200);
-	BP.set_motor_limits(motor_left,60,200);
-	BP.set_motor_limits(motor_right,60,200);
+	crossLine(BP, 90);									// Robot crosses the line
+	usleep(1000*500);									// Sleep makes sure the robot crosses the line
+	driveOnSpot('R', BP);								// Turn robot to the right on the axis
+	usleep(1000*500);									// Sleep makes sure the robot has turned on spot
+	turnUS(1,BP);										// Turn ultrasonic sensor straight forward
+	usleep(1000*200);									// Again sleep to make sure US sensor is turned back
+	BP.set_motor_limits(motor_left,127,800);			// Remove the limiter, makes sure normal program has no limit
+	BP.set_motor_limits(motor_right,127,800);			// Remove the limiter, makes sure normal program has no limit
 }

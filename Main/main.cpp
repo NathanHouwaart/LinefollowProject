@@ -29,8 +29,8 @@ int main() {
     BP.set_sensor_type(PORT_4, SENSOR_TYPE_NXT_ULTRASONIC); // Set port 4 to be read as a ultrasonic sensor
 
     /*-----Set the lcd pins and the start the lcd------*/
-    // Fallback if something wrong with setting up the GPIO pins with Wiring Pi
     if (wiringPiSetup () == -1) {
+        // Fallback if something wrong with setting up the GPIO pins with Wiring Pi
         cout << "wiringpi-setup did not work" << endl << "return 1;" << endl;
         return 1;
     }
