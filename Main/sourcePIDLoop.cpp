@@ -32,7 +32,7 @@ void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
     cout << "accepted from " << clientsock->getForeignAddress().getAddress() << endl;
 
     float target_power = 40;                                // Constant value to determine maximum motor dps
-    float kp = 100.0/data_struct.difference_min_avarage *0.8;                                        // 100/ (((200+680)/2) - 200)     W 0,434 Z 0,819
+    float kp = 0.819; //100.0/data_struct.difference_min_avarage *0.6;                                        // 100/ (((200+680)/2) - 200)     W 0,434 Z 0,819
 
     float kd = (kp*0.1)/(20*0.00001);
 
@@ -81,7 +81,6 @@ void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
                 PController(Color1, BP, data_struct, target_power, kp, kd, ki, lastError, integral, offset, turn_modifier);
             }
         } else {                                                  // If an object was detected within X cm, execute this code
-            playSound('S', playing);
             stopMotor(BP);      // Stop the robot
             counter_obstacle_detect++;
             if (counter_obstacle_detect >= 500) {   // after 500 consecutive readings the robot enters this code
