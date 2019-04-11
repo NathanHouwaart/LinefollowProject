@@ -14,10 +14,11 @@ using namespace std;
 // TODO: --> Mogelijke aanpassing door verandering object ontwijken.
 // TODO: --> Meting lager of hoger dan min of max meting (calibratie) Waarde laag en hoog aanpassen.
 
-int counter_object = 0;
-int playing = 0;        //telling the program that no sound is currently playing
-int lcd_counter = 10000;    // to keep the lcd form updating every loop and than noging shows and start a 10000 to start the lcd
-void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP, int & fd){
+
+void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP, int & fd) {
+    int counter_object = 0;
+    int playing = 0;        //telling the program that no sound is currently playing
+    int lcd_counter = 10000;    // to keep the lcd form updating every loop and than noging shows and start a 10000 to start the lcd
     while (true) {
         lcd_counter++;                  // add one to the counter for every loop
         if (lcd_counter >= 5000) {      // after 5000 loops update hij het schermpje
