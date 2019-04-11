@@ -4,16 +4,14 @@ using namespace std;
 
 // TODO: --> Maak loop van de modus freeRideLoop() (Zie activity diagram)
 
-void freeRideLoop(int & fd, BrickPi3 & BP){
+void freeRideLoop(int & fd, BluetoothSocket* clientsock, BrickPi3 & BP){
     int playing = 0;
-    BluetoothServerSocket serversock(2, 1);  //2 is het channel-number
-    cout << "listening" << endl;
     int lcd_counter = 10000;		// The counter to keet the lcd fomr opdating every loop and starts at 10000 to get a dislpay
     while(true) {
         lcd_counter++;                      // every loop add 1 one to the counter
         if (lcd_counter >= 5000) {          // after 5000 loops its updates the screen
             float battery = BP.get_voltage_battery();
-            float battery_percentage = (100/(12.6-10.8)*(battery-10.8));
+            float battery_percentage = (100 / (12.6 - 10.8) * (battery - 10.8));
             clearLcd(fd);   // clear the lcd
             cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
             typeFloat(battery_percentage, fd);  // display the battery_percantage
@@ -21,8 +19,6 @@ void freeRideLoop(int & fd, BrickPi3 & BP){
             typeString("PCT   Freeride", fd);   // print the text on the screen
             lcd_counter = 0;                    // reset the counter
         }
-        BluetoothSocket* clientsock = serversock.accept();
-        cout << "accepted from " << clientsock->getForeignAddress().getAddress() << endl;
         MessageBox& mb = clientsock->getMessageBox();
 
         float steer = 1;
