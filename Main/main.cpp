@@ -14,7 +14,7 @@ using namespace std;
 void exit_signal_handler(int signo);
 BrickPi3 BP;
 
-int main() {
+int main () {
     char mode_select; //variable to save the answer of the user
     bool correct_answer = false;
 
@@ -58,12 +58,12 @@ int main() {
     clearLcd(fd);           // Clear the lcd
 	char modeselect;
 	/*-----Follow the line untill the ultrasonic sensor measures something withing X cm-----*/
-    cout << "Select mode: (Line follow (L) / grid follow (G) / Free ride (F) / PController (P))" << endl;
+    cout << "Select mode: (Line follow (L) / grid follow (G) / Free ride (F) / PController (P)/ Grid P (A))" << endl;
     clearLcd(fd);   // clear the lcd
     cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
     typeString("Select mode", fd);   // print the text on the screen
     cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
-    typeString("L G F P", fd);            // print the text to the screen
+    typeString("L G F P A", fd);            // print the text to the screen
     cin >> modeselect;
     switch (modeselect){
         case 'L':
