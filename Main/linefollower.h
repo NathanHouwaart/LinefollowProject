@@ -139,5 +139,9 @@ void typeFloat(float myFloat, int & fd);
 
 //sourcePController.cpp
 void PController(sensor_color_t & Color1, BrickPi3 & BP, CalculatingErrorData & data_struct);
+void stopMotor();
+
+//sourcePIDLoop.cpp
+void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP, int & fd);
 
 #endif //LinefollowProject_LINEFOLLOWER_H
