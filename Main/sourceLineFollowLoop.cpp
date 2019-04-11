@@ -73,11 +73,11 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
                     while(mbDodge.isRunning()) {
                         btInput = mbDodge.readMessage();  //Putting bluetooth input into a variable
                         if(btInput == "STOP") {
-                            cout << input << endl;
+                            cout << btInput << endl;
                             btInputC = 'D';
                             break;
-                        } else if (input == "UP") {
-                            cout << input << endl;
+                        } else if (btInput == "UP") {
+                            cout << btInput << endl;
                             btInputC = 'X';
                             break;
                         }

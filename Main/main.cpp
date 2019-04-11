@@ -63,6 +63,8 @@ int main() {
     cout << "listening" << endl;
     BluetoothSocket* clientsock = serversock.accept();
     cout << "accepted from " << clientsock->getForeignAddress().getAddress() << endl;
+    string input;
+    char inputC;
 
     while(!correct_answer){
         cout << "Select mode: Line follow (L) / grid follow (G) / Free ride (F)" << endl;
@@ -76,7 +78,7 @@ int main() {
             input = mb.readMessage();  //Putting bluetooth input into a variable
             if (input == "STOP") {
                 cout << input << endl;
-                inputC = "E";
+                inputC = 'E';
                 break;
             } else if(input == "A") {
                 cout << input << endl;
