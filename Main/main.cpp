@@ -79,7 +79,7 @@ int main() {
             objectDetect(UltraSonic1, BP, 10);
             break;
         case 'P':
-            PIDlineFollowLoop(Color1, Color2, UltraSonic1, Data_struct, BP, fd);
+            int a;
             break;
         default:
             clearLcd(fd);   // clear the lcd
