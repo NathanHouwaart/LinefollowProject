@@ -96,13 +96,13 @@ int main() {
                 // The robot enters the line follow-mode with the PID-controller
                 correct_answer = true;                      // Makes sure program leaves loop
                 cout << "Entering the line follow-mode with PID-control." << endl;
-                PIDlineFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, BP, fd);
+                PIDlineFollowLoop(Color1, Color2, UltraSonic1, DataLineMeasurments, BP, address_lcd);
                 break;
             case 'R':
                 // The robot enters the grid navigate-mode with the PID-controller
                 correct_answer = true;                      // Makes sure program leaves loop
                 cout << "Entering the grid navigate-mode with PID-control." << endl;
-                gridFollowLoopPID(Color1, Color2, UltraSonic1, struct_line_values, fd, BP);
+                gridFollowLoopPID(Color1, Color2, UltraSonic1, DataLineMeasurments, address_lcd, BP);
                 break;
             default:
                 // Input of user is incorrect, print error message on terminal and LCD
