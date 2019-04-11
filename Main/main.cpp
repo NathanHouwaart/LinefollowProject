@@ -83,6 +83,7 @@ int main() {
             break;
         case 'A':
             gridFollowLoopPID(Color1, Color2, UltraSonic1, struct_line_values, fd, BP);
+            break;
         default:
             clearLcd(fd);   // clear the lcd
             cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
