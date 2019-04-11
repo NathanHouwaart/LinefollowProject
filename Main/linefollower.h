@@ -20,6 +20,8 @@
 #include <time.h>
 #include <wiringPiI2C.h>
 #include <wiringPi.h>
+#include <cstdio>       // for clock
+#include <ctime>        // for clock
 // #include <stdlib.h>
 #include <stdio.h>
 
@@ -66,8 +68,11 @@ void driveAround(BrickPi3 & BP);
 // sourceDriveRobot.cpp
 void speedLimiter(int & right, int & left, const int & maximum_speed);
 void MotorController(int left, int right, BrickPi3 & BP);
+void MotorControllerPower(int left, int right, BrickPi3 & BP);
 void drive(float direction_control, unsigned int speed_multiplier_percentage, unsigned int rotation_speed, BrickPi3 & BP);
 void driveOnSpot(char turn_direction, BrickPi3 & BP);
+void MotorControllerTurn(const int & turn, const int & target_power, const float & turn_modifier, BrickPi3 & BP);
+vector<int> convertPowerValues(const int & speedA, const int & speedD);
 
 // sourceFreeRideLoop.cpp
 void freeRideLoop(BrickPi3 & BP, int & fd);
@@ -129,5 +134,8 @@ void cursorLocation(int line, int & fd);
 void typeString(const char *s, int & fd);
 void lcdStart(int & fd);
 void typeFloat(float myFloat, int & fd);
+
+//sourcePController.cpp
+void PController(sensor_color_t & Color1, BrickPi3 & BP, CalculatingErrorData & data_struct);
 
 #endif //LinefollowProject_LINEFOLLOWER_H

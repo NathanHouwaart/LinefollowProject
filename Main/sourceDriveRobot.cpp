@@ -48,6 +48,27 @@ void MotorController(int left, int right, BrickPi3 & BP) {
     BP.set_motor_dps(motor_left, left);
 }
 
+void MotorControllerPower(int left, int right, BrickPi3 & BP) {
+    /* This function controls the motors.
+     * First it sends the given motor speed setting through the limiter
+     * After that it sets the motor to the given speed.
+     */
+    uint8_t motor_right = PORT_A;                       // Here we define the motor ports so we can talk to them
+    uint8_t motor_left = PORT_D;
+    //speedLimiter(right, left, MAX_MOTOR_SPEED);         // The values of the right and left motor are send to the limiter
+    int right_power = right * 127 / 100;
+    int left_power = left * 127 / 100;
+    if(right_power > 127) right_power = 127;
+    else if (right_power < -127) right_power = -127;
+    if(left_power > 127) left_power = 127;
+    else if (left_power < -127) left_power = -127; 
+    cout << "LEFT POWER: " << left_power << endl;
+    cout << "RIGHT POWER: " << right_power << endl;
+
+    BP.set_motor_power(motor_right, right_power);
+    BP.set_motor_power(motor_left, left_power);
+}
+
 void drive(float direction_control, unsigned int speed_multiplier_percentage, unsigned int rotation_speed, BrickPi3 & BP){
     /*
      * Direction control is either -2, -1 or a value between 0 and 2.
@@ -104,3 +125,44 @@ void driveOnSpot(char turn_direction, BrickPi3 & BP){
     usleep(1000*400);
 }
 
+void MotorControllerTurn(const int & turn, const int & target_power, const float & turn_modifier, BrickPi3 & BP){
+    /* Function mimics the function of the steer block in the nxt programming language */
+    int turn_value = turn;
+    uint8_t motor_right = PORT_D;
+    uint8_t motor_left = PORT_A;
+    int speedD, speedA;
+    if (turn_value > 100) turn_value = 100;
+    else if(turn_value < -100) turn_value = -100;
+    if (turn_value > 0) {                                         // If steer > 0
+        speedD = target_power;                                  // Motor D needs to be at target speed
+        speedA = target_power + turn_value * turn_modifier;            // Motor A needs to slow down. Stops at 50, reverses at 100
+    } else if (turn_value < 0) {                                  // If steer < 0
+        speedA = target_power;                                  // Motor A needs to be at target power
+        speedD = target_power - turn_value * turn_modifier;            // Motor D needs to slow down. stops at -50, reverses at -100;
+    } else {                                                // If steer == 0
+        speedA = target_power;                                  // Go target power forward
+        speedD = target_power;
+    }
+    if (speedA < -100) speedA = -100;
+    else if(speedA > 100) speedA = 100;                       // Protection to not overload motor power;
+    if (speedD < -100) speedD = -100;
+    else if(speedD > 100) speedD = 100;
+
+    cout << "SPEED A: " << speedA << endl;                  // Debug only
+    cout << "SPEED D: " << speedD << endl;
+
+    vector<int> motor_speeds = convertPowerValues(speedA, speedD);   // Convert power values to different scale
+    BP.set_motor_power(motor_right, motor_speeds[1]);                // Sets motor power of motor D accordingly
+    BP.set_motor_power(motor_left, motor_speeds[0]);                 // Sets motor power of motor A accordingly
+
+}
+
+vector<int> convertPowerValues(const int & speedA, const int & speedD){
+    /* Function translates power on a scale from 0 - 100 to a scale form 0 - 127 */
+    int right_power = speedD * 127 / 100;                       // Formula to convert to new scale
+    int left_power = speedA * 127 / 100;
+    cout << "LEFT POWER: " << left_power << endl;
+    cout << "RIGHT POWER: " << right_power << endl;
+    vector<int> motor_speeds = {right_power, left_power};
+    return motor_speeds;
+}
