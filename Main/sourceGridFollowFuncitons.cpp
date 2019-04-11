@@ -358,97 +358,97 @@ bool lookForward(sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP){
 void whereToLook(vector<vector<char>> & grid, const char & look_direction, const char & facing_direction,
         vector<size_t> position, sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP){
     /*
-     * TODO: --> Nathan please comment deze functie, snap er geen kut van.
+     *  Function to look for a barrier in the way of the fastest direction
      */
     switch (facing_direction){
-        case 'D':
-            if(look_direction == 'F') {
+        case 'D':                                                       // Assuming the robot is looking down
+            if(look_direction == 'F') {                                 // Looks forward if look direction is forward
                 lookForward(UltraSonic, BP);
                 if (UltraSonic.cm < 30) {
-                    updateBarrier(grid, position[0], position[1] + 2);
+                    updateBarrier(grid, position[0], position[1] + 2);  // Update barrier if it has detected an object
                     printGrid(grid);
-                    lookLeft(UltraSonic, BP);
+                    lookLeft(UltraSonic, BP);                           // Looks to the left if an object is detected down
                     if (UltraSonic.cm < 20) {
                         updateBarrier(grid, position[0] + 2, position[1]);
                     }
                 }
-            }else if(look_direction == 'L') {
+            }else if(look_direction == 'L') {                           // Looks to the left if robot needs to look left
                 lookLeft(UltraSonic, BP);
                 if (UltraSonic.cm < 20) {
-                    updateBarrier(grid, position[0] + 2, position[1]);
+                    updateBarrier(grid, position[0] + 2, position[1]);  // Updates barrier if object has been detected
                     printGrid(grid);
                 }
-            }else if(look_direction == 'R'){
+            }else if(look_direction == 'R'){                            // Looks to the right if robot needs to look right
                 lookRight(UltraSonic, BP);
                 if(UltraSonic.cm < 20){
-                    updateBarrier(grid, position[0]-2, position[1]);
+                    updateBarrier(grid, position[0]-2, position[1]);    // Updates barrier if object has been detected
                     printGrid(grid);
                 }
             }
             break;
-        case 'R':
-            if(look_direction == 'R'){
+        case 'R':                                                       // Assuming the robot is looking to the right
+            if(look_direction == 'R'){                                  // Looks to the right if robot needs to look right
                 lookRight(UltraSonic, BP);
                 if(UltraSonic.cm < 30){
-                    updateBarrier(grid, position[0], position[1]+2);
+                    updateBarrier(grid, position[0], position[1]+2);    // Updates barrier if object has been detected
                     printGrid(grid);
                 }
                 lookForward(UltraSonic, BP);
                 if(UltraSonic.cm < 20){
-                    updateBarrier(grid, position[0]+2, position[1]);
+                    updateBarrier(grid, position[0]+2, position[1]);    // Updates barrier if object has been detected
                 }
-            }else if(look_direction == 'F'){
+            }else if(look_direction == 'F'){                            // Looks forward if look direction is forward
                 lookForward(UltraSonic, BP);
                 if(UltraSonic.cm < 20){
-                    updateBarrier(grid, position[0]+2, position[1]);
+                    updateBarrier(grid, position[0]+2, position[1]);    // Updates barrier if object has been detected
                     printGrid(grid);
                 }
-            }else if(look_direction == 'L'){
+            }else if(look_direction == 'L'){                            // Looks to the left if robot needs to look left
                 lookLeft(UltraSonic, BP);
                 if(UltraSonic.cm < 30){
-                    updateBarrier(grid, position[0], position[1]-2);
+                    updateBarrier(grid, position[0], position[1]-2);    // Updates barrier if object has been detected
                     printGrid(grid);
                 }
             }
 	    break;
         case 'L':
-            if(look_direction == 'L'){
+            if(look_direction == 'L'){                                  // Looks to the left if robot needs to look left
                 lookLeft(UltraSonic, BP);
                 if(UltraSonic.cm < 30){
-                    updateBarrier(grid, position[0], position[1]+2);
+                    updateBarrier(grid, position[0], position[1]+2);    // Updates barrier if object has been detected
                     printGrid(grid);
                 }
-            }else if(look_direction == 'F'){
+            }else if(look_direction == 'F'){                            // Looks forward if look direction is forward
                 lookForward(UltraSonic, BP);
                 if(UltraSonic.cm < 20){
-                    updateBarrier(grid, position[0]-2, position[1]);
+                    updateBarrier(grid, position[0]-2, position[1]);    // Updates barrier if object has been detected
                     printGrid(grid);
                 }
-            }else if(look_direction == 'R'){
+            }else if(look_direction == 'R'){                            // Looks to the right if robot needs to look right
                 lookRight(UltraSonic, BP);
                 if(UltraSonic.cm < 30){
-                    updateBarrier(grid, position[0], position[1]-2);
+                    updateBarrier(grid, position[0], position[1]-2);    // Updates barrier if object has been detected
                     printGrid(grid);
                 }
             }
 	        break;
         case 'U':
-            if(look_direction == 'L'){
+            if(look_direction == 'L'){                                  // Looks left if look direction is left
                 lookLeft(UltraSonic, BP);
                 if(UltraSonic.cm < 20){
-                    updateBarrier(grid, position[0]-2, position[1]);
+                    updateBarrier(grid, position[0]-2, position[1]);    // Updates barrier if object has been detected
                     printGrid(grid);
                 }
-            }else if(look_direction == 'F'){
+            }else if(look_direction == 'F'){                            // Looks forward if look direction is forward
                 lookForward(UltraSonic, BP);
                 if(UltraSonic.cm < 30){
-                    updateBarrier(grid, position[0], position[1]+2);
+                    updateBarrier(grid, position[0], position[1]+2);    // Updates barrier if object has been detected
                     printGrid(grid);
                 }
-            }else if(look_direction == 'R'){
+            }else if(look_direction == 'R'){                            // Looks to the right if robot needs to look right
                 lookRight(UltraSonic, BP);
                 if(UltraSonic.cm < 20){
-                    updateBarrier(grid, position[0]+2, position[1]);
+                    updateBarrier(grid, position[0]+2, position[1]);    // Updates barrier if object has been detected
                     printGrid(grid);
                 }
             }
