@@ -32,7 +32,7 @@ void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
     float target_power = 40;                                // Constant value to determine maximum motor dps
     float kp = 100.0/data_struct.difference_min_avarage *0.8;                                        // 100/ (((200+680)/2) - 200)     W 0,434 Z 0,819
 
-    float kd = (kp*0.1)/(20*0.0001);
+    float kd = (kp*0.1)/(20*0.00001);
 
     float ki = 0;
 
@@ -69,7 +69,9 @@ void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
         if (getUltraSValue(PORT_4, UltraSonic, BP) > 10) {       // If the measured US distance is bigger than 10:
             playSound('F', playing);
             counter_object = 0;
+            cout << "hier ben ik" << endl;
             if (Color2.reflected_red < data_struct.avarage_min_max && main_sensor_measurment < data_struct.avarage_min_max) {
+                cout << "ik ben er on" << endl;
                 playSound('C', playing);
                 crossroad(BP, playing, fd, clientsock);
                 lcd_counter = 100000;       // to restart the lcd and give the battery percantage
