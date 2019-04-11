@@ -63,7 +63,6 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
             if (counter_obstacle_detect >= 500) {   // after 500 consecutive readings the robot enters this code
                 cout << "YEEBUG: I am in the obstacle detect." << endl;
                 counter_obstacle_detect = 0; // Makes sure we detect the next object correctly with the buffer
-                playSound('D', playing);
                 bool correct_answer = false; // Makes it able to loop the question if the answer is incorrect
 
                 while(!correct_answer){
@@ -75,6 +74,7 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
                             correct_answer = true;
                             break;
                         case 'D':           // Starts dodging the object
+                            playSound('D', playing);
                             driveAroundObject(UltraSonic, Color1, Color2, data_struct.avarage_min_max, BP);
                             correct_answer = true;
                             break;
