@@ -12,7 +12,7 @@
 using namespace std;
 
 void calibration(sensor_color_t & Color1, CalculatingErrorData & data_struct,  BrickPi3 & BP) {
-    /*This function looks for the highest and the lowest light value.
+    /* This function looks for the highest and the lowest light value.
      * The vector contains vector<int> answer = {low, high};
      */
     uint8_t motor_right = PORT_D;                       // Here are the motor ports defined so we can talk to them
@@ -71,7 +71,7 @@ void calibration(sensor_color_t & Color1, CalculatingErrorData & data_struct,  B
 }
 
 bool checkVoltage(BrickPi3 & BP) {
-    /*This function looks for the battery voltage to make sure the battery is not empty and we do not damage it*/
+    /* This function looks for the battery voltage to make sure the battery is not empty and we do not damage it */
     if (BP.get_voltage_battery() < 11.0) {              // Checks if battery is empty
         cout << "Battery empty, charge" << endl;
         return false;

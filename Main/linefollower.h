@@ -30,7 +30,7 @@ using namespace std;
 #define DIRECTION_LEFT 0        // To make reading of code clearer, used by calling the drive function
 #define DIRECTION_FORWARD 1     // To make reading of code clearer, used by calling the drive function
 #define DIRECTION_RIGHT 2       // To make reading of code clearer, used by calling the drive function
-#define MAX_MOTOR_SPEED 800     // Set the max dps of the motors, is used in motor limiter !!!NO DRIVE DELETE!!!
+#define MAX_MOTOR_SPEED 800     // Set the max dps of the motors, is used in motor limiter
 #define I2C_ADDR   0x27         // I2C device address of the LCD
 #define LCD_CHR  1              // Mode - Sending data to LCD
 #define LCD_CMD  0              // Mode - Sending command to LCD
@@ -76,7 +76,8 @@ void driveOnSpot(char turn_direction, BrickPi3 & BP);
 
 // sourceFreeRideLoop.cpp
 void freeRideLoop(int & fd, BrickPi3 & BP);
-void selectDirection(const string & input, BrickPi3 & BP, float & steer, int & playing);
+void selectDirection(const string & input, float & steer, int & playing, BrickPi3 & BP);
+void soundSelection(string & input, int & playing);
 
 // sourceGridFollowLoop.cpp
 void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct, int & fd, BrickPi3 & BP);
@@ -134,6 +135,6 @@ void cursorLocation(int line, int & fd);
 void typeString(const char *s, int & fd);
 void lcdStart(int & fd);
 void typeFloat(float myFloat, int & fd);
-void printPercentage(int & address_lcd, char current_mode, BrickPi3 & BP)
+void printPercentage(int & address_lcd, char current_mode, BrickPi3 & BP);
 
 #endif //LinefollowProject_LINEFOLLOWER_H
