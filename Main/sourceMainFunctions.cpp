@@ -66,8 +66,8 @@ void calibration(sensor_color_t & Color1, CalculatingErrorData & data_struct,  B
 
     cout << "Lowest measurement " << low << endl;
     cout << "Highest measurement " << high << endl;
-    data_struct.lowest_measurment = low;                // Puts the highest value and the lowest value in the struct
-    data_struct.highest_measurment = high;
+    data_struct.lowest_measurement = low;                // Puts the highest value and the lowest value in the struct
+    data_struct.highest_measurement = high;
 }
 
 bool checkVoltage(BrickPi3 & BP) {
@@ -92,9 +92,9 @@ void defineDifferenceToAverage(CalculatingErrorData & data_struct) {
      */
 
     vector<int> calculated_distance_to_average;                                             // Constructs a vector to return multiple values
-    int average = (data_struct.lowest_measurment + data_struct.highest_measurment) / 2;     // Calculate average
-    int distance_lowest_value_to_avg = average - data_struct.lowest_measurment;             // Calculate distance min--avg
-    int distance_highest_value_to_avg = data_struct.highest_measurment - average;           // Calculate distance max--avg
+    int average = (data_struct.lowest_measurement + data_struct.highest_measurement) / 2;     // Calculate average
+    int distance_lowest_value_to_avg = average - data_struct.lowest_measurement;             // Calculate distance min--avg
+    int distance_highest_value_to_avg = data_struct.highest_measurement - average;           // Calculate distance max--avg
 
     data_struct.avarage_min_max = average;                                                  //Puts data in struct.
     data_struct.difference_min_avarage = distance_lowest_value_to_avg;

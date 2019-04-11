@@ -45,8 +45,8 @@ using namespace std;
  * between the average and lowest and highest reading.
  */
 struct CalculatingErrorData{                //TODO: Change name?
-    int lowest_measurment;
-    int highest_measurment;
+    int lowest_measurement;
+    int highest_measurement;
     int avarage_min_max;
     int difference_min_avarage;
     int difference_max_avarage;

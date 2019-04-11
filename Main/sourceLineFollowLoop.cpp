@@ -46,11 +46,11 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
         int main_sensor_measurment = Color1.reflected_red;
         
         // Checks if current reading is bigger or smaller than the highest or lowest value, if true then calculate new average
-        if(main_sensor_measurment < data_struct.lowest_measurment){
-            data_struct.lowest_measurment = main_sensor_measurment;
+        if(main_sensor_measurment < data_struct.lowest_measurement){
+            data_struct.lowest_measurement = main_sensor_measurment;
             defineDifferenceToAverage(data_struct);
-        } else if(main_sensor_measurment > data_struct.highest_measurment){
-            data_struct.highest_measurment = main_sensor_measurment;
+        } else if(main_sensor_measurment > data_struct.highest_measurement){
+            data_struct.highest_measurement = main_sensor_measurment;
             defineDifferenceToAverage(data_struct);
         }
 

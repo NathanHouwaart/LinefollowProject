@@ -60,11 +60,11 @@ void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
         BP.get_sensor(PORT_1, Color1);                          // Read colorsensor1 and put data in struct Color1
         BP.get_sensor(PORT_3, Color2);
         int main_sensor_measurment = Color1.reflected_red;
-        if(main_sensor_measurment < data_struct.lowest_measurment){
-            data_struct.lowest_measurment = main_sensor_measurment;
+        if(main_sensor_measurment < data_struct.lowest_measurement){
+            data_struct.lowest_measurement = main_sensor_measurment;
             defineDifferenceToAverage(data_struct);
-        } else if(main_sensor_measurment > data_struct.highest_measurment){
-            data_struct.highest_measurment = main_sensor_measurment;
+        } else if(main_sensor_measurment > data_struct.highest_measurement){
+            data_struct.highest_measurement = main_sensor_measurment;
             defineDifferenceToAverage(data_struct);
         }
 
