@@ -67,13 +67,13 @@ int main() {
     cin >> modeselect;
     switch (modeselect){
         case 'L':
-            lineFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, BP, fd);
+            lineFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, fd, BP);
             break;
         case 'G':
-            gridFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, BP, fd);
+            gridFollowLoop(Color1, Color2, UltraSonic1, struct_line_values, fd, BP);
             break;
         case 'F':
-            freeRideLoop(BP, fd);
+            freeRideLoop(fd, BP);
             break;
         case 'O':
             objectDetect(UltraSonic1, BP, 10);
