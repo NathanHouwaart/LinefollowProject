@@ -3,7 +3,8 @@
 //
 #include "linefollower.h"
 using namespace std;
-
+//MOET T GELUID VAN NAAR VOREN AANZETTEN WANNEER DEZE IN MASTER WORDT GEGOOIT
+//HIERVOOR DUS OOK omxplayer_silent NAAR omxplayer VERANDEREN IN DEZE FILE
 // playing the right sound by asking for a parameter
 void playSound(char selection, int & playing) {
     /*
@@ -19,66 +20,66 @@ void playSound(char selection, int & playing) {
     playing = 9; megalovania
     */
     switch(selection) {
-        case 'F':  //forward
+        /*case 'F':  //forward
             if(playing != 1) {
                 stopSound(playing);
-                system("omxplayer --loop --no-keys -o local Noises/forward2.wav &");
+                system("omxplayer_silent --loop --no-keys -o local Noises/forward2.wav &");
                 playing = 1;
             }
             break;
         case 'B':  //backwards
             if(playing != 2) {
                 stopSound(playing);
-                system("omxplayer --loop --no-keys -o local Noises/backwards.wav &");
+                system("omxplayer_silent --loop --no-keys -o local Noises/backwards.wav &");
                 playing = 2;
             }
-            break;
+            break;*/
         case 'L':  //turn left on crossroad
             if(playing != 3) {
                 stopSound(playing);
-                system("omxplayer --no-keys -o local Noises/turnleft.wav &");
+                system("omxplayer_silent --no-keys -o local Noises/turnleft2.wav &");
                 playing = 3;
             }
             break;
         case 'R':  //turn right on crossroad
             if(playing != 4) {
                 stopSound(playing);
-                system("omxplayer --no-keys -o local Noises/turnright.wav &");
+                system("omxplayer_silent --no-keys -o local Noises/turnright2.wav &");
                 playing = 4;
             }
             break;
         case 'S':  //drive straight over a crossroad
             if(playing != 5) {
                 stopSound(playing);
-                system("omxplayer --no-keys -o local Noises/drivestraight.wav &");
+                system("omxplayer_silent --no-keys -o local Noises/drivestraight2.wav &");
                 playing = 5;
             }
             break;
         case 'O':  //see object
             if(playing != 6) {
                 stopSound(playing);
-                system("omxplayer --no-keys -o local Noises/seeobject2.wav &");
+                system("omxplayer_silent --no-keys -o local Noises/seeobject3.wav &");
                 playing = 6;
             }
             break;
         case 'D':  //dodge object
             if(playing != 7) {
                 stopSound(playing);
-                system("omxplayer --no-keys -o local Noises/dodge2.wav &");
+                system("omxplayer_silent --no-keys -o local Noises/dodge3.wav &");
                 playing = 7;
             }
             break;
         case 'C':  //crossroad
             if(playing != 8) {
                 stopSound(playing);
-                system("omxplayer --no-keys -o local Noises/crossroad2.wav &");
+                system("omxplayer_silent --no-keys -o local Noises/crossroad3.wav &");
                 playing = 8;
             }
             break;
         case 'X':  //plan X, playing megalovania while charging at the object
              if(playing != 9) {
                  stopSound(playing);
-                 system("omxplayer --no-keys -o local Noises/megalovaniaRobotCharge.wav &");
+                 system("omxplayer_silent --no-keys -o local Noises/megalovaniaRobotCharge.wav &");
                  playing = 9;
              }
              break;
@@ -87,7 +88,7 @@ void playSound(char selection, int & playing) {
 
 //stopping the sound because the time to play can be different
 void stopSound(int & playing) {
-    system("killall omxplayer.bin");
+    system("killall omxplayer_silent");
     playing = 0;
 }
 
