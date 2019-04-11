@@ -49,7 +49,7 @@ void PController(sensor_color_t & Color1, BrickPi3 & BP, CalculatingErrorData & 
             kdv = 10 * kpv;
             cout << kd << endl; */
 
-void stopMotor() {
+void stopMotor(BrickPi3 & BP) {
     uint8_t motor_right = PORT_D;                       // Here we define the motor ports so we can talk to them
     uint8_t motor_left = PORT_A;
     BP.set_motor_dps(motor_right, 0);               // This starts the motors

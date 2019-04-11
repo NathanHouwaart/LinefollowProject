@@ -54,7 +54,7 @@ void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
             }
         } else {                                                  // If an object was detected within X cm, execute this code
             playSound('O', playing);
-            stopMotor(); // Stop the car
+            stopMotor(BP); // Stop the car
             counter_object++;
             if (counter_object % 1000 == 0) { cout << "Joe 1000 iets" << counter_object << endl; }
             if (counter_object >= 1500) {
