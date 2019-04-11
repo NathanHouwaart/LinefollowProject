@@ -1,8 +1,16 @@
-//
-// Created by kevin on 02/04/19.
-//
+/*
+---------------------------------------------------------------------------------------------
+-----Created by TICT-1C groep 1                                                         -----
+-----Lego mindstorms linefollower robot project                                         -----
+-----Contributors:                                                                      -----
+-----Jochem van Weelde, Stijn van Wijk, Wietse ten Dam, Kevin Patist & Nathan Houwaart  -----
+ ---------------------------------------------------------------------------------------------
+*/
+
 #include "linefollower.h"
+
 using namespace std;
+
 //MOET T GELUID VAN NAAR VOREN AANZETTEN WANNEER DEZE IN MASTER WORDT GEGOOIT
 //HIERVOOR DUS OOK omxplayer_silent NAAR omxplayer VERANDEREN IN DEZE FILE
 // playing the right sound by asking for a parameter

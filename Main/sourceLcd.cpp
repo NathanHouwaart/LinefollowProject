@@ -1,4 +1,15 @@
+/*
+---------------------------------------------------------------------------------------------
+-----Created by TICT-1C groep 1                                                         -----
+-----Lego mindstorms linefollower robot project                                         -----
+-----Contributors:                                                                      -----
+-----Jochem van Weelde, Stijn van Wijk, Wietse ten Dam, Kevin Patist & Nathan Houwaart  -----
+ ---------------------------------------------------------------------------------------------
+*/
+
 #include "linefollower.h"
+
+using namespace std;
 
 void enableLcd(int bits, int & fd) {
     // Toggle enable pin on LCD display

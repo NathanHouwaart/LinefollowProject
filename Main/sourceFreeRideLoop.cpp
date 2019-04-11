@@ -1,8 +1,15 @@
+/*
+---------------------------------------------------------------------------------------------
+-----Created by TICT-1C groep 1                                                         -----
+-----Lego mindstorms linefollower robot project                                         -----
+-----Contributors:                                                                      -----
+-----Jochem van Weelde, Stijn van Wijk, Wietse ten Dam, Kevin Patist & Nathan Houwaart  -----
+ ---------------------------------------------------------------------------------------------
+*/
+
 #include "linefollower.h"
 
 using namespace std;
-
-// TODO: --> Maak loop van de modus freeRideLoop() (Zie activity diagram)
 
 void freeRideLoop(int & fd, BrickPi3 & BP){
     int playing = 0;

@@ -11,9 +11,6 @@
 
 using namespace std;
 
-// TODO: --> Mogelijke aanpassing door verandering object ontwijken.
-// TODO: --> Meting lager of hoger dan min of max meting (calibratie) Waarde laag en hoog aanpassen.
-
 char choice_dodge_object;
 int counter_obstacle_detect = 0;
 int playing = 0;        //telling the program that no sound is currently playing

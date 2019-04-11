@@ -1,9 +1,13 @@
-//
-// Created by Nathan Houwaart on 2019-04-03.
-//
+/*
+---------------------------------------------------------------------------------------------
+-----Created by TICT-1C groep 1                                                         -----
+-----Lego mindstorms linefollower robot project                                         -----
+-----Contributors:                                                                      -----
+-----Jochem van Weelde, Stijn van Wijk, Wietse ten Dam, Kevin Patist & Nathan Houwaart  -----
+ ---------------------------------------------------------------------------------------------
+*/
 
 #include "linefollower.h"
-#include <vector>
 
 using namespace std;
 

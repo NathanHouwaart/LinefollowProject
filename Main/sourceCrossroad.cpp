@@ -12,6 +12,7 @@
 using namespace std;
 
 void crossLine(BrickPi3 & BP, int32_t forward_degrees){
+
 	uint8_t motor_right = PORT_D;
 	uint8_t motor_left = PORT_A;
 //	BP.set_motor_limits(PORT_D, 100, 90);
@@ -87,11 +88,11 @@ void crossroadGrid(BrickPi3 & BP, const char & direction_instruction, int & play
             break;
         default:
             cout << "Wrong input. Please try again";
-            clearLcd(fd);   // clear the lcd
-            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
-            typeString("wrong input", fd);   // print the text on the screen
-            cursorLocation(LINE2, fd);      // set the cursorlocation to line 2
-            typeString("try again", fd);            // print the text to the screen
+            clearLcd(fd);                               // clear the lcd
+            cursorLocation(LINE1, fd);                  // set the cursorlocation to line 1
+            typeString("wrong input", fd);              // print the text on the screen
+            cursorLocation(LINE2, fd);                  // set the cursorlocation to line 2
+            typeString("try again", fd);                // print the text to the screen
             usleep(500);
             crossroad(BP, playing, fd);
     }
