@@ -53,8 +53,7 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
             defineDifferenceToAverage(data_struct);
         }
 
-        if (getUltraSValue(PORT_4, UltraSonic, BP) > 10) { // US bigger than 10 so check crossroad and line follow
-            playSound('F', playing);
+        if (getUltraSValue(PORT_4, UltraSonic, BP) > 20) { // US bigger than 10 so check crossroad and line follow
             counter_obstacle_detect = 0;
             // Crossroad detected because both sensors lower than average
             if (Color2.reflected_red < data_struct.avarage_min_max && main_sensor_measurment < data_struct.avarage_min_max) {
@@ -69,7 +68,7 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
             playSound('S', playing);
             drive(DIRECTION_STOP, 0, 360, BP);      // Stop the robot
             counter_obstacle_detect++;
-            if (counter_obstacle_detect >= 500) {   // after 500 consecutive readings the robot enters this code
+            if (counter_obstacle_detect >= 1000) {   // after 500 consecutive readings the robot enters this code
                 cout << "YEEBUG: I am in the obstacle detect." << endl;
                 counter_obstacle_detect = 0; // Makes sure we detect the next object correctly with the buffer
                 playSound('D', playing);

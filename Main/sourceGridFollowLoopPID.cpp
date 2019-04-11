@@ -11,20 +11,9 @@ void gridFollowLoopPID(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
     int direction_index = -1;
     char seperator, facing_direction;
 
- /*
-    cout << "Looking right" << endl;
-    lookRight(UltraSonic, BP);
-    usleep(1000*1000);
-    cout << "Looking Left" << endl;
-    lookLeft(UltraSonic, BP);
-    usleep(1000*1000);
-*/
-
     float target_power = 40;                                // Constant value to determine maximum motor dps
     float kp = 100.0/data_struct.difference_min_avarage *0.8;                                        // 100/ (((200+680)/2) - 200)     W 0,434 Z 0,819
-
-    float kd = (kp*0.1)/(20*0.00001);
-
+    float kd = 10*kp;       //(kp*0.1)/(20*0.00001);
     float ki = 0;
 
     int lastError = 0;
@@ -59,13 +48,6 @@ void gridFollowLoopPID(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
         BP.get_sensor(PORT_1, Color1);                          // Read colorsensor1 and put data in struct Color1
         BP.get_sensor(PORT_3, Color2);
         int main_sensor_measurment = Color1.reflected_red;
-        if(main_sensor_measurment < data_struct.lowest_measurment){
-            data_struct.lowest_measurment = main_sensor_measurment;
-            defineDifferenceToAverage(data_struct);
-        } else if(main_sensor_measurment > data_struct.highest_measurment){
-            data_struct.highest_measurment = main_sensor_measurment;
-            defineDifferenceToAverage(data_struct);
-        }
 
         if (Color2.reflected_red < (data_struct.avarage_min_max) && main_sensor_measurment < data_struct.avarage_min_max) {
             direction_index += 1;

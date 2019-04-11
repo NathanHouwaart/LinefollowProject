@@ -33,9 +33,7 @@ void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
 
     float target_power = 40;                                // Constant value to determine maximum motor dps
     float kp = 100.0/data_struct.difference_min_avarage *0.8;                                        // 100/ (((200+680)/2) - 200)     W 0,434 Z 0,819
-
-    float kd = (kp*0.1)/(20*0.00001);
-
+    float kd = 10*kp; //(kp*0.1)/(20*0.00001);
     float ki = 0;
 
     int lastError = 0;
@@ -60,20 +58,10 @@ void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
         BP.get_sensor(PORT_1, Color1);                          // Read colorsensor1 and put data in struct Color1
         BP.get_sensor(PORT_3, Color2);
         int main_sensor_measurment = Color1.reflected_red;
-        if(main_sensor_measurment < data_struct.lowest_measurment){
-            data_struct.lowest_measurment = main_sensor_measurment;
-            defineDifferenceToAverage(data_struct);
-        } else if(main_sensor_measurment > data_struct.highest_measurment){
-            data_struct.highest_measurment = main_sensor_measurment;
-            defineDifferenceToAverage(data_struct);
-        }
 
-        if (getUltraSValue(PORT_4, UltraSonic, BP) > 10) {       // If the measured US distance is bigger than 10:
-            playSound('F', playing);
+        if (getUltraSValue(PORT_4, UltraSonic, BP) > 20) {       // If the measured US distance is bigger than 10:
             counter_object = 0;
-            cout << "hier ben ik" << endl;
             if (Color2.reflected_red < data_struct.avarage_min_max && main_sensor_measurment < data_struct.avarage_min_max) {
-                cout << "ik ben er on" << endl;
                 playSound('C', playing);
                 crossroad(BP, playing, fd, clientsock);
                 lcd_counter = 100000;       // to restart the lcd and give the battery percantage
@@ -81,10 +69,9 @@ void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
                 PController(Color1, BP, data_struct, target_power, kp, kd, ki, lastError, integral, offset, turn_modifier);
             }
         } else {                                                  // If an object was detected within X cm, execute this code
-            playSound('S', playing);
             stopMotor(BP);      // Stop the robot
             counter_obstacle_detect++;
-            if (counter_obstacle_detect >= 500) {   // after 500 consecutive readings the robot enters this code
+            if (counter_obstacle_detect >= 1000) {   // after 500 consecutive readings the robot enters this code
                 cout << "YEEBUG: I am in the obstacle detect." << endl;
                 counter_obstacle_detect = 0; // Makes sure we detect the next object correctly with the buffer
                 playSound('D', playing);
