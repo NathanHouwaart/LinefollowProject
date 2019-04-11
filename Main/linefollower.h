@@ -139,9 +139,9 @@ void typeFloat(float myFloat, int & fd);
 
 //sourcePController.cpp
 void PController(sensor_color_t & Color1, BrickPi3 & BP, CalculatingErrorData & data_struct, float & target_power, float & kp, float & kd, float & ki, int & lastError, int & integral, int & offset, float turn_modifier);
+void stopMotor(BrickPi3 & BP);
 
 //sourcePIDLoop.cpp
-void stopMotor(BrickPi3 & BP);
 void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP, int & fd) {
 
 //sourceGridFollowLoopPID.cpp

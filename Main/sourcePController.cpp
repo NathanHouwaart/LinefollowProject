@@ -6,14 +6,14 @@ void PController(sensor_color_t & Color1, BrickPi3 & BP, CalculatingErrorData & 
 
 
 
-        clock_t start = clock();
+    clock_t start = clock();
 
-        BP.get_sensor(PORT_1, Color1);                      // Get sensor data
-        int light_value = Color1.reflected_red;             // Get sensor data
-        int error = light_value - offset;                   // Calculate error
-        int derivative = error - lastError;
-        integral += error;
-        int turn = kp * error + kd * derivative + ki * integral;    // Convert error value to turn value
+    BP.get_sensor(PORT_1, Color1);                      // Get sensor data
+    int light_value = Color1.reflected_red;             // Get sensor data
+    int error = light_value - offset;                   // Calculate error
+    int derivative = error - lastError;
+    integral += error;
+    int turn = kp * error + kd * derivative + ki * integral;    // Convert error value to turn value
 
     MotorControllerTurn(turn, target_power, turn_modifier, BP);
     lastError = error;
