@@ -24,3 +24,9 @@ CTestTestfile.cmake
 \.idea/
 
 *.iml
+
+cmake-build-debug/Makefile
+
+cmake-build-debug/LinefollowProject\.cbp
+
+CMakeLists\.txt
