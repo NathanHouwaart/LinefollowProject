@@ -10,8 +10,8 @@ void gridFollowLoopPID(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
     unsigned int height;
     int direction_index = -1;
     char seperator, facing_direction;
-    
- /*   
+
+ /*
     cout << "Looking right" << endl;
     lookRight(UltraSonic, BP);
     usleep(1000*1000);
