@@ -84,7 +84,7 @@ void gridFollowLoopPID(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
                 updateRobotPosition(grid, fastest_route[direction_index], fastest_route, direction_index);
                 char robot_instruction = relativeDirection(facing_direction, fastest_route[direction_index]);
                 updateRobotOrientation(facing_direction, fastest_route[direction_index]);
-                crossroadGrid(BP, robot_instruction, playing, fd);
+                crossroadGrid(robot_instruction, playing, fd, BP);
                 lcd_counter = 10000;        // to get the lcd screen back to the main version
             }
         } else {                                             // If no intersection was detected, follow the line

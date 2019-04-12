@@ -180,7 +180,7 @@ void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1
 	}
 
 	// The following function-calls make the robot cross the line and make it turn
-	crossLine(BP, 90);									// Robot crosses the line
+	crossLine(90, BP);									// Robot crosses the line
 	usleep(1000*500);									// Sleep makes sure the robot crosses the line
 	driveOnSpot('R', BP);								// Turn robot to the right on the axis
 	usleep(1000*500);									// Sleep makes sure the robot has turned on spot
