@@ -60,7 +60,7 @@ void motorControllerPower(int left, int right, BrickPi3 & BP) {
      */
     uint8_t motor_right = PORT_A;                       // Here we define the motor ports so we can talk to them
     uint8_t motor_left = PORT_D;
-    //speedLimiter(right, left, MAX_MOTOR_SPEED);         // The values of the right and left motor are send to the limiter
+    //speedLimiter(right, left, MAX_MOTOR_SPEED);       // The values of the right and left motor are send to the limiter
     int right_power = right * 127 / 100;
     int left_power = left * 127 / 100;
     if(right_power > 127) right_power = 127;
@@ -138,32 +138,32 @@ void driveOnSpot(char turn_direction, BrickPi3 & BP){
 void motorControllerTurn(const int & turn, const int & target_power, const float & turn_modifier, BrickPi3 & BP){
     /* Function mimics the function of the steer block in the nxt programming language */
     int turn_value = turn;
-    uint8_t motor_right = PORT_D;                               // Set the motor so we can communicate
-    uint8_t motor_left = PORT_A;                                // Set the motor so we can communicate
+    uint8_t motor_right = PORT_D;                                   // Set the motor so we can communicate
+    uint8_t motor_left = PORT_A;                                    // Set the motor so we can communicate
     int speedD, speedA;
-    if (turn_value > 100) turn_value = 100;                     // Dont go higher than 100
-    else if(turn_value < -100) turn_value = -100;               // Dont go lower than -100
+    if (turn_value > 100) turn_value = 100;                         // Dont go higher than 100
+    else if(turn_value < -100) turn_value = -100;                   // Dont go lower than -100
     if (turn_value > 0) {
         // If the car needs to steer left
-        speedD = target_power;                                  // Motor D needs to be at target speed
-        speedA = target_power + turn_value * turn_modifier;     // Motor A needs to slow down. Stops at 50, reverses at 100
+        speedD = target_power;                                      // Motor D needs to be at target speed
+        speedA = target_power + turn_value * turn_modifier;         // Motor A needs to slow down. Stops at 50, reverses at 100
     } else if (turn_value < 0) {
         // If the car needs to steer right
-        speedA = target_power;                                  // Motor A needs to be at target power
-        speedD = target_power - turn_value * turn_modifier;     // Motor D needs to slow down. stops at -50, reverses at -100;
+        speedA = target_power;                                      // Motor A needs to be at target power
+        speedD = target_power - turn_value * turn_modifier;         // Motor D needs to slow down. stops at -50, reverses at -100;
     } else {
         // If the car needs to go straight ahead (no steering)
-        speedA = target_power;                                  // Give both motors the same power
+        speedA = target_power;                                      // Give both motors the same power
         speedD = target_power;
     }
     if (speedA < -100) speedA = -100;
-    else if(speedA > 100) speedA = 100;                         // Protection to not overload motor power;
+    else if(speedA > 100) speedA = 100;                             // Protection to not overload motor power;
     if (speedD < -100) speedD = -100;
     else if(speedD > 100) speedD = 100;
 
-    vector<int> motor_speeds = convertPowerValues(speedA, speedD);   // Convert power values to different scale
-    BP.set_motor_power(motor_right, motor_speeds[1]);                // Sets motor power of motor D accordingly
-    BP.set_motor_power(motor_left, motor_speeds[0]);                 // Sets motor power of motor A accordingly
+    vector<int> motor_speeds = convertPowerValues(speedA, speedD);  // Convert power values to different scale
+    BP.set_motor_power(motor_right, motor_speeds[1]);               // Sets motor power of motor D accordingly
+    BP.set_motor_power(motor_left, motor_speeds[0]);                // Sets motor power of motor A accordingly
 
 }
 
