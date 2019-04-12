@@ -32,8 +32,8 @@ void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
     cout << "accepted from " << clientsock->getForeignAddress().getAddress() << endl;
 
     float target_power = 40;                                // Constant value to determine maximum motor dps
-    float kp = 100.0/data_struct.difference_min_avarage *0.8;                                        // 100/ (((200+680)/2) - 200)     W 0,434 Z 0,819
-    float kd = 10*kp; //(kp*0.1)/(20*0.00001);
+    float kp = 100.0/data_struct.difference_min_avarage *0.7;                                        // 100/ (((200+680)/2) - 200)     W 0,434 Z 0,819
+    float kd = 15*kp; //(kp*0.1)/(20*0.00001);
     float ki = 0;
 
     int lastError = 0;
