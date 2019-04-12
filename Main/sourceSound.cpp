@@ -20,7 +20,7 @@ void playSound(char selection, int & playing) {
     playing = 9; megalovania
     */
     switch(selection) {
-        /*case 'F':  //forward
+        case 'F':  //forward
             if(playing != 1) {
                 stopSound(playing);
                 system("omxplayer_silent --loop --no-keys -o local Noises/forward2.wav &");
@@ -33,7 +33,7 @@ void playSound(char selection, int & playing) {
                 system("omxplayer_silent --loop --no-keys -o local Noises/backwards.wav &");
                 playing = 2;
             }
-            break;*/
+            break;
         case 'L':  //turn left on crossroad
             if(playing != 3) {
                 stopSound(playing);
