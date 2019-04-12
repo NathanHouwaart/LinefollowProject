@@ -51,12 +51,12 @@ struct CalculatingErrorData{                //TODO: Change name?
 
 // The rest of the header-files contains all the declarations of functions. The declarations are sorted by source-file
 // sourceCrossroad.cpp
-void crossLine(BrickPi3 & BP, int32_t forward_degrees);
-void driveLeft(BrickPi3 & BP, int & playing);
-void driveRight(BrickPi3 & BP, int & playing);
-void driveForward(BrickPi3 & BP , int & playing);
-void crossroad(BrickPi3 & BP,  int & playing, int & fd, BluetoothSocket* clientsock);
-void crossroadGrid(BrickPi3 & BP, const char & direction_instruction, int & playing, int & fd);
+void crossLine(int32_t forward_degrees, BrickPi3 & BP);
+void driveLeft(int & playing, BrickPi3 & BP);
+void driveRight(int & playing, BrickPi3 & BP);
+void driveForward(int & playing, BrickPi3 & BP);
+void crossroad(int & playing, int & fd, BluetoothSocket* clientsock, BrickPi3 & BP);
+void crossroadGrid(const char & direction_instruction, int & playing, int & fd, BrickPi3 & BP);
 
 // sourceDodgeObject.cpp
 float vectorAverage(const vector<float> & to_calculate);

@@ -81,7 +81,7 @@ void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
             if (Color2.reflected_red < data_struct.average_min_max && main_sensor_measurement < data_struct.average_min_max) {
                 cout << "ik ben er on" << endl;
                 playSound('C', playing);
-                crossroad(BP, playing, fd, clientsock);
+                crossroad(playing, fd, clientsock, BP);
                 lcd_counter = 100000;       // to restart the lcd and give the battery percantage
             } else {                                             // If no intersection was detected, follow the line
                 PController(Color1, BP, data_struct, target_power, kp, kd, ki, lastError, integral, offset, turn_modifier);
