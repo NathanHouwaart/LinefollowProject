@@ -92,7 +92,7 @@ void gridFollowLoopPID(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
             }
         } else {
             // If no intersection was detected, follow the line with the PID controller
-            PController(Color1, BP, data_struct, target_power, kp, kd, ki, lastError, integral, offset, turn_modifier);
+            PIDController(Color1, BP, data_struct, target_power, kp, kd, ki, lastError, integral, offset, turn_modifier);
         }
     }
     cout << "Finished" << endl;

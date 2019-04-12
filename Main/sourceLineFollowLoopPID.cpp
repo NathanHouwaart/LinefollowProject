@@ -20,7 +20,7 @@ using namespace std;
 //int lcd_counter = 10000;    // to keep the lcd form updating every loop and than noging shows and start a 10000 te start the lcd
 
 
-void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP, int & fd_lcd) {
+void lineFollowLoopPID(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP, int & fd_lcd) {
     /*
      * This function runs when the LineFollow PID is selected at startup.
      * This is the main linefollow function and keeps running forever.
@@ -84,7 +84,7 @@ void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
                 crossroad(playing, fd_lcd, clientsock, BP);
                 lcd_counter = 100000;       // to restart the lcd and give the battery percantage
             } else {                                             // If no intersection was detected, follow the line
-                PController(Color1, BP, data_struct, target_power, kp, kd, ki, lastError, integral, offset, turn_modifier);
+                PIDController(Color1, BP, data_struct, target_power, kp, kd, ki, lastError, integral, offset, turn_modifier);
             }
         } else {                                                  // If an object was detected within X cm, execute this code
             stopMotor(BP);      // Stop the robot

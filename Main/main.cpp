@@ -96,7 +96,7 @@ int main() {
                 // The robot enters the line follow-mode with the PID-controller
                 correct_answer = true;                      // Makes sure program leaves loop
                 cout << "Entering the line follow-mode with PID-control." << endl;
-                PIDlineFollowLoop(Color1, Color2, UltraSonic1, DataLineMeasurements, BP, fd_lcd);
+                lineFollowLoopPID(Color1, Color2, UltraSonic1, DataLineMeasurements, BP, fd_lcd);
                 break;
             case 'R':
                 // The robot enters the grid navigate-mode with the PID-controller
