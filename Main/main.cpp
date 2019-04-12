@@ -37,10 +37,10 @@ int main() {
 
     /*-----Setting up the LCD screen-----*/
     int address_lcd = wiringPiI2CSetup(I2C_ADDR);           // Gives back the address of the LCD
-    lcdStart(address_lcd);                                  // setup LCD
-    clearLcd(address_lcd);                                  // clear the lcd
-    cursorLocation(LINE1, address_lcd);                     // set the cursorlocation to line 1
-    typeString("Setting up", address_lcd);                  // print the text on the screen
+    lcdStart(address_lcd);                                  // Setup LCD
+    clearLcd(address_lcd);                                  // Clear the lcd
+    cursorLocation(LINE1, address_lcd);                     // Set the cursorlocation to line 1
+    typeString("Setting up", address_lcd);                  // Print the text on the screen
 
     /*-----Set data structs-----*/
     sensor_color_t Color1;                                  // Initialise struct for data storage color sensor 1
@@ -107,14 +107,14 @@ int main() {
             default:
                 // Input of user is incorrect, print error message on terminal and LCD
                 /*-----Print error on LCD-----*/
-                clearLcd(address_lcd);                          // Clear the LCD
-                cursorLocation(LINE1, address_lcd);             // Set the cursorlocation to line 1
-                typeString("ERROR:", address_lcd);              // Print the text on the screen
-                cursorLocation(LINE2, address_lcd);             // Set the cursorlocation to line 2
-                typeString("Wrong input user", address_lcd);    // Print the text to the screen
+                clearLcd(address_lcd);                      // Clear the LCD
+                cursorLocation(LINE1, address_lcd);         // Set the cursorlocation to line 1
+                typeString("ERROR:", address_lcd);          // Print the text on the screen
+                cursorLocation(LINE2, address_lcd);         // Set the cursorlocation to line 2
+                typeString("Wrong input user", address_lcd);// Print the text to the screen
                 /*-----Print error on terminal-----*/
                 cout << "ERROR, wrong input" << endl;
-                usleep(1000*2000);                              // Waits a bit to show message on LCD
+                usleep(1000*2000);                          // Waits a bit to show message on LCD
                 break;
         }
    }
