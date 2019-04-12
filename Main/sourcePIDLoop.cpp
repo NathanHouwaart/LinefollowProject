@@ -20,7 +20,7 @@ using namespace std;
 //int lcd_counter = 10000;    // to keep the lcd form updating every loop and than noging shows and start a 10000 te start the lcd
 
 
-void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP, int & fd) {
+void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP, int & fd_lcd) {
     /*
      * This function runs when the LineFollow PID is selected at startup.
      * This is the main linefollow function and keeps running forever.
@@ -56,11 +56,11 @@ void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
         if (lcd_counter >= 5000) {      // after 5000 loops update hij het schermpje
             float battery = BP.get_voltage_battery();
             float battery_percentage = (100/(12.6-10.8)*(battery-10.8));
-            clearLcd(fd);   // clear the lcd
-            cursorLocation(LINE1, fd);      // set the cursorlocation to line 1
-            typeFloat(battery_percentage, fd);  // display the battery_percantage
-            cursorLocation(LINE2, fd);     // set the cursorlocation to line 2
-            typeString("PCT   Linefollow", fd);   // print the text on the screen
+            clearLcd(fd_lcd);   // clear the lcd
+            cursorLocation(LINE1, fd_lcd);      // set the cursorlocation to line 1
+            typeFloat(battery_percentage, fd_lcd);  // display the battery_percantage
+            cursorLocation(LINE2, fd_lcd);     // set the cursorlocation to line 2
+            typeString("PCT   Linefollow", fd_lcd);   // print the text on the screen
             lcd_counter = 0;                    // reset the counter
         }
         BP.get_sensor(PORT_1, Color1);                          // Read colorsensor1 and put data in struct Color1
@@ -81,7 +81,7 @@ void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
             if (Color2.reflected_red < data_struct.average_min_max && main_sensor_measurement < data_struct.average_min_max) {
                 cout << "ik ben er on" << endl;
                 playSound('C', playing);
-                crossroad(playing, fd, clientsock, BP);
+                crossroad(playing, fd_lcd, clientsock, BP);
                 lcd_counter = 100000;       // to restart the lcd and give the battery percantage
             } else {                                             // If no intersection was detected, follow the line
                 PController(Color1, BP, data_struct, target_power, kp, kd, ki, lastError, integral, offset, turn_modifier);

@@ -4,7 +4,7 @@ using namespace std;
 
 // TODO: --> Maak een loop voor het volgen van een grid. (Zie activity diagram)
 
-void gridFollowLoopPID(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct, int & fd, BrickPi3 & BP){
+void gridFollowLoopPID(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct, int & fd_lcd, BrickPi3 & BP){
 
     unsigned int width;
     unsigned int height;
@@ -49,11 +49,11 @@ void gridFollowLoopPID(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
             // after every 5000 loops updates the lcd screen
             float battery = BP.get_voltage_battery();
             float battery_percentage = (100/(12.6-10.8)*(battery-10.8));
-            clearLcd(fd);                                           // Clear the lcd
-            cursorLocation(LINE1, fd);                              // Set the cursorlocation to line 1
-            typeFloat(battery_percentage, fd);                      // Display the battery_percantage
-            cursorLocation(LINE2, fd);                              // Set the cursorlocation to line 2
-            typeString("PCT   Grid mode", fd);                      // Print the text on the screen
+            clearLcd(fd_lcd);                                           // Clear the lcd
+            cursorLocation(LINE1, fd_lcd);                              // Set the cursorlocation to line 1
+            typeFloat(battery_percentage, fd_lcd);                      // Display the battery_percantage
+            cursorLocation(LINE2, fd_lcd);                              // Set the cursorlocation to line 2
+            typeString("PCT   Grid mode", fd_lcd);                      // Print the text on the screen
             lcd_counter = 0;                                        // Rest the counter
         }
         int playing = 0;
@@ -87,7 +87,7 @@ void gridFollowLoopPID(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
                 updateRobotPosition(grid, fastest_route[direction_index], fastest_route, direction_index);      // Update the robot's position
                 char robot_instruction = relativeDirection(facing_direction, fastest_route[direction_index]);   // Determine the instruction where the robot needs to go
                 updateRobotOrientation(facing_direction, fastest_route[direction_index]);                       // Update the robot's facing direction
-                crossroadGrid(robot_instruction, playing, fd, BP);                                             // The robot drives to the next crossroad
+                crossroadGrid(robot_instruction, playing, fd_lcd, BP);                                             // The robot drives to the next crossroad
                 lcd_counter = 10000;                                                                            // Get the lcd screen back to the main version
             }
         } else {

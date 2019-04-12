@@ -11,7 +11,7 @@
 
 using namespace std;
 
-void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct, int & fd, BrickPi3 & BP){
+void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct, int & fd_lcd, BrickPi3 & BP){
 
     unsigned int width;
     unsigned int height;
@@ -31,7 +31,7 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
     while (true) {
         lcd_counter++;                                  // Add one to the counter
         if (lcd_counter >= 5000) {                      // After every 5000 loops updates the lcd screen
-            printPercentage(fd,'G',BP);
+            printPercentage(fd_lcd,'G',BP);
             lcd_counter = 0;                            // Reset the counter
         }
         int playing = 0;
@@ -65,7 +65,7 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
                 updateRobotPosition(grid, fastest_route[direction_index], fastest_route, direction_index);      // Update the robot's position
                 char robot_instruction = relativeDirection(facing_direction, fastest_route[direction_index]);   // Determine the instruction where the robot needs to go
                 updateRobotOrientation(facing_direction, fastest_route[direction_index]);                       // Update the robot's facing direction
-                crossroadGrid(robot_instruction, playing, fd, BP);                                              // The robot drives to the next crossroad
+                crossroadGrid(robot_instruction, playing, fd_lcd, BP);                                              // The robot drives to the next crossroad
                 lcd_counter = 10000;                                                                            // Get the lcd screen back to the main version
             }
         } else {

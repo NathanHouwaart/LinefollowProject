@@ -55,8 +55,8 @@ void crossLine(int32_t forward_degrees, BrickPi3 & BP);
 void driveLeft(int & playing, BrickPi3 & BP);
 void driveRight(int & playing, BrickPi3 & BP);
 void driveForward(int & playing, BrickPi3 & BP);
-void crossroad(int & playing, int & fd, BluetoothSocket* clientsock, BrickPi3 & BP);
-void crossroadGrid(const char & direction_instruction, int & playing, int & fd, BrickPi3 & BP);
+void crossroad(int & playing, int & fd_lcd, BluetoothSocket* clientsock, BrickPi3 & BP);
+void crossroadGrid(const char & direction_instruction, int & playing, int & fd_lcd, BrickPi3 & BP);
 
 // sourceDodgeObject.cpp
 float vectorAverage(const vector<float> & to_calculate);
@@ -75,12 +75,12 @@ void motorControllerTurn(const int & turn, const int & target_power, const float
 vector<int> convertPowerValues(const int & speedA, const int & speedD);
 
 // sourceFreeRideLoop.cpp
-void freeRideLoop(int & fd, BrickPi3 & BP);
+void freeRideLoop(int & fd_lcd, BrickPi3 & BP);
 void selectDirection(const string & input, float & steer, int & playing, BrickPi3 & BP);
 void soundSelection(const string & input, int & playing);
 
 // sourceGridFollowLoop.cpp
-void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct, int & fd, BrickPi3 & BP);
+void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct, int & fd_lcd, BrickPi3 & BP);
 
 // sourceGridFollowFunctions.cpp
 char relativeDirection(const char & current_robot_orientation, const char & absolute_direction);
@@ -101,7 +101,7 @@ void whereToLook(vector<vector<char>> & grid, const char & look_direction, const
                  vector<size_t> position, sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP);
 
 // sourceLineFollowLoop.cpp
-void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct, int & fd, BrickPi3 & BP);
+void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct, int & fd_lcd, BrickPi3 & BP);
 
 // sourceMainFunctions.cpp
 void calibration(sensor_color_t & Color1, CalculatingErrorData & data_struct,  BrickPi3 & BP);
@@ -123,23 +123,23 @@ void megaCharge(int & playing, BrickPi3 & BP);
 void stopSound(int & playing);
 
 //sourceLcd.cpp
-void enableLcd(int bits, int & fd);
-void lcd_byte(int bits, int mode, int & fd);
-void clearLcd(int & fd);
-void cursorLocation(int line, int & fd);
-void typeString(const char *s, int & fd);
-void lcdStart(int & fd);
-void typeFloat(float myFloat, int & fd);
-void printPercentage(int & address_lcd, char current_mode, BrickPi3 & BP);
+void enableLcd(int bits, int & fd_lcd);
+void lcd_byte(int bits, int mode, int & fd_lcd);
+void clearLcd(int & fd_lcd);
+void cursorLocation(int line, int & fd_lcd);
+void typeString(const char *s, int & fd_lcd);
+void lcdStart(int & fd_lcd);
+void typeFloat(float myFloat, int & fd_lcd);
+void printPercentage(int & fd_lcd, char current_mode, BrickPi3 & BP);
 
 //sourcePController.cpp
 void PController(sensor_color_t & Color1, BrickPi3 & BP, CalculatingErrorData & data_struct, float & target_power, float & kp, float & kd, float & ki, int & lastError, int & integral, int & offset, float turn_modifier);
 void stopMotor(BrickPi3 & BP);
 
 //sourcePIDLoop.cpp
-void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP, int & fd);
+void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct , BrickPi3 & BP, int & fd_lcd);
 
 //sourceGridFollowLoopPID.cpp
-void gridFollowLoopPID(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct, int & fd, BrickPi3 & BP);
+void gridFollowLoopPID(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct, int & fd_lcd, BrickPi3 & BP);
 
 #endif //LinefollowProject_LINEFOLLOWER_H

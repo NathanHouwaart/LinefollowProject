@@ -11,7 +11,7 @@
 
 using namespace std;
 
-void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct, int & fd,  BrickPi3 & BP){
+void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct, int & fd_lcd,  BrickPi3 & BP){
     /*Line
      * This function runs when the Linemode is selected at startup.
      * This is the main linefollow function and keeps running forever.
@@ -30,7 +30,7 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
      while (true) {
         lcd_counter++;                          // Add one to the counter for every loop
         if (lcd_counter >= 5000) {              // After 5000 loops update the LCD
-            printPercentage(fd,'L',BP);
+            printPercentage(fd_lcd,'L',BP);
             lcd_counter = 0;                    // Reset the counter
         }
         BP.get_sensor(PORT_1, Color1);          // Read colorsensor1 and put data in struct Color1
@@ -53,7 +53,7 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
             if (Color2.reflected_red < data_struct.average_min_max && main_sensor_measurement < data_struct.average_min_max) {
                 // Crossroad detected because both sensors lower than average
                 playSound('C', playing);
-                crossroad(playing, fd, clientsock, BP);
+                crossroad(playing, fd_lcd, clientsock, BP);
                 lcd_counter = 5000;                             // to restart the lcd and give the battery percantage
             } else {
                 // If no intersection was detected, follow the line

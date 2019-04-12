@@ -11,16 +11,16 @@
 
 using namespace std;
 
-void enableLcd(int bits, int & fd) {
+void enableLcd(int bits, int & fd_lcd) {
     /* Toggle pin to ENABLE on LCD display */
     usleep(500);
-    wiringPiI2CReadReg8(fd, (bits | ENABLE));   // Read the i2c pin
+    wiringPiI2CReadReg8(fd_lcd, (bits | ENABLE));   // Read the i2c pin
     usleep(500);
-    wiringPiI2CReadReg8(fd, (bits & ~ENABLE));  // Read the i2c pin
+    wiringPiI2CReadReg8(fd_lcd, (bits & ~ENABLE));  // Read the i2c pin
     usleep(500);
 }
 
-void lcd_byte(int bits, int mode, int & fd)   {
+void lcd_byte(int bits, int mode, int & fd_lcd)   {
     /* Send bits to the lcd, mode 1 is for data en 0 is for command */
     int bits_high;
     int bits_low;
@@ -29,47 +29,47 @@ void lcd_byte(int bits, int mode, int & fd)   {
     bits_low = mode | ((bits << 4) & 0xF0) | LCD_BACKLIGHT ;
 
     // High bits
-    wiringPiI2CReadReg8(fd, bits_high);         // Read the i2c pin
-    enableLcd(bits_high, fd);
+    wiringPiI2CReadReg8(fd_lcd, bits_high);         // Read the i2c pin
+    enableLcd(bits_high, fd_lcd);
 
     // Low bits
-    wiringPiI2CReadReg8(fd, bits_low);          // Read the i2c pin
-    enableLcd(bits_low, fd);
+    wiringPiI2CReadReg8(fd_lcd, bits_low);          // Read the i2c pin
+    enableLcd(bits_low, fd_lcd);
 }
 
-void clearLcd(int & fd) {
+void clearLcd(int & fd_lcd) {
     /* Clear the whole LCD screen */
-    lcd_byte(0x01, LCD_CMD, fd);
-    lcd_byte(0x02, LCD_CMD, fd);
+    lcd_byte(0x01, LCD_CMD, fd_lcd);
+    lcd_byte(0x02, LCD_CMD, fd_lcd);
 }
 
-void cursorLocation(int line, int & fd) {
+void cursorLocation(int line, int & fd_lcd) {
     /* Set the cursor location */
-    lcd_byte(line, LCD_CMD, fd);
+    lcd_byte(line, LCD_CMD, fd_lcd);
 }
 
-void typeString(const char *s, int & fd) {
+void typeString(const char *s, int & fd_lcd) {
     /* Push the letter 1 by 1 to the screen */
-    while (*s) lcd_byte(*(s++), LCD_CHR, fd);
+    while (*s) lcd_byte(*(s++), LCD_CHR, fd_lcd);
 }
 
 
-void lcdStart(int & fd) {
+void lcdStart(int & fd_lcd) {
     /* Program to start the LCD (Configuration) */
-    lcd_byte(0x33, LCD_CMD, fd);                // Tells the LCD how much space is available (Down)
-    lcd_byte(0x32, LCD_CMD, fd);                // Tells the LCD how much space is available (Up)
-    lcd_byte(0x06, LCD_CMD, fd);                // The direction the cursor moves to
-    lcd_byte(0x0C, LCD_CMD, fd);                // 0x0F On, now Off
-    lcd_byte(0x28, LCD_CMD, fd);                // Data length, number of lines, font size
-    lcd_byte(0x01, LCD_CMD, fd);                // Clear display
+    lcd_byte(0x33, LCD_CMD, fd_lcd);                // Tells the LCD how much space is available (Down)
+    lcd_byte(0x32, LCD_CMD, fd_lcd);                // Tells the LCD how much space is available (Up)
+    lcd_byte(0x06, LCD_CMD, fd_lcd);                // The direction the cursor moves to
+    lcd_byte(0x0C, LCD_CMD, fd_lcd);                // 0x0F On, now Off
+    lcd_byte(0x28, LCD_CMD, fd_lcd);                // Data length, number of lines, font size
+    lcd_byte(0x01, LCD_CMD, fd_lcd);                // Clear display
     usleep(500);
 }
 
-void typeFloat(float myFloat, int & fd) {
+void typeFloat(float myFloat, int & fd_lcd) {
     /* This function gets a float and changes it to a char */
     char buffer[20];
     sprintf(buffer, "%4.2f",  myFloat);
-    typeString(buffer, fd);
+    typeString(buffer, fd_lcd);
 }
 
 void printPercentage(int & address_lcd, char current_mode, BrickPi3 & BP) {
