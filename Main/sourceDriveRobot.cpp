@@ -40,7 +40,7 @@ void speedLimiter(int & right, int & left, const int & maximum_speed) {
     }
 }
 
-void MotorController(int left, int right, BrickPi3 & BP) {
+void motorController(int left, int right, BrickPi3 & BP) {
     /* This function controls the motors.
      * First it sends the given motor speed setting through the limiter
      * After that it sets the motor to the given speed.
@@ -53,7 +53,7 @@ void MotorController(int left, int right, BrickPi3 & BP) {
 }
 
 //WARNING: THIS FUNCTION IS NEVER USED
-void MotorControllerPower(int left, int right, BrickPi3 & BP) {
+void motorControllerPower(int left, int right, BrickPi3 & BP) {
     /* This function controls the motors.
      * First it sends the given motor speed setting through the limiter
      * After that it sets the motor to the given speed.
@@ -109,7 +109,7 @@ void drive(float direction_control, unsigned int speed_multiplier_percentage, un
             // The given direction_control is < 0 and is not -1 or -2 so it is incorrect
             cout << "The given value doesn't correspond to the given parameters of x=-2,-1 or 0=<x<=2." << endl;
         }
-        MotorController(motor_speed_L, motor_speed_R, BP);                          // The calculated is send where the motor is controlled
+        motorController(motor_speed_L, motor_speed_R, BP);                          // The calculated is send where the motor is controlled
     }
 }
 
@@ -135,31 +135,31 @@ void driveOnSpot(char turn_direction, BrickPi3 & BP){
     usleep(1000*500);                                                       // Give the robot time to turn before continuing
 }
 
-void MotorControllerTurn(const int & turn, const int & target_power, const float & turn_modifier, BrickPi3 & BP){
+void motorControllerTurn(const int & turn, const int & target_power, const float & turn_modifier, BrickPi3 & BP){
     /* Function mimics the function of the steer block in the nxt programming language */
     int turn_value = turn;
-    uint8_t motor_right = PORT_D;
-    uint8_t motor_left = PORT_A;
+    uint8_t motor_right = PORT_D;                               // Set the motor so we can communicate
+    uint8_t motor_left = PORT_A;                                // Set the motor so we can communicate
     int speedD, speedA;
-    if (turn_value > 100) turn_value = 100;
-    else if(turn_value < -100) turn_value = -100;
-    if (turn_value > 0) {                                         // If steer > 0
+    if (turn_value > 100) turn_value = 100;                     // Dont go higher than 100
+    else if(turn_value < -100) turn_value = -100;               // Dont go lower than -100
+    if (turn_value > 0) {
+        // If the car needs to steer left
         speedD = target_power;                                  // Motor D needs to be at target speed
-        speedA = target_power + turn_value * turn_modifier;            // Motor A needs to slow down. Stops at 50, reverses at 100
-    } else if (turn_value < 0) {                                  // If steer < 0
+        speedA = target_power + turn_value * turn_modifier;     // Motor A needs to slow down. Stops at 50, reverses at 100
+    } else if (turn_value < 0) {
+        // If the car needs to steer right
         speedA = target_power;                                  // Motor A needs to be at target power
-        speedD = target_power - turn_value * turn_modifier;            // Motor D needs to slow down. stops at -50, reverses at -100;
-    } else {                                                // If steer == 0
-        speedA = target_power;                                  // Go target power forward
+        speedD = target_power - turn_value * turn_modifier;     // Motor D needs to slow down. stops at -50, reverses at -100;
+    } else {
+        // If the car needs to go straight ahead (no steering)
+        speedA = target_power;                                  // Give both motors the same power
         speedD = target_power;
     }
     if (speedA < -100) speedA = -100;
-    else if(speedA > 100) speedA = 100;                       // Protection to not overload motor power;
+    else if(speedA > 100) speedA = 100;                         // Protection to not overload motor power;
     if (speedD < -100) speedD = -100;
     else if(speedD > 100) speedD = 100;
-
-    cout << "SPEED A: " << speedA << endl;                  // Debug only
-    cout << "SPEED D: " << speedD << endl;
 
     vector<int> motor_speeds = convertPowerValues(speedA, speedD);   // Convert power values to different scale
     BP.set_motor_power(motor_right, motor_speeds[1]);                // Sets motor power of motor D accordingly

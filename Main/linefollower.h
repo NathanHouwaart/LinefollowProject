@@ -67,11 +67,11 @@ void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1
 
 // sourceDriveRobot.cpp
 void speedLimiter(int & right, int & left, const int & maximum_speed);
-void MotorController(int left, int right, BrickPi3 & BP);
-void MotorControllerPower(int left, int right, BrickPi3 & BP);
+void motorController(int left, int right, BrickPi3 & BP);
+void motorControllerPower(int left, int right, BrickPi3 & BP);
 void drive(float direction_control, unsigned int speed_multiplier_percentage, unsigned int rotation_speed, BrickPi3 & BP);
 void driveOnSpot(char turn_direction, BrickPi3 & BP);
-void MotorControllerTurn(const int & turn, const int & target_power, const float & turn_modifier, BrickPi3 & BP);
+void motorControllerTurn(const int & turn, const int & target_power, const float & turn_modifier, BrickPi3 & BP);
 vector<int> convertPowerValues(const int & speedA, const int & speedD);
 
 // sourceFreeRideLoop.cpp

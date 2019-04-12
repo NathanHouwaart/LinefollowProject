@@ -11,7 +11,7 @@ void PController(sensor_color_t & Color1, BrickPi3 & BP, CalculatingErrorData & 
     integral += error;
     int turn = kp * error + kd * derivative + ki * integral;    // Convert error value to turn value
 
-    MotorControllerTurn(turn, target_power, turn_modifier, BP);
+    motorControllerTurn(turn, target_power, turn_modifier, BP);
     lastError = error;
     printf("Time elapsed: %f\n", ((double) clock() - start) / CLOCKS_PER_SEC);
 }
