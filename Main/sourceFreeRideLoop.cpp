@@ -11,7 +11,7 @@
 
 using namespace std;
 
-void freeRideLoop(int & address_lcd, BrickPi3 & BP){
+void freeRideLoop(int & fd_lcd, BrickPi3 & BP){
     /* This is the main loop that we use to drive the robot with remote control.
      * The remote control uses bluetooth, you connected with an android-phone were the correct app is installed.
      * The function waits for messages from the message box.
@@ -26,7 +26,7 @@ void freeRideLoop(int & address_lcd, BrickPi3 & BP){
         lcd_counter++;                                                  // Every loop add 1 one to the counter
         if (lcd_counter >= 5000) {
             // After 5000 loops the screen is updated
-            printPercentage(address_lcd,'F',BP);                        // Print the new battery percentage
+            printPercentage(fd_lcd,'F',BP);                        // Print the new battery percentage
             lcd_counter = 0;                                            // Reset the counter
         }
         BluetoothSocket* clientsock = serversock.accept();              // Initialising the bluetooth connection

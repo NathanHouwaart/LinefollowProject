@@ -11,7 +11,7 @@
 
 using namespace std;
 
-void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct, int & fd,  BrickPi3 & BP){
+void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct, int & fd_lcd,  BrickPi3 & BP){
     /*Line
      * This function runs when the Linemode is selected at startup.
      * This is the main linefollow function and keeps running forever.
@@ -30,7 +30,7 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
      while (true) {
         lcd_counter++;                          // Add one to the counter for every loop
         if (lcd_counter >= 5000) {              // After 5000 loops update the LCD
-            printPercentage(fd,'L',BP);
+            printPercentage(fd_lcd,'L',BP);
             lcd_counter = 0;                    // Reset the counter
         }
         BP.get_sensor(PORT_1, Color1);          // Read colorsensor1 and put data in struct Color1
