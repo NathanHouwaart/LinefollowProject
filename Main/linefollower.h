@@ -138,7 +138,9 @@ void lcdStart(int & fd);
 void typeFloat(float myFloat, int & fd);
 
 //sourcePController.cpp
-void PController(sensor_color_t & Color1, BrickPi3 & BP, CalculatingErrorData & data_struct, float & target_power, float & kp, float & kd, float & ki, int & lastError, int & integral, int & offset, float turn_modifier);
+void PController(sensor_color_t & Color1, BrickPi3 & BP, CalculatingErrorData & data_struct, float & target_power,
+                 const float & kp, const float & kd, const float & ki, int & lastError, int & integral,
+                 const int & offset, const float & turn_modifier);
 void stopMotor(BrickPi3 & BP);
 
 //sourcePIDLoop.cpp
