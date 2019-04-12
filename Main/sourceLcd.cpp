@@ -72,37 +72,37 @@ void typeFloat(float myFloat, int & fd_lcd) {
     typeString(buffer, fd_lcd);
 }
 
-void printPercentage(int & address_lcd, char current_mode, BrickPi3 & BP) {
+void printPercentage(int & fd_lcd, char current_mode, BrickPi3 & BP) {
     /* The function prints the battery percentage on the LCD screen.
      * It also shows the current mode where the robot is in.
      * The function expects a char which represents the current mode L (line), G (grid), F (free)
      */
     float battery = BP.get_voltage_battery();
     float battery_percentage = (100/(12.6-10.8)*(battery-10.8));
-    clearLcd(address_lcd);                                          // Clear the lcd
-    cursorLocation(LINE1, address_lcd);                             // Set the cursorlocation to line 1
-    typeFloat(battery_percentage, address_lcd);                     // Display the battery_percantage
-    cursorLocation(LINE2, address_lcd);                             // Set the cursorlocation to line 2
+    clearLcd(fd_lcd);                                          // Clear the lcd
+    cursorLocation(LINE1, fd_lcd);                             // Set the cursorlocation to line 1
+    typeFloat(battery_percentage, fd_lcd);                     // Display the battery_percantage
+    cursorLocation(LINE2, fd_lcd);                             // Set the cursorlocation to line 2
     switch (current_mode){
         case 'L':
             // Prints the string on screen for line follow-mode
-            typeString("PCT   Line follow", address_lcd);
+            typeString("PCT  Line follow", fd_lcd);
             break;
         case 'G':
             // Prints the string on screen for grid navigate
-            typeString("PCT   Grid navigate", address_lcd);
+            typeString("PCT   Grid navig", fd_lcd);
             break;
         case 'F':
             // Prints the string on screen for free drive
-            typeString("PCT   Free drive", address_lcd);
+            typeString("PCT   Free drive", fd_lcd);
             break;
         case 'P':
             // Prints the string on screen for line follow-mode with PID
-            typeString("PCT   Line PID", address_lcd);
+            typeString("PCT    Line PID", fd_lcd);
             break;
         case 'R':
             // Prints the string on screen for grid navigate with PID
-            typeString("PCT   Grid PID", address_lcd);
+            typeString("PCT    Grid PID", fd_lcd);
         default:
             cout << "ERROR, incorrect input" << endl;
     }
