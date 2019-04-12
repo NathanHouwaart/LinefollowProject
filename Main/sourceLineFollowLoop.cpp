@@ -36,9 +36,9 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
         BP.get_sensor(PORT_1, Color1);          // Read colorsensor1 and put data in struct Color1
         BP.get_sensor(PORT_3, Color2);          // Read colorsensor2 and put data in struct Color2
         int main_sensor_measurement = Color1.reflected_red;
-        
-        // Checks if current reading is bigger or smaller than the highest or lowest value, if true then calculate new average
+
         if(main_sensor_measurement < data_struct.lowest_measurement){
+            // Checks if current reading is bigger or smaller than the highest or lowest value, if true then calculate new average
             data_struct.lowest_measurement = main_sensor_measurement;
             defineDifferenceToAverage(data_struct);
         } else if(main_sensor_measurement > data_struct.highest_measurement){
@@ -47,18 +47,18 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
         }
 
         if (getUltraSValue(PORT_4, UltraSonic, BP) > 20) {
-            // US bigger than 10 so check crossroad and line follow
-            playSound('F', playing);
+            // US bigger than 20 so check crossroad and line follow
+            playSound('F', playing);                            // Play forward sound
             counter_obstacle_detect = 0;
             if (Color2.reflected_red < data_struct.average_min_max && main_sensor_measurement < data_struct.average_min_max) {
                 // Crossroad detected because both sensors lower than average
-                playSound('C', playing);
-                crossroad(playing, fd, clientsock, BP);
-                lcd_counter = 5000;                             // to restart the lcd and give the battery percantage
+                playSound('C', playing);                        // Play Crossroad detected sound
+                crossroad(playing, fd, clientsock, BP);         // Run Crossroad function so the robot can go left/right/forward
+                lcd_counter = 5000;                             // Restart the lcd and give the battery percentage
             } else {
                 // If no intersection was detected, follow the line
                 int error_to_average = defineError(data_struct.average_min_max, data_struct.difference_min_average, data_struct.difference_max_average, main_sensor_measurement);
-                pController(error_to_average, BP);
+                pController(error_to_average, BP);              // Drive with the PID controller
             }
         } else {
             // If an object was detected within X cm, execute this code
