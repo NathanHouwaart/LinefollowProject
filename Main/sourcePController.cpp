@@ -19,7 +19,7 @@ void PController(sensor_color_t & Color1, BrickPi3 & BP, CalculatingErrorData & 
     integral += error;                                                  // Calculate error
     int turn = kp * error + kd * derivative + ki * integral;            // Convert error values to turn value
 
-    MotorControllerTurn(turn, target_power, turn_modifier, BP);         // Motors are controlled with the correct turn value
+    motorControllerTurn(turn, target_power, turn_modifier, BP);         // Motors are controlled with the correct turn value
     lastError = error;                                                  // Sets last error as current error for derivative
 }
 
