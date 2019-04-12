@@ -15,7 +15,7 @@ using namespace std;
 int current_position_us= 0;						// Saves the orientation of the ultrasonic sensor
 vector<float> buffer_motor_values = {};		    // The buffer for turning the ultrasonic sensor
 
-float vectorAvarage(const vector<float> & to_calculate){
+float vectorAverage(const vector<float> & to_calculate){
 	/* This function calculates the average of the given vector.
 	 * It expects a vector with floats, it returns a float.
 	 */
@@ -51,14 +51,14 @@ void turnUS (float values_wheels, BrickPi3 & BP){
 	} else{
 		// Add the last measurement to the buffer
 		buffer_motor_values.push_back(values_wheels);
-		float avarage_of_vector = vectorAvarage(buffer_motor_values); 			// Calculate the average of buffer
+		float average_of_vector = vectorAverage(buffer_motor_values); 			// Calculate the average of buffer
 		buffer_motor_values = {}; 												// Clears buffer
-		if(avarage_of_vector > 1){
+		if(average_of_vector > 1){
 			// Orientation of US sensor is to right
-			target_degrees_us = (min_degrees_turned * (avarage_of_vector-1));   //calculate how far the US needs to turn right
-		} else if(avarage_of_vector < 1){
+			target_degrees_us = (min_degrees_turned * (average_of_vector-1));   //calculate how far the US needs to turn right
+		} else if(average_of_vector < 1){
 			// Orientation of US sensor is to left
-			target_degrees_us = max_degrees_turned * (1-avarage_of_vector); 	//calculate how far the US needs to turn left
+			target_degrees_us = max_degrees_turned * (1-average_of_vector); 	//calculate how far the US needs to turn left
 		}
 
 		degrees_to_turn = target_degrees_us - current_position_us; 			    // Calculate the difference

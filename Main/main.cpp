@@ -46,7 +46,7 @@ int main() {
     sensor_color_t Color1;                                  // Initialise struct for data storage color sensor 1
     sensor_color_t Color2;                                  // Initialise struct for data storage color sensor 2
     sensor_ultrasonic_t UltraSonic1;                        // Initialise struct for data storage ultrasonic sensor 1
-    CalculatingErrorData DataLineMeasurments;               // Initialise struct for data storage average, min and max reading of Color1
+    CalculatingErrorData DataLineMeasurements;               // Initialise struct for data storage average, min and max reading of Color1
 
     /*-----Checks whether battery has enough power, if not exit program-----*/
     if(!checkVoltage(BP)) return 0;
@@ -56,8 +56,8 @@ int main() {
     typeString("Calibrating", address_lcd);                 // Print the text on the screen
 
     /*-----Calibrate min and max reflection values and determine lightvalue the robot wants to follow-----*/
-    calibration(Color1, DataLineMeasurments, BP);           // Gives back lowest and highest value
-    defineDifferenceToAverage(DataLineMeasurments);         // Calculate the different values, puts values in struct
+    calibration(Color1, DataLineMeasurements, BP);           // Gives back lowest and highest value
+    defineDifferenceToAverage(DataLineMeasurements);         // Calculate the different values, puts values in struct
     usleep(1000*1000);                                      // Waiting for sensors to see normally
     clearLcd(address_lcd);                                  // Clear the LCD
 
@@ -78,13 +78,13 @@ int main() {
                 // The robot enters the line follow-mode
                 correct_answer = true;                      // Makes sure program leaves loop
                 cout << "Entering the line follow-mode." << endl;
-                lineFollowLoop(Color1, Color2, UltraSonic1, DataLineMeasurments, address_lcd, BP);
+                lineFollowLoop(Color1, Color2, UltraSonic1, DataLineMeasurements, address_lcd, BP);
                 break;
             case 'G':
                 // The robot enters the grid navigate-mode
                 correct_answer = true;                      // Makes sure program leaves loop
                 cout << "Entering the grid navigate-mode." << endl;
-                gridFollowLoop(Color1, Color2, UltraSonic1, DataLineMeasurments, address_lcd, BP);
+                gridFollowLoop(Color1, Color2, UltraSonic1, DataLineMeasurements, address_lcd, BP);
                 break;
             case 'F':
                 // The robot enters the free ride-mode
@@ -96,13 +96,13 @@ int main() {
                 // The robot enters the line follow-mode with the PID-controller
                 correct_answer = true;                      // Makes sure program leaves loop
                 cout << "Entering the line follow-mode with PID-control." << endl;
-                PIDlineFollowLoop(Color1, Color2, UltraSonic1, DataLineMeasurments, BP, address_lcd);
+                PIDlineFollowLoop(Color1, Color2, UltraSonic1, DataLineMeasurements, BP, address_lcd);
                 break;
             case 'R':
                 // The robot enters the grid navigate-mode with the PID-controller
                 correct_answer = true;                      // Makes sure program leaves loop
                 cout << "Entering the grid navigate-mode with PID-control." << endl;
-                gridFollowLoopPID(Color1, Color2, UltraSonic1, DataLineMeasurments, address_lcd, BP);
+                gridFollowLoopPID(Color1, Color2, UltraSonic1, DataLineMeasurements, address_lcd, BP);
                 break;
             default:
                 // Input of user is incorrect, print error message on terminal and LCD

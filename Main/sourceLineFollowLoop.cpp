@@ -20,7 +20,7 @@ int playing = 0;        //telling the program that no sound is currently playing
 int lcd_counter = 5000;    // to keep the lcd form updating every loop and than noging shows and start a 10000 to start the lcd
 
 void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct, int & fd,  BrickPi3 & BP){
-    /*
+    /*Line
      * This function runs when the Linemode is selected at startup.
      * This is the main linefollow function and keeps running forever.
      * The robot will follow a line, drive around an object, play music, detect a crossroad and display something on the LCD
@@ -43,14 +43,14 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
         }
         BP.get_sensor(PORT_1, Color1);          // Read colorsensor1 and put data in struct Color1
         BP.get_sensor(PORT_3, Color2);          // Read colorsensor2 and put data in struct Color2
-        int main_sensor_measurment = Color1.reflected_red;
+        int main_sensor_measurement = Color1.reflected_red;
         
         // Checks if current reading is bigger or smaller than the highest or lowest value, if true then calculate new average
-        if(main_sensor_measurment < data_struct.lowest_measurement){
-            data_struct.lowest_measurement = main_sensor_measurment;
+        if(main_sensor_measurement < data_struct.lowest_measurement){
+            data_struct.lowest_measurement = main_sensor_measurement;
             defineDifferenceToAverage(data_struct);
-        } else if(main_sensor_measurment > data_struct.highest_measurement){
-            data_struct.highest_measurement = main_sensor_measurment;
+        } else if(main_sensor_measurement > data_struct.highest_measurement){
+            data_struct.highest_measurement = main_sensor_measurement;
             defineDifferenceToAverage(data_struct);
         }
 
@@ -58,15 +58,15 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
             // US bigger than 10 so check crossroad and line follow
             playSound('F', playing);
             counter_obstacle_detect = 0;
-            if (Color2.reflected_red < data_struct.avarage_min_max && main_sensor_measurment < data_struct.avarage_min_max) {
+            if (Color2.reflected_red < data_struct.average_min_max && main_sensor_measurement < data_struct.average_min_max) {
                 // Crossroad detected because both sensors lower than average
                 playSound('C', playing);
                 crossroad(BP, playing, fd, clientsock);
                 lcd_counter = 5000;                             // to restart the lcd and give the battery percantage
             } else {
                 // If no intersection was detected, follow the line
-                int error_to_avarage = defineError(data_struct.avarage_min_max, data_struct.difference_min_avarage, data_struct.difference_max_avarage, main_sensor_measurment);
-                pController(error_to_avarage, BP);
+                int error_to_average = defineError(data_struct.average_min_max, data_struct.difference_min_average, data_struct.difference_max_average, main_sensor_measurement);
+                pController(error_to_average, BP);
             }
         } else {
             // If an object was detected within X cm, execute this code
@@ -92,7 +92,7 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
                             break;
                         case 'D':
                             // Starts dodging the object
-                            driveAroundObject(UltraSonic, Color1, Color2, data_struct.avarage_min_max, BP);
+                            driveAroundObject(UltraSonic, Color1, Color2, data_struct.average_min_max, BP);
                             correct_answer = true;
                             break;
                         default:

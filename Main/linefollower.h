@@ -47,9 +47,9 @@ using namespace std;
 struct CalculatingErrorData{                //TODO: Change name?
     int lowest_measurement;
     int highest_measurement;
-    int avarage_min_max;
-    int difference_min_avarage;
-    int difference_max_avarage;
+    int average_min_max;
+    int difference_min_average;
+    int difference_max_average;
 };
 
 // The rest of the header-files contains all the declarations of functions. The declarations are sorted by source-file
@@ -62,7 +62,7 @@ void crossroad(BrickPi3 & BP,  int & playing, int & fd, BluetoothSocket* clients
 void crossroadGrid(BrickPi3 & BP, const char & direction_instruction, int & playing, int & fd);
 
 // sourceDodgeObject.cpp
-float vectorAvarage(const vector<float> & to_calculate);
+float vectorAverage(const vector<float> & to_calculate);
 void turnUS (float values_wheels, BrickPi3 & BP);
 void steeringRobot(char to_steer, BrickPi3 & BP);
 void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1, sensor_color_t & Color2, int average_black_line, BrickPi3 & BP);
@@ -112,7 +112,7 @@ bool checkVoltage(BrickPi3 & BP);
 void defineDifferenceToAverage(CalculatingErrorData & data_struct);
 
 // sourcePIDController.cpp
-int defineError(int avarage_lowest_highest, int dist_lowest_avarage, int dist_highest_avarage, int current_measurment);
+int defineError(int average_lowest_highest, int dist_lowest_average, int dist_highest_average, int current_measurement);
 void pController(int error_value, BrickPi3 & BP);
 
 // sourceSensors.cpp

@@ -26,48 +26,53 @@ void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
 
     vector<vector<char>> grid = gridSetup(height, width);
     vector<char> fastest_route = fastestRoute(height, width);
-    int lcd_counter = 5000;                             // to keep the lcd form updating every loop (updated every 5000 loops)
+    int lcd_counter = 5000;                             // Keep the lcd form updating every loop (updated every 5000 loops)
 
     while (true) {
-        lcd_counter++;                                  // add one to the counter
-        if (lcd_counter >= 5000) {                      // after every 5000 loops updates the lcd screen
+        lcd_counter++;                                  // Add one to the counter
+        if (lcd_counter >= 5000) {                      // After every 5000 loops updates the lcd screen
             printPercentage(fd,'G',BP);
-            lcd_counter = 0;                            // rest the counter
+            lcd_counter = 0;                            // Reset the counter
         }
         int playing = 0;
-        BP.get_sensor(PORT_1, Color1);                  // Read colorsensor1 and put data in struct Color1
+        BP.get_sensor(PORT_1, Color1);                  // Read Colorsensor1 and put data in struct Color1
         BP.get_sensor(PORT_3, Color2);                  // Read Colorsensor2 and put data in struct Color2
         int main_sensor_measurement = Color1.reflected_red;
         if(main_sensor_measurement < data_struct.lowest_measurement){
+            // If the sensor sees a lower value than the lowest value, we want to calculate the average again so we cant get false values
             data_struct.lowest_measurement = main_sensor_measurement;
             defineDifferenceToAverage(data_struct);
         } else if(main_sensor_measurement > data_struct.highest_measurement){
+            // If the sensor sees a higher value than the highest value, we want to calculate the average again so we cant get false values
             data_struct.highest_measurement = main_sensor_measurement;
             defineDifferenceToAverage(data_struct);
         }
 
-        if (Color2.reflected_red < (data_struct.avarage_min_max) && main_sensor_measurement < data_struct.avarage_min_max) {
+        if (Color2.reflected_red < (data_struct.average_min_max) && main_sensor_measurement < data_struct.average_min_max) {
+            // If the robot detects a crossroad
             direction_index += 1;
             if(direction_index >= fastest_route.size()){
+                // If the robot is at the end of his route
                 break;
             }else{
-                vector<size_t> position = getRobotPosition(grid);
-                drive(DIRECTION_STOP, 0, 360, BP);
-                char look_direction = relativeDirection(facing_direction, fastest_route[direction_index]);
-                whereToLook(grid, look_direction, facing_direction, position, UltraSonic, BP);
-                printGrid(grid);
+                // If the robot is not at the end of his route
+                vector<size_t> position = getRobotPosition(grid);                                               // Store the current position
+                drive(DIRECTION_STOP, 0, 360, BP);                                                              // Stop the car
+                char look_direction = relativeDirection(facing_direction, fastest_route[direction_index]);      // Get the direction the robot is looking
+                whereToLook(grid, look_direction, facing_direction, position, UltraSonic, BP);                  // Determine where the robot needs to look
+                printGrid(grid);                                                                                // Print the grid for visualisation
 
-                updateRobotPosition(grid, fastest_route[direction_index], fastest_route, direction_index);
-                char robot_instruction = relativeDirection(facing_direction, fastest_route[direction_index]);
-                updateRobotOrientation(facing_direction, fastest_route[direction_index]);
-                crossroadGrid(BP, robot_instruction, playing, fd);
-                lcd_counter = 10000;                        // to get the lcd screen back to the main version
+                updateRobotPosition(grid, fastest_route[direction_index], fastest_route, direction_index);      // Update the robot's position
+                char robot_instruction = relativeDirection(facing_direction, fastest_route[direction_index]);   // Determine the instruction where the robot needs to go
+                updateRobotOrientation(facing_direction, fastest_route[direction_index]);                       // Update the robot's facing direction
+                crossroadGrid(BP, robot_instruction, playing, fd);                                              // The robot drives to the next crossroad
+                lcd_counter = 10000;                                                                            // Get the lcd screen back to the main version
             }
         } else {
             // If no intersection was detected, follow the line
-            int error_to_average = defineError(data_struct.avarage_min_max, data_struct.difference_min_avarage, data_struct.difference_max_avarage,
+            int error_to_average = defineError(data_struct.average_min_max, data_struct.difference_min_average, data_struct.difference_max_average,
                                               main_sensor_measurement);
-            pController(error_to_average, BP);
+            pController(error_to_average, BP);                                                                  //Follow the line with a P controller
         }
     }
     cout << "Finished" << endl;

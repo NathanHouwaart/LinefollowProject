@@ -21,7 +21,7 @@ void gridFollowLoopPID(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
 */
 
     float target_power = 40;                                // Constant value to determine maximum motor dps
-    float kp = 100.0/data_struct.difference_min_avarage *0.8;                                        // 100/ (((200+680)/2) - 200)     W 0,434 Z 0,819
+    float kp = 100.0/data_struct.difference_min_average *0.8;                                        // 100/ (((200+680)/2) - 200)     W 0,434 Z 0,819
 
     float kd = (kp*0.1)/(20*0.00001);
 
@@ -29,7 +29,7 @@ void gridFollowLoopPID(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
 
     int lastError = 0;
     int integral = 0;
-    int offset = data_struct.avarage_min_max;           // Target ligh value for the robot to follow
+    int offset = data_struct.average_min_max;           // Target ligh value for the robot to follow
 
     float turn_modifier = -2.0 * target_power / 100;
     
@@ -58,16 +58,16 @@ void gridFollowLoopPID(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
         int playing = 0;
         BP.get_sensor(PORT_1, Color1);                          // Read colorsensor1 and put data in struct Color1
         BP.get_sensor(PORT_3, Color2);
-        int main_sensor_measurment = Color1.reflected_red;
-        if(main_sensor_measurment < data_struct.lowest_measurement){
-            data_struct.lowest_measurement = main_sensor_measurment;
+        int main_sensor_measurement = Color1.reflected_red;
+        if(main_sensor_measurement < data_struct.lowest_measurement){
+            data_struct.lowest_measurement = main_sensor_measurement;
             defineDifferenceToAverage(data_struct);
-        } else if(main_sensor_measurment > data_struct.highest_measurement){
-            data_struct.highest_measurement = main_sensor_measurment;
+        } else if(main_sensor_measurement > data_struct.highest_measurement){
+            data_struct.highest_measurement = main_sensor_measurement;
             defineDifferenceToAverage(data_struct);
         }
 
-        if (Color2.reflected_red < (data_struct.avarage_min_max) && main_sensor_measurment < data_struct.avarage_min_max) {
+        if (Color2.reflected_red < (data_struct.average_min_max) && main_sensor_measurement < data_struct.average_min_max) {
             direction_index += 1;
             if(direction_index >= fastest_route.size()){
                 break;
