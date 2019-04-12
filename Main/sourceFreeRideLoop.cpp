@@ -59,7 +59,7 @@ void soundSelection(const string & input, int & playing){
     playing = 0;
     if (input == "A") {
         // Plays the sound we have allocated to button A
-        playSound('T', playing);
+        playSound('O', playing);
     }else if (input == "B"){
         // Plays the sound we have allocated to button B
         playSound('X', playing);
