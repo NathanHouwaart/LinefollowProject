@@ -59,7 +59,8 @@ void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
         BP.get_sensor(PORT_3, Color2);
         int main_sensor_measurment = Color1.reflected_red;
 
-        if (getUltraSValue(PORT_4, UltraSonic, BP) > 20) {       // If the measured US distance is bigger than 10:
+        if (getUltraSValue(PORT_4, UltraSonic, BP) > 10) {       // If the measured US distance is bigger than 10:
+            playSound('F', playing);
             counter_object = 0;
             if (Color2.reflected_red < data_struct.avarage_min_max && main_sensor_measurment < data_struct.avarage_min_max) {
                 playSound('C', playing);
