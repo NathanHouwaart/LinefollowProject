@@ -27,9 +27,6 @@
 using namespace std;
 
 #define DIRECTION_STOP -1       // To make reading of code clearer, used by calling the drive function
-#define DIRECTION_LEFT 0        // To make reading of code clearer, used by calling the drive function
-#define DIRECTION_FORWARD 1     // To make reading of code clearer, used by calling the drive function
-#define DIRECTION_RIGHT 2       // To make reading of code clearer, used by calling the drive function
 #define MAX_MOTOR_SPEED 800     // Set the max dps of the motors, is used in motor limiter
 #define I2C_ADDR   0x27         // I2C device address of the LCD
 #define LCD_CHR  1              // Mode - Sending data to LCD
@@ -80,7 +77,7 @@ vector<int> convertPowerValues(const int & speedA, const int & speedD);
 // sourceFreeRideLoop.cpp
 void freeRideLoop(int & fd, BrickPi3 & BP);
 void selectDirection(const string & input, float & steer, int & playing, BrickPi3 & BP);
-void soundSelection(string & input, int & playing);
+void soundSelection(const string & input, int & playing);
 
 // sourceGridFollowLoop.cpp
 void gridFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ultrasonic_t & UltraSonic, CalculatingErrorData data_struct, int & fd, BrickPi3 & BP);
@@ -124,11 +121,6 @@ bool colorsensorBlackLineDetect(sensor_color_t & Color1, BrickPi3 & BP);
 void playSound(char selection, int & playing);
 void megaCharge(int & playing, BrickPi3 & BP);
 void stopSound(int & playing);
-
-//sourceGridObjectDetect.cpp
-bool lookLeft(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP);
-bool lookRight(sensor_ultrasonic_t &  UltraSonic, BrickPi3 & BP);
-bool lookForward(sensor_ultrasonic_t & UltraSonic, BrickPi3 & BP);
 
 //sourceLcd.cpp
 void enableLcd(int bits, int & fd);

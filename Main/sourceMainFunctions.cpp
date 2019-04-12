@@ -91,12 +91,12 @@ void defineDifferenceToAverage(CalculatingErrorData & data_struct) {
      * These values are used to determine how far the current measurement is off from our target on a scale of 0 - 100 %.
      */
 
-    vector<int> calculated_distance_to_average;                                             // Constructs a vector to return multiple values
-    int average = (data_struct.lowest_measurement + data_struct.highest_measurement) / 2;     // Calculate average
-    int distance_lowest_value_to_avg = average - data_struct.lowest_measurement;             // Calculate distance min--avg
-    int distance_highest_value_to_avg = data_struct.highest_measurement - average;           // Calculate distance max--avg
+    vector<int> calculated_distance_to_average;                                                 // Constructs a vector to return multiple values
+    int average = (data_struct.lowest_measurement + data_struct.highest_measurement) / 2;       // Calculate average
+    int distance_lowest_value_to_avg = average - data_struct.lowest_measurement;                // Calculate distance min--avg
+    int distance_highest_value_to_avg = data_struct.highest_measurement - average;              // Calculate distance max--avg
 
-    data_struct.average_min_max = average;                                                  //Puts data in struct.
+    data_struct.average_min_max = average;                                                      //Puts data in struct.
     data_struct.difference_min_average = distance_lowest_value_to_avg;
     data_struct.difference_max_average = distance_highest_value_to_avg;
 }

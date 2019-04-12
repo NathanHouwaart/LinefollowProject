@@ -52,6 +52,7 @@ void MotorController(int left, int right, BrickPi3 & BP) {
     BP.set_motor_dps(motor_left, left);                 // Starts the left motor
 }
 
+//WARNING: THIS FUNCTION IS NEVER USED
 void MotorControllerPower(int left, int right, BrickPi3 & BP) {
     /* This function controls the motors.
      * First it sends the given motor speed setting through the limiter

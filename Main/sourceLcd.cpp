@@ -79,10 +79,10 @@ void printPercentage(int & address_lcd, char current_mode, BrickPi3 & BP) {
      */
     float battery = BP.get_voltage_battery();
     float battery_percentage = (100/(12.6-10.8)*(battery-10.8));
-    clearLcd(address_lcd);                                          // clear the lcd
-    cursorLocation(LINE1, address_lcd);                             // set the cursorlocation to line 1
-    typeFloat(battery_percentage, address_lcd);                     // display the battery_percantage
-    cursorLocation(LINE2, address_lcd);                             // set the cursorlocation to line 2
+    clearLcd(address_lcd);                                          // Clear the lcd
+    cursorLocation(LINE1, address_lcd);                             // Set the cursorlocation to line 1
+    typeFloat(battery_percentage, address_lcd);                     // Display the battery_percantage
+    cursorLocation(LINE2, address_lcd);                             // Set the cursorlocation to line 2
     switch (current_mode){
         case 'L':
             typeString("PCT   Freeride", address_lcd);
@@ -96,5 +96,5 @@ void printPercentage(int & address_lcd, char current_mode, BrickPi3 & BP) {
         default:
             cout << "ERROR, incorrect input in printPercentage" << endl;
     }
-    typeString("PCT   Freeride", address_lcd);                      // print the text on the screen
+    typeString("PCT   Freeride", address_lcd);                      // Print the text on the screen
 }
