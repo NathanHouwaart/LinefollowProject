@@ -53,7 +53,7 @@ void lineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_ult
             if (Color2.reflected_red < data_struct.average_min_max && main_sensor_measurement < data_struct.average_min_max) {
                 // Crossroad detected because both sensors lower than average
                 playSound('C', playing);                        // Play Crossroad detected sound
-                crossroad(playing, fd, clientsock, BP);         // Run Crossroad function so the robot can go left/right/forward
+                crossroad(playing, fd_lcd, clientsock, BP);         // Run Crossroad function so the robot can go left/right/forward
                 lcd_counter = 5000;                             // Restart the lcd and give the battery percentage
             } else {
                 // If no intersection was detected, follow the line
