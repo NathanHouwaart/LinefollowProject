@@ -87,7 +87,7 @@ void gridFollowLoopPID(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
                 updateRobotPosition(grid, fastest_route[direction_index], fastest_route, direction_index);      // Update the robot's position
                 char robot_instruction = relativeDirection(facing_direction, fastest_route[direction_index]);   // Determine the instruction where the robot needs to go
                 updateRobotOrientation(facing_direction, fastest_route[direction_index]);                       // Update the robot's facing direction
-                crossroadGrid(BP, robot_instruction, playing, fd);                                              // The robot drives to the next crossroad
+                crossroadGrid(robot_instruction, playing, fd, BP);                                             // The robot drives to the next crossroad
                 lcd_counter = 10000;                                                                            // Get the lcd screen back to the main version
             }
         } else {
