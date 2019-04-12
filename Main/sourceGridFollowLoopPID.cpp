@@ -21,7 +21,7 @@ void gridFollowLoopPID(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
 */
 
     float target_power = 40;                                        // Constant value to determine maximum motor dps
-    float kp = 100.0/data_struct.difference_min_average *0.8;                                        // 100/ (((200+680)/2) - 200)     W 0,434 Z 0,819
+    float kp = 100.0/data_struct.difference_min_average *0.8;       // 100/ (((200+680)/2) - 200)     W 0,434 Z 0,819
 
     float kd = (kp*0.1)/(20*0.00001);
 
@@ -47,13 +47,7 @@ void gridFollowLoopPID(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
         lcd_counter++;                                              // Add one to the counter
         if (lcd_counter >= 5000) {
             // after every 5000 loops updates the lcd screen
-            float battery = BP.get_voltage_battery();
-            float battery_percentage = (100/(12.6-10.8)*(battery-10.8));
-            clearLcd(fd_lcd);                                           // Clear the lcd
-            cursorLocation(LINE1, fd_lcd);                              // Set the cursorlocation to line 1
-            typeFloat(battery_percentage, fd_lcd);                      // Display the battery_percantage
-            cursorLocation(LINE2, fd_lcd);                              // Set the cursorlocation to line 2
-            typeString("PCT   Grid mode", fd_lcd);                      // Print the text on the screen
+            printPercentage(fd_lcd,'R',BP);
             lcd_counter = 0;                                        // Rest the counter
         }
         int playing = 0;
@@ -87,7 +81,7 @@ void gridFollowLoopPID(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
                 updateRobotPosition(grid, fastest_route[direction_index], fastest_route, direction_index);      // Update the robot's position
                 char robot_instruction = relativeDirection(facing_direction, fastest_route[direction_index]);   // Determine the instruction where the robot needs to go
                 updateRobotOrientation(facing_direction, fastest_route[direction_index]);                       // Update the robot's facing direction
-                crossroadGrid(robot_instruction, playing, fd_lcd, BP);                                             // The robot drives to the next crossroad
+                crossroadGrid(robot_instruction, playing, fd_lcd, BP);                                          // The robot drives to the next crossroad
                 lcd_counter = 10000;                                                                            // Get the lcd screen back to the main version
             }
         } else {

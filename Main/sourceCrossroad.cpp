@@ -55,11 +55,11 @@ void crossroad(int & playing, int & fd_lcd, BluetoothSocket* clientsock, BrickPi
      */
     drive(DIRECTION_STOP, 0, 360, BP);                              // Stop the car
     cout << "Crossroad detected: Do you want to go LEFT(L)/RIGHT(R)/FORWARD(F)" << endl;
-    clearLcd(fd_lcd);                                                   // Clear the LCD
-    cursorLocation(LINE1, fd_lcd);                                      // Set the cursorlocation to line 1
-    typeString("Which way:", fd_lcd);                                   // Print the text on the screen
-    cursorLocation(LINE2, fd_lcd);                                      // Set the cursorlocation to line 2
-    typeString("R, L, F", fd_lcd);                                      // Print the text on the screen
+    clearLcd(fd_lcd);                                               // Clear the LCD
+    cursorLocation(LINE1, fd_lcd);                                  // Set the cursorlocation to line 1
+    typeString("Which way:", fd_lcd);                               // Print the text on the screen
+    cursorLocation(LINE2, fd_lcd);                                  // Set the cursorlocation to line 2
+    typeString("R, L, F", fd_lcd);                                  // Print the text on the screen
 
     MessageBox& mb = clientsock->getMessageBox();                   // Initialise the message box
     string input;                                                   // Save the input from the message box
@@ -105,11 +105,11 @@ void crossroad(int & playing, int & fd_lcd, BluetoothSocket* clientsock, BrickPi
         default:
             // Given input is wrong so print error and call function again
             cout << "Wrong input. Please try again";
-            clearLcd(fd_lcd);                                           // Clear the lcd
-            cursorLocation(LINE1, fd_lcd);                              // Set the cursorlocation to line 1
-            typeString("wrong input", fd_lcd);                          // Print the text on the screen
-            cursorLocation(LINE2, fd_lcd);                              // Set the cursorlocation to line 2
-            typeString("Try again", fd_lcd);                            // Print the text to the screen
+            clearLcd(fd_lcd);                                       // Clear the lcd
+            cursorLocation(LINE1, fd_lcd);                          // Set the cursorlocation to line 1
+            typeString("wrong input", fd_lcd);                      // Print the text on the screen
+            cursorLocation(LINE2, fd_lcd);                          // Set the cursorlocation to line 2
+            typeString("Try again", fd_lcd);                        // Print the text to the screen
             usleep(1000*500);                                       // Wait a bit before calling the function again
             crossroad(playing, fd_lcd, clientsock, BP);
     }
@@ -136,11 +136,11 @@ void crossroadGrid(const char & direction_instruction, int & playing, int & fd_l
         default:
             // Given input is wrong so print error and call function again
             cout << "Wrong input. Please try again";
-            clearLcd(fd_lcd);                                           // Clear the lcd
-            cursorLocation(LINE1, fd_lcd);                              // Set the cursorlocation to line 1
-            typeString("wrong input", fd_lcd);                          // Print the text on the screen
-            cursorLocation(LINE2, fd_lcd);                              // Set the cursorlocation to line 2
-            typeString("try again", fd_lcd);                            // Print the text to the screen
+            clearLcd(fd_lcd);                                       // Clear the lcd
+            cursorLocation(LINE1, fd_lcd);                          // Set the cursorlocation to line 1
+            typeString("wrong input", fd_lcd);                      // Print the text on the screen
+            cursorLocation(LINE2, fd_lcd);                          // Set the cursorlocation to line 2
+            typeString("try again", fd_lcd);                        // Print the text to the screen
             usleep(1000*500);                                       // Wait before calling function again
             crossroadGrid(direction_instruction, playing, fd_lcd, BP);
     }
