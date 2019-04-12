@@ -1,2 +1,3 @@
 # LinefollowProject
-BrickPi project to follow a line
+
+All final code is located in the Main folder. Also equipped with MAKEfile
