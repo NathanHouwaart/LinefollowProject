@@ -11,19 +11,19 @@
 
 using namespace std;
 
-int defineError(int avarage_lowest_highest, int dist_lowest_avarage, int dist_highest_avarage, int current_measurment) {
+int defineError(int average_lowest_highest, int dist_lowest_average, int dist_highest_average, int current_measurement) {
     /* Function calculates how far off the current light measurement is off from the target value.
      * Returns a positive percentage if sensor detects more white.
      * Returns a negative percentage if sensor detects more black.
      */
 
     float steering_error, current_difference;
-    if (current_measurment > avarage_lowest_highest) {
-        current_difference = current_measurment - avarage_lowest_highest;
-        steering_error = (current_difference / dist_highest_avarage) * 100;
-    } else if (current_measurment < avarage_lowest_highest) {
-        current_difference = avarage_lowest_highest - current_measurment;
-        steering_error = (current_difference / dist_lowest_avarage) * -100;
+    if (current_measurement > average_lowest_highest) {
+        current_difference = current_measurement - average_lowest_highest;
+        steering_error = (current_difference / dist_highest_average) * 100;
+    } else if (current_measurement < average_lowest_highest) {
+        current_difference = average_lowest_highest - current_measurement;
+        steering_error = (current_difference / dist_lowest_average) * -100;
     } else {
         steering_error = 0;
     }

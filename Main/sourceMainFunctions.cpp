@@ -96,7 +96,7 @@ void defineDifferenceToAverage(CalculatingErrorData & data_struct) {
     int distance_lowest_value_to_avg = average - data_struct.lowest_measurement;             // Calculate distance min--avg
     int distance_highest_value_to_avg = data_struct.highest_measurement - average;           // Calculate distance max--avg
 
-    data_struct.avarage_min_max = average;                                                  //Puts data in struct.
-    data_struct.difference_min_avarage = distance_lowest_value_to_avg;
-    data_struct.difference_max_avarage = distance_highest_value_to_avg;
+    data_struct.average_min_max = average;                                                  //Puts data in struct.
+    data_struct.difference_min_average = distance_lowest_value_to_avg;
+    data_struct.difference_max_average = distance_highest_value_to_avg;
 }
