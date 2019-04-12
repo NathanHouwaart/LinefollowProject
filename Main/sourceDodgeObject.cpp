@@ -113,7 +113,7 @@ void driveAroundObject(sensor_ultrasonic_t & UltraSonic, sensor_color_t & Color1
 	cout << "YEEBUG: target_distance: " << target_distance << endl;
 	//Go straight until one of the color sensors detects a black line.
 	while(Color1.reflected_red > average_black_line && Color2.reflected_red > average_black_line){
-//		cout << "current_distance: " << current_distance << endl;
+		cout << "current_distance: " << current_distance << endl;
 		if(current_distance > 200){
 			current_distance = 200;
 		}
