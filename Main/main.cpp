@@ -36,39 +36,39 @@ int main() {
     }
 
     /*-----Setting up the LCD screen-----*/
-    int fd_lcd = wiringPiI2CSetup(I2C_ADDR);           // Gives back the address of the LCD
-    lcdStart(fd_lcd);                                  // Setup LCD
-    clearLcd(fd_lcd);                                  // Clear the lcd
-    cursorLocation(LINE1, fd_lcd);                     // Set the cursorlocation to line 1
-    typeString("Setting up", fd_lcd);                  // Print the text on the screen
+    int fd_lcd = wiringPiI2CSetup(I2C_ADDR);                // Gives back the address of the LCD
+    lcdStart(fd_lcd);                                       // Setup LCD
+    clearLcd(fd_lcd);                                       // Clear the lcd
+    cursorLocation(LINE1, fd_lcd);                          // Set the cursorlocation to line 1
+    typeString("Setting up", fd_lcd);                       // Print the text on the screen
 
     /*-----Set data structs-----*/
     sensor_color_t Color1;                                  // Initialise struct for data storage color sensor 1
     sensor_color_t Color2;                                  // Initialise struct for data storage color sensor 2
     sensor_ultrasonic_t UltraSonic1;                        // Initialise struct for data storage ultrasonic sensor 1
-    CalculatingErrorData DataLineMeasurements;               // Initialise struct for data storage average, min and max reading of Color1
+    CalculatingErrorData DataLineMeasurements;              // Initialise struct for data storage average, min and max reading of Color1
 
     /*-----Checks whether battery has enough power, if not exit program-----*/
     if(!checkVoltage(BP)) return 0;
 
-    clearLcd(fd_lcd);                                  // Clear the LCD
-    cursorLocation(LINE1, fd_lcd);                     // Set the cursorlocation to line 1
-    typeString("Calibrating", fd_lcd);                 // Print the text on the screen
+    clearLcd(fd_lcd);                                       // Clear the LCD
+    cursorLocation(LINE1, fd_lcd);                          // Set the cursorlocation to line 1
+    typeString("Calibrating", fd_lcd);                      // Print the text on the screen
 
     /*-----Calibrate min and max reflection values and determine lightvalue the robot wants to follow-----*/
-    calibration(Color1, DataLineMeasurements, BP);           // Gives back lowest and highest value
-    defineDifferenceToAverage(DataLineMeasurements);         // Calculate the different values, puts values in struct
+    calibration(Color1, DataLineMeasurements, BP);          // Gives back lowest and highest value
+    defineDifferenceToAverage(DataLineMeasurements);        // Calculate the different values, puts values in struct
     usleep(1000*1000);                                      // Waiting for sensors to see normally
-    clearLcd(fd_lcd);                                  // Clear the LCD
+    clearLcd(fd_lcd);                                       // Clear the LCD
 
     /*-----The while loop is active as long the given answer is incorrect (false)-----*/
     while(!correct_answer){
         /*-----Print question on the LCD-----*/
-        clearLcd(fd_lcd);                              // Clear the LCD
-        cursorLocation(LINE1, fd_lcd);                 // Set the cursorlocation to line 1
-        typeString("Select mode:", fd_lcd);            // Print the text on the screen
-        cursorLocation(LINE2, fd_lcd);                 // Set the cursorlocation to line 2
-        typeString("L G F P R", fd_lcd);               // Print the text to the screen
+        clearLcd(fd_lcd);                                   // Clear the LCD
+        cursorLocation(LINE1, fd_lcd);                      // Set the cursorlocation to line 1
+        typeString("Select mode:", fd_lcd);                 // Print the text on the screen
+        cursorLocation(LINE2, fd_lcd);                      // Set the cursorlocation to line 2
+        typeString("L G F P R", fd_lcd);                    // Print the text to the screen
         /*-----Print question on terminal-----*/
         cout << "Select mode: Line follow (L) / grid follow (G) / Free ride (F) / Line follow PID (P) / Grid PID (R)" << endl;
         cin >> mode_select;                                 // Save output from user
@@ -107,11 +107,11 @@ int main() {
             default:
                 // Input of user is incorrect, print error message on terminal and LCD
                 /*-----Print error on LCD-----*/
-                clearLcd(fd_lcd);                      // Clear the LCD
-                cursorLocation(LINE1, fd_lcd);         // Set the cursorlocation to line 1
-                typeString("ERROR:", fd_lcd);          // Print the text on the screen
-                cursorLocation(LINE2, fd_lcd);         // Set the cursorlocation to line 2
-                typeString("Wrong input user", fd_lcd);// Print the text to the screen
+                clearLcd(fd_lcd);                           // Clear the LCD
+                cursorLocation(LINE1, fd_lcd);              // Set the cursorlocation to line 1
+                typeString("ERROR:", fd_lcd);               // Print the text on the screen
+                cursorLocation(LINE2, fd_lcd);              // Set the cursorlocation to line 2
+                typeString("Wrong input user", fd_lcd);     // Print the text to the screen
                 /*-----Print error on terminal-----*/
                 cout << "ERROR, wrong input" << endl;
                 usleep(1000*2000);                          // Waits a bit to show message on LCD

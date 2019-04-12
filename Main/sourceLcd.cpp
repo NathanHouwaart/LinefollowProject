@@ -85,16 +85,25 @@ void printPercentage(int & address_lcd, char current_mode, BrickPi3 & BP) {
     cursorLocation(LINE2, address_lcd);                             // Set the cursorlocation to line 2
     switch (current_mode){
         case 'L':
-            typeString("PCT   Freeride", address_lcd);
+            // Prints the string on screen for line follow-mode
+            typeString("PCT   Line follow", address_lcd);
             break;
         case 'G':
+            // Prints the string on screen for grid navigate
             typeString("PCT   Grid navigate", address_lcd);
             break;
         case 'F':
-            typeString("PCT   Linefollow", address_lcd);
+            // Prints the string on screen for free drive
+            typeString("PCT   Free drive", address_lcd);
             break;
+        case 'P':
+            // Prints the string on screen for line follow-mode with PID
+            typeString("PCT   Line PID", address_lcd);
+            break;
+        case 'R':
+            // Prints the string on screen for grid navigate with PID
+            typeString("PCT   Grid PID", address_lcd);
         default:
-            cout << "ERROR, incorrect input in printPercentage" << endl;
+            cout << "ERROR, incorrect input" << endl;
     }
-    typeString("PCT   Freeride", address_lcd);                      // Print the text on the screen
 }

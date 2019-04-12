@@ -52,16 +52,10 @@ void PIDlineFollowLoop(sensor_color_t & Color1, sensor_color_t & Color2, sensor_
 
 
     while (true) {
-        lcd_counter++;                  // add one to the counter for every loop
-        if (lcd_counter >= 5000) {      // after 5000 loops update hij het schermpje
-            float battery = BP.get_voltage_battery();
-            float battery_percentage = (100/(12.6-10.8)*(battery-10.8));
-            clearLcd(fd_lcd);   // clear the lcd
-            cursorLocation(LINE1, fd_lcd);      // set the cursorlocation to line 1
-            typeFloat(battery_percentage, fd_lcd);  // display the battery_percantage
-            cursorLocation(LINE2, fd_lcd);     // set the cursorlocation to line 2
-            typeString("PCT   Linefollow", fd_lcd);   // print the text on the screen
-            lcd_counter = 0;                    // reset the counter
+        lcd_counter++;                                          // Add one to the counter for every loop
+        if (lcd_counter >= 5000) {                              // After 5000 loops update hij het schermpje
+            printPercentage(fd_lcd,'P',BP);
+            lcd_counter = 0;                                    // Reset the counter
         }
         BP.get_sensor(PORT_1, Color1);                          // Read colorsensor1 and put data in struct Color1
         BP.get_sensor(PORT_3, Color2);

@@ -26,7 +26,7 @@ void freeRideLoop(int & fd_lcd, BrickPi3 & BP){
         lcd_counter++;                                                  // Every loop add 1 one to the counter
         if (lcd_counter >= 5000) {
             // After 5000 loops the screen is updated
-            printPercentage(fd_lcd,'F',BP);                        // Print the new battery percentage
+            printPercentage(fd_lcd,'F',BP);                             // Print the new battery percentage
             lcd_counter = 0;                                            // Reset the counter
         }
         BluetoothSocket* clientsock = serversock.accept();              // Initialising the bluetooth connection
